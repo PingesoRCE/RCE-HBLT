@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <p:scrollPanel mode="native">
+        <h:form id="formul">
+            <div align="center" id = "divAgregar">
+                <p:growl id="growl" showDetail="true" />
+                <p:panelGrid columns="1" styleClass="companyHeaderGrid">
+                    <p:panel header="Antecedentes Personales">
+                        <p:panelGrid columns="4">
+                            <p:outputLabel for="rut" value="Rut: "/>
+                            <p:inputText id="rut" value="#{admision.rutCompleto}">
+                                <f:validator validatorId="Validator.RutValidator"/>
+                                <p:ajax event="blur" listener="#{admision.buscar(actionEvent)}" update="formul"/>
+                            </p:inputText>
+                            <p:outputLabel for="pasaporte" value="Pasaporte: "/>
+                            <p:inputText id="pasaporte" value="#{admision.pasaporte}"/>
+                            <p:outputLabel for="Nombres" value="Nombres: " style="font-weight: bold"/>
+                            <p:inputText id="Nombres" value="#{admision.nombres}">
+                                <f:validator validatorId="Validator.NameValidator"/>
+                            </p:inputText>
+                            <p:outputLabel for="Paterno" value="Apellido Paterno: " style="font-weight: bold"/>
+                            <p:inputText id="Paterno" value="#{admision.apellidoPaterno}">
+                                <f:validator validatorId="Validator.NameValidator"/>
+                            </p:inputText>
+                            <p:outputLabel for="Materno" value="Apellido Materno: "/>
+                            <p:inputText id="Materno" value="#{admision.apellidoMaterno}">
+                                <f:validator validatorId="Validator.NameValidator"/>
+                            </p:inputText>
+                            <p:outputLabel for="numFicha" value="Numero de Ficha: "/>
+                            <p:inputText id="numFicha" value="#{admision.numFicha}"/>
+                            <p:outputLabel for="Genero" value="Sexo: " style="font-weight: bold"/>
+                            <p:selectOneMenu id="Genero" value="#{admision.generoId}" required="true">
+                                <f:selectItems value="#{listas.listaGenero}" var="gen" itemLabel="#{gen.generoNombre}" itemValue="#{gen.idGenero}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="FechaNac" value="Fecha Nacimiento: " style="font-weight: bold"/>
+                            <p:calendar id="FechaNac" effect="explode" yearRange="c-100:c" navigator="true" value="#{admision.fechaNacimiento}">
+                                <p:ajax event="dateSelect" listener="#{admision.calculaEdad}" update="Edad"/>
+                            </p:calendar>
+                            <p:outputLabel value="Edad: "/>
+                            <p:inputText readonly="true" id="Edad" value="#{admision.edad}"/>
+                            <p:outputLabel for="Nacionalidad" value="Nacionalidad: " style="font-weight: bold"/>
+                            <p:inputText id="Nacionalidad" value="#{admision.nacionalidad}"/>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel header="Información de Contacto">
+                        <p:panelGrid columns="4">
+                            <p:outputLabel for="Direccion" value="Dirección: " style="font-weight: bold"/>
+                            <p:inputText id="Direccion" value="#{admision.direccion}"/>
+                            <p:outputLabel for="Comuna" value="Comuna: "/>
+                            <p:selectOneMenu id="Comuna" value="#{admision.comunaId}">
+                                <f:selectItems value="#{listas.listaComuna}" var="comu" itemLabel="#{comu.comuNombre}" itemValue="#{comu.idComuna}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Email" value="Email: "/>
+                            <p:inputText id="Email" value="#{admision.email}">
+                                <f:validator validatorId="Validator.EmailValidator"/>
+                            </p:inputText>
+                            <p:outputLabel for="Telefono" value="Teléfono: "/>
+                            <p:inputText id="Telefono" value="#{admision.telefono}">
+                                <f:validator validatorId="Validator.PhoneValidator"/>
+                            </p:inputText>
+                            <p:outputLabel for="Celular" value="Celular: "/>
+                            <p:inputText id="Celular" value="#{admision.celular}">
+                                <f:validator validatorId="Validator.PhoneValidator"/>
+                            </p:inputText>
+                            <p:outputLabel for="TelefonoContacto" value="Teléfono de contacto: " style="font-weight: bold"/>
+                            <p:inputText id="TelefonoContacto" value="#{admision.telefonoContacto}">
+                                <f:validator validatorId="Validator.PhoneValidator"/>                                
+                            </p:inputText>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel header="Datos de inscripción">
+                        <p:panelGrid columns="4">
+                            <p:outputLabel value="Sector:"/>
+                            <p:selectOneMenu value="#{admision.sectorId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue=""/>
+                                <f:selectItems value="#{listas.listaSectores}" var="sector" itemLabel="#{sector.secNombre}" itemValue="#{sector.idSector}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Establecimiento:"/>
+                            <p:selectOneMenu value="#{admision.establecimientoId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue=""/>
+                                <f:selectItems value="#{listas.listaEstablecimientos}" var="est" itemLabel="#{est.estNombre}" itemValue="#{est.idEstablecimiento}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Servicio de salud:"/>
+                            <p:selectOneMenu value="#{admision.servicioId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue=""/>
+                                <f:selectItems value="#{listas.listaServicios}" var="serv" itemLabel="#{serv.servNombre}" itemValue="#{serv.idServiciosalud}"/>
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panel>
+                    <p:panel header="Información Adicional." toggleable="true" toggleSpeed="500" collapsed="true">
+                        <p:panelGrid id="panel" columns="4" styleClass="companyHeaderGrid">
+                            <p:outputLabel for="Consultorio" value="Consultorio: "/>
+                            <p:selectOneMenu id="Consultorio" value="#{admision.consultorioId}">
+                                <f:selectItems value="#{listas.listaConsultorio}" var="cons" itemLabel="#{cons.consNombre}" itemValue="#{cons.idConsultorio}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Prevision" value="Previsión de salud: "/>
+                            <p:selectOneMenu id="Prevision" value="#{admision.previsionId}">
+                                <p:ajax event="change" listener="#{admision.buscaTipo}" update="Tipo"/>
+                                <f:selectItems value="#{listas.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Tipo" value="Tipo previsión: "/>
+                            <p:selectOneMenu id="Tipo" value="#{admision.tipoPrevisionId}">
+                                <f:selectItems value="#{admision.listaTipos}" var="tipo" itemLabel="#{tipo.clasNombre}" itemValue="#{tipo.idTipoprevision}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="OtraPrevision" value="Otra previsión: "/>
+                            <p:inputText id="OtraPrevision" value="#{admision.otraPrevision}"/>
+                            <p:outputLabel for="Leyes" value="Leyes sociales: "/>
+                            <p:selectOneMenu id="Leyes" value="#{admision.leyesSocialesId}" >
+                                <f:selectItem itemLabel="Seleccionar una" itemValue="" />
+                                <f:selectItems value="#{listas.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Estado" value="Estado Conyugal: "/>
+                            <p:selectOneMenu id="Estado" value="#{admision.estadoConyugalId}">
+                                <f:selectItem itemLabel="Seleccionar uno" itemValue="" />
+                                <f:selectItems value="#{listas.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Educacion" value="Nivel de Educaciòn: "/>
+                            <p:selectOneMenu id="Educacion" value="#{admision.educacionId}" >
+                                <f:selectItems value="#{listas.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Ocupacion" value="Ocupación: "/>
+                            <p:inputText id="Ocupacion" value="#{admision.ocupacion}"/>                                    
+                            <p:outputLabel for="Actividad" value="Actividad Económica: "/>
+                            <p:inputText id="Actividad" value="#{admision.actividadEconomica}"/>
+                            <p:outputLabel for="Pueblo" value="Pueblo Originario: "/>
+                            <p:selectOneMenu id="Pueblo" value="#{admision.puebloOriginarioId}">
+                                <f:selectItems value="#{listas.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel for="Religion" value="Religión: "/>
+                            <p:selectOneMenu id="Religion" value="#{admision.religionId}">
+                                <f:selectItems value="#{listas.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
+                            </p:selectOneMenu>
+                        </p:panelGrid>
+                    </p:panel>
+                </p:panelGrid>
+                <p:commandButton update="formul" actionListener="#{admision.agregarPaciente(actionEvent)}"  value="Ingresar Admisión" icon="ui-icon-save"/>
+
+            </div>
+        </h:form>
+    </p:scrollPanel>
+</html>
+
