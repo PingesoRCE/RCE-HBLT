@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:form id="especialidades">
+        <p:growl id="growl" showDetail="true" />
+        <p:dataTable id="listaEspecialidades" value="#{listas.listaEspecialidades}" var="esp"
+                     emptyMessage="No se encontraron elementos que coincidan con la búsqueda"
+                     paginator="true" rows="10"
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,20">            
+            <f:facet name="header">
+                <p:outputPanel>                    
+                    <p:autoComplete id="buscarEsp" value="#{listas.elementoBuscado}" completeMethod="#{listas.completeEsp}" 
+                                    var="esp" itemLabel="#{esp}" itemValue="#{esp}" dropdown="true" placeholder="Buscar Especialidad"/>
+                    <p:commandButton value="Buscar" icon="ui-icon-search" update="listaEspecialidades" action="#{listas.buscarEspecialidad()}"/>
+                </p:outputPanel>
+            </f:facet>
+            <p:column headerText="Código">
+                <h:outputText value="#{esp.idEspecialidad}"/>
+            </p:column>
+            <p:column headerText="Nombre Especialidad">
+                <h:outputText value="#{esp.espeNombre}"/>
+            </p:column>
+            <p:column style="width:15%">
+                <p:commandButton id="editButton" update=":especialidades:display" oncomplete="PF('editEspec').show()" icon="ui-icon-pencil" title="Editar">
+                    <f:setPropertyActionListener value="#{esp}" target="#{especialidades.especialidad}" />
+                </p:commandButton>
+                <p:commandButton id="deleteButton" update=":especialidades" action="#{especialidades.eliminar()}" icon="ui-icon-close" title="Eliminar">
+                    <f:setPropertyActionListener value="#{esp}" target="#{especialidades.especialidad}" />
+                    <p:confirm header="Atención" message="¿Está seguro que desea eliminar esta especialidad?" icon="ui-icon-alert" />
+                </p:commandButton>
+            </p:column>
+            <f:facet name="footer">
+                <p:commandButton id="nuevaEsp" value="Agregar Nueva" update=":especialidades" icon="ui-icon-plus" oncomplete="PF('addEspec').show()"/>                   
+            </f:facet>
+        </p:dataTable>
+
+        <p:dialog id="editarEspecialidad" header="Editar Especialidad" widgetVar="editEspec" resizable="false"
+                  showEffect="clip" hideEffect="fold">
+            <h:panelGrid id="display" columns="2" cellpadding="4" styleClass="companyHeaderGrid">
+                <h:outputText value="Código Especialidad:" />
+                <h:inputText value="#{especialidades.especialidad.idEspecialidad}" readonly="true"/>
+                <h:outputText value="Nombre Especialidad:" />
+                <h:inputText value="#{especialidades.especialidad.espeNombre}" />                
+                <p:commandButton value="Guardar" actionListener="#{especialidades.editar(actionEvent)}" update=":especialidades" icon="ui-icon-disk"/>
+                <p:commandButton value="Cancelar" oncomplete="PF('editEspec').hide()" icon="ui-icon-close"/>
+            </h:panelGrid>
+        </p:dialog>
+
+        <p:dialog id="nuevaEspecialidad" header="Datos Especialidad" widgetVar="addEspec" resizable="false"
+                  showEffect="clip" hideEffect="fold" >
+            <h:panelGrid id="display2" columns="2" cellpadding="4" styleClass="companyHeaderGrid">
+                <h:outputText value="Código Especialidad:" />
+                <h:inputText id="codigo" value="#{especialidades.espeId}"/>
+                <h:outputText value="Nombre Especialidad:" />
+                <h:inputText value="#{especialidades.espeNombre}"/>
+                <p:commandButton value="Guardar" update=":especialidades" actionListener="#{especialidades.nuevaEspecialidad(actionEvent)}" icon="ui-icon-disk"/>
+                <p:commandButton value="Cancelar" onclick="PF('addEspec').hide()" icon="ui-icon-close"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+</html>
+

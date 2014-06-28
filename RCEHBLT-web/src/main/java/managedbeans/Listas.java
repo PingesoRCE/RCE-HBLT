@@ -24,7 +24,7 @@ import cl.rcehblt.entities.EstadoConyugal;
 import cl.rcehblt.entities.Subespecialidad;
 import cl.rcehblt.entities.GrupoProfesional;
 import cl.rcehblt.entities.ServicioSalud;
-//import cl.rcehblt.especialidad.EspecialidadNegocioLocal;
+import cl.rcehblt.especialidad.EspecialidadNegocioLocal;
 import cl.rcehblt.sessionbeans.CargoFacadeLocal;
 import cl.rcehblt.sessionbeans.ComunaFacadeLocal;
 import cl.rcehblt.sessionbeans.ConsultorioFacadeLocal;
@@ -44,7 +44,7 @@ import cl.rcehblt.sessionbeans.SectorFacadeLocal;
 import cl.rcehblt.sessionbeans.ServicioSaludFacadeLocal;
 import cl.rcehblt.sessionbeans.SubespecialidadFacadeLocal;
 import cl.rcehblt.sessionbeans.TipoPrevisionFacadeLocal;
-//import cl.rcehblt.subespecialidad.SubespecialidadNegocioLocal;
+import cl.rcehblt.subespecialidad.SubespecialidadNegocioLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -74,10 +74,10 @@ public class Listas {
     private GrupoProfesionalFacadeLocal grupoProfesionalFacade;
     @EJB
     private CargoFacadeLocal cargoFacade;
-//    @EJB
-//    private EspecialidadNegocioLocal especialidadNegocio;
-//    @EJB
-//    private SubespecialidadNegocioLocal subespecialidadNegocio;
+    @EJB
+    private EspecialidadNegocioLocal especialidadNegocio;
+    @EJB
+    private SubespecialidadNegocioLocal subespecialidadNegocio;
     @EJB
     private TipoPrevisionFacadeLocal tipoPrevisionFacade;
     @EJB
@@ -196,27 +196,27 @@ public class Listas {
      * Buscar subespecialidad. Busca una subespecialidad por el nombre indicado
      * en el formulario.
      */
-//    public void buscarSubespecialidad() {
-//        listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadNombre(elementoBuscado);
-//        for (i = listaSubespecialidad.size() - 1; i >= 0; i--) {
-//            if (!listaSubespecialidad.get(i).getSubespeActivo()) {
-//                listaSubespecialidad.remove(i);
-//            }
-//        }
-//    }
+    public void buscarSubespecialidad() {
+        listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadNombre(elementoBuscado);
+        for (i = listaSubespecialidad.size() - 1; i >= 0; i--) {
+            if (!listaSubespecialidad.get(i).getSubespeActivo()) {
+                listaSubespecialidad.remove(i);
+            }
+        }
+    }
 
     /**
      * Buscar especialidad. Busca una especialidad por el nombre indicado en el
      * formulario.
      */
-//    public void buscarEspecialidad() {
-//        listaEspecialidades = especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado);
-//        for (i = listaEspecialidades.size() - 1; i >= 0; i--) {
-//            if (!listaEspecialidades.get(i).getEspeActivo()) {
-//                listaEspecialidades.remove(i);
-//            }
-//        }
-//    }
+    public void buscarEspecialidad() {
+        listaEspecialidades = especialidadNegocio.busquedaEspecialidadNombre(elementoBuscado);
+        for (i = listaEspecialidades.size() - 1; i >= 0; i--) {
+            if (!listaEspecialidades.get(i).getEspeActivo()) {
+                listaEspecialidades.remove(i);
+            }
+        }
+    }
 
     /**
      * Filtrar especialidades. Mostrar solo las subespecialidades que
@@ -224,14 +224,14 @@ public class Listas {
      *
      * @param event Evento en la página xhtml que acciona la función.
      */
-//    public void filtrarEspecialidad(AjaxBehaviorEvent event) {
-//        listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadIdEspecialidad(especialidadSeleccionadaId);
-//        for (i = listaSubespecialidad.size() - 1; i >= 0; i--) {
-//            if (!listaSubespecialidad.get(i).getSubespeActivo()) {
-//                listaSubespecialidad.remove(i);
-//            }
-//        }
-//    }
+    public void filtrarEspecialidad(AjaxBehaviorEvent event) {
+        listaSubespecialidad = subespecialidadNegocio.busquedaSubespecialidadIdEspecialidad(especialidadSeleccionadaId);
+        for (i = listaSubespecialidad.size() - 1; i >= 0; i--) {
+            if (!listaSubespecialidad.get(i).getSubespeActivo()) {
+                listaSubespecialidad.remove(i);
+            }
+        }
+    }
 
     /**
      * Filtrar especialidades. Mostrar solo las subespecialidades que
@@ -239,12 +239,12 @@ public class Listas {
      *
      * @param event Evento en la página xhtml que acciona la función.
      */
-//    public void filtrarSubespecialidad(SelectEvent event) {
-//        if (especialidadNegocio.busquedaEspecialidadNombre(filtro) != null) {
-//            especialidadSeleccionadaId = especialidadNegocio.busquedaEspecialidadNombre(filtro).get(0).getIdEspecialidad();
-//            this.filtrarEspecialidad(event);
-//        }
-//    }
+    public void filtrarSubespecialidad(SelectEvent event) {
+        if (especialidadNegocio.busquedaEspecialidadNombre(filtro) != null) {
+            especialidadSeleccionadaId = especialidadNegocio.busquedaEspecialidadNombre(filtro).get(0).getIdEspecialidad();
+            this.filtrarEspecialidad(event);
+        }
+    }
 
     /**
      * Completar subespecialidades. Función para realizar la búsqueda de
