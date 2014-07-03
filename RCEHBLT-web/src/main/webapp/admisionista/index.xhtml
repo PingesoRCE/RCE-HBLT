@@ -21,7 +21,7 @@
         <p:menubar>
             <p:submenu label="Paciente" >
                 <p:menuitem value="Ingresar" url="#" onclick="PF('addPac').show()"/>
-                <p:menuitem value="Ver Pacientes" url="#"/>
+                <p:menuitem value="Ver Pacientes" url="#" onclick="PF('viewPac').show()"/>
             </p:submenu>                                        
         </p:menubar>
 
@@ -29,6 +29,12 @@
                   minimizable="true" height="540" width="800" onShow="#{admision.init()}">
             <p:ajax event="close" listener="#{admision.init()}" update="formul"/>
             <ui:include src="admision.xhtml"/>
+        </p:dialog>
+        
+        <p:dialog id="visualizarPaciente" maximizable="true" header="Pacientes" widgetVar="viewPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
+                  minimizable="true" height="540" width="1000" onShow="#{buscarPaciente.init()}">
+            <p:ajax event="close" listener="#{buscarPaciente.init()}" update="formBuscar"/>
+            <ui:include src="VisualizarPaciente.xhtml"/>
         </p:dialog>
 
     </h:body>
