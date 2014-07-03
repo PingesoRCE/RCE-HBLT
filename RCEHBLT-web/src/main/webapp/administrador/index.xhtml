@@ -25,16 +25,19 @@
                 <p:menuitem value="Ver Sub-Especialidades"  url="#" onclick="PF('subespec').show()"/>
             </p:submenu>
         </p:menubar>
+        
         <p:dialog id="adminSubespecialidades" maximizable="true" header="Sub-Especialidades" widgetVar="subespec" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{subespecialidades.init()}">
             <p:ajax event="close" listener="#{subespecialidades.init()}" update="subespecialidades"/>
             <ui:include src="Subespecialidad.xhtml"/>
         </p:dialog>
+        
         <p:dialog id="adminEspecialidades" maximizable="true" header="Especialidades" widgetVar="espec" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" height="540" width="800" onShow="#{especialidades.init()}">
             <p:ajax event="close" listener="#{especialidades.init()}" update="especialidades"/>
             <ui:include src="Especialidad.xhtml"/>
         </p:dialog>
+        
         <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
             <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
             <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
