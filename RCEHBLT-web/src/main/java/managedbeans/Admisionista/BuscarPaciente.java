@@ -184,8 +184,7 @@ public class BuscarPaciente {
      * corresponda. Finalmente se actualizan los datos de la persona y del
      * paciente.
      */
-    public void actualizar() {
-        System.out.println("estoy en la funcion actualizar");
+    public void actualizar() {       
         comuna = new Comuna(comunaId);
         educacion = new Educacion(educacionId);
         puebloOriginario = new PuebloOriginario(puebloOriginarioId);
