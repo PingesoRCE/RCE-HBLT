@@ -104,7 +104,7 @@
                         <p:outputLabel value="Comuna: "/>
                         <p:selectOneMenu id="Comuna" value="#{buscarPaciente.comunaId}" required="true">
                             <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idComuna.comuNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idComuna.idComuna}" />
-                            <f:selectItems value="#{listasMB.listaComuna}" var="comu" itemLabel="#{comu.comuNombre}" itemValue="#{comu.idComuna}" />
+                            <f:selectItems value="#{listas.listaComuna}" var="comu" itemLabel="#{comu.comuNombre}" itemValue="#{comu.idComuna}" />
                         </p:selectOneMenu>
                         <p:outputLabel value="Email: "/>
                         <p:inputText id="Email" value="#{buscarPaciente.personaSeleccionada.persEmail}">
@@ -130,7 +130,7 @@
                         <p:selectOneMenu id="Prevision" value="#{buscarPaciente.previsionId}">
                             <p:ajax event="change" listener="#{buscarPaciente.buscaTipo}" update="TipoPrev, OtraPrev"/>
                             <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idPrevision.previNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idPrevision.idPrevision}" />
-                            <f:selectItems value="#{listasMB.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
+                            <f:selectItems value="#{listas.listaPrevision}" var="prev" itemLabel="#{prev.previNombre}" itemValue="#{prev.idPrevision}" />
                         </p:selectOneMenu>
                         <p:outputLabel value="Tipo previsión: "/>
                         <p:selectOneMenu id="TipoPrev" value="#{buscarPaciente.tipoPrevisionId}">
@@ -142,12 +142,12 @@
                         <p:outputLabel value="Leyes Sociales: "/>
                         <p:selectOneMenu id="Ley" value="#{buscarPaciente.leyesSocialesId}">
                             <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idLeyessociales.leyesNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idLeyessociales.idLeyessociales}" />
-                            <f:selectItems value="#{listasMB.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}"/>
+                            <f:selectItems value="#{listas.listaLeyes}" var="ley" itemLabel="#{ley.leyesNombre}" itemValue="#{ley.idLeyessociales}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Consultorio: "/>
                         <p:selectOneMenu id="Con" value="#{buscarPaciente.consultorioId}">
                             <f:selectItem itemLabel="#{buscarPaciente.pacienteSeleccionado.idConsultorio.consNombre}" itemValue="#{buscarPaciente.pacienteSeleccionado.idConsultorio.idConsultorio}" />
-                            <f:selectItems value="#{listasMB.listaConsultorio}" var="consul" itemLabel="#{consul.consNombre}" itemValue="#{consul.idConsultorio}"/>
+                            <f:selectItems value="#{listas.listaConsultorio}" var="consul" itemLabel="#{consul.consNombre}" itemValue="#{consul.idConsultorio}"/>
                         </p:selectOneMenu>                        
                         <h:outputText value="Fallecido: " />  
                         <p:selectBooleanCheckbox id = "id1" value="#{buscarPaciente.pacienteSeleccionado.paciFallecido}"  >
@@ -163,12 +163,12 @@
                         <p:outputLabel value="Estado Conyugal: "/>
                         <p:selectOneMenu id="Estado" value="#{buscarPaciente.estadoConyugalId}">
                             <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.estadNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEstadoconyugal.idEstadoconyugal}" />
-                            <f:selectItems value="#{listasMB.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
+                            <f:selectItems value="#{listas.listaEstados}" var="e" itemLabel="#{e.estadNombre}" itemValue="#{e.idEstadoconyugal}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Nivel de Educaciòn: "/>
                         <p:selectOneMenu id="Educacion" value="#{buscarPaciente.educacionId}" >
                             <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idEducacion.educNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idEducacion.idEducacion}" />
-                            <f:selectItems value="#{listasMB.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
+                            <f:selectItems value="#{listas.listaEducacion}" var="edu" itemLabel="#{edu.educNombre}" itemValue="#{edu.idEducacion}" />
                         </p:selectOneMenu>
                         <p:outputLabel value="Ocupación: "/>
                         <p:inputText id="Ocupacion" value="#{buscarPaciente.personaSeleccionada.persOcupacion}"/>                                    
@@ -177,12 +177,12 @@
                         <p:outputLabel value="Pueblo Originario: "/>
                         <p:selectOneMenu id="Pueblo" value="#{buscarPaciente.puebloOriginarioId}">
                             <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idPueblooriginario.puebloNombre}" itemValue="#{buscarPaciente.personaSeleccionada.idPueblooriginario.idPueblooriginario}" />
-                            <f:selectItems value="#{listasMB.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
+                            <f:selectItems value="#{listas.listaPueblos}" var="town" itemLabel="#{town.puebloNombre}" itemValue="#{town.idPueblooriginario}" />
                         </p:selectOneMenu>
                         <p:outputLabel value="Religión: "/>
                         <p:selectOneMenu id="Religion" value="#{buscarPaciente.religionId}">
                             <f:selectItem itemLabel="#{buscarPaciente.personaSeleccionada.idReligion.reliName}" itemValue="#{buscarPaciente.personaSeleccionada.idReligion.idReligion}" />
-                            <f:selectItems value="#{listasMB.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
+                            <f:selectItems value="#{listas.listaReligion}" var="reli" itemLabel="#{reli.reliName}" itemValue="#{reli.idReligion}" />
                         </p:selectOneMenu>
                     </p:panelGrid>
                 </p:panel>
