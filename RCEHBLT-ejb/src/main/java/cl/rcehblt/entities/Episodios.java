@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Episodios.findByEpisodioid", query = "SELECT e FROM Episodios e WHERE e.episodioid = :episodioid"),
     @NamedQuery(name = "Episodios.findByFecha", query = "SELECT e FROM Episodios e WHERE e.fecha = :fecha"),
     @NamedQuery(name = "Episodios.findByNombre", query = "SELECT e FROM Episodios e WHERE e.nombre = :nombre"),
+    @NamedQuery(name = "Episodios.findByIdPersona", query = "SELECT e FROM Episodios e WHERE e.registroclinicoid.idPersona.idPersona = :idPersona"),
     @NamedQuery(name = "Episodios.findByAbierto", query = "SELECT e FROM Episodios e WHERE e.abierto = :abierto")})
 public class Episodios implements Serializable {
     private static final long serialVersionUID = 1L;
