@@ -28,7 +28,8 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>RCEHBLT-ejb</artifactId>
-            <version>${project.version}</version>
+            <version>0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

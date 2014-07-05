@@ -34,8 +34,8 @@
             </p:panelGrid>
             <p:commandButton value="Buscar" icon="ui-icon-search" actionListener="#{busqueda.buscar}" oncomplete="PF('Resultados').show()" update="buscaPaciente, ResultadosBusqueda"/>
 
-            <p:dialog id="ResultadosBusqueda" widgetVar="Resultados" header="Resultados de Búsqueda" showEffect="fade" hideEffect="fade">
-                <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" value="#{busqueda.listaPersonas}" var="persona">
+            <p:dialog id="ResultadosBusqueda" widgetVar="Resultados" header="Resultados de BÃºsqueda" showEffect="fade" hideEffect="fade">
+                <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la bÃºsqueda" value="#{busqueda.listaPersonas}" var="persona">
                     <p:column headerText="Rut">
                         #{persona.persRut}-#{persona.persDv}
                     </p:column>
@@ -54,7 +54,43 @@
                     <p:column headerText="Sexo">
                         #{persona.idGenero.generoNombre}
                     </p:column>
+                    <p:column>
+                        <p:commandButton value="Ver Episodios" oncomplete="PF('EpiPac').show()" action="#{episodioMB.buscarEpisodios(persona.idPersona)}" update=":buscaPaciente:Episodios, :buscaPaciente:AgregarEpisodio">
+                            <f:setPropertyActionListener target="#{episodioMB.persona}" value="#{persona}"/>
+                        </p:commandButton>
+                    </p:column>
                 </p:dataTable>
+            </p:dialog>
+
+            <p:dialog id="Episodios" widgetVar="EpiPac" showEffect="fade" hideEffect="fade" header="Episodios de #{episodioMB.persona.persNombres}">
+                <h:form id="formEpisodio">
+                    <p:dataTable value="#{episodioMB.listaEpisodios}" var="episodio">
+                        <p:column headerText="Fecha">
+                            #{episodio.fecha}
+                        </p:column>
+                        <p:column headerText="Motivo">
+                            #{episodio.nombre}
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Boton">
+                                <f:setPropertyActionListener target="#{episodioMB.episodio}" value="#{episodio}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Agregar" onclick="PF('addEpi').show()"/>                                           
+                </h:form>
+            </p:dialog>
+
+            <p:dialog id="AgregarEpisodio" widgetVar="addEpi" showEffect="fade" hideEffect="fade">
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Paciente"/>
+                    <p:outputLabel value="#{episodioMB.persona.persNombres} #{episodioMB.persona.persApepaterno}"/>
+                    <p:outputLabel value="Motivo episodio"/>
+                    <p:inputText value="#{episodioMB.nombre}"/>
+                    <p:commandButton value="Guardar" actionListener="#{episodioMB.nuevoEpisodio()}" update=":buscaPaciente:formEpisodio, :buscaPaciente"/>
+                    <p:commandButton value="Cancelar" onclick="PF('addEpi').hide()"/>
+                </p:panelGrid>
+
             </p:dialog>
         </div>
     </h:form>
