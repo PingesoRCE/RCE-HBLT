@@ -7,9 +7,11 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.IpdGes;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,12 @@ public class IpdGesFacade extends AbstractFacade<IpdGes> implements IpdGesFacade
         super(IpdGes.class);
     }
     
+    @Override
+    public List<IpdGes> searchById(int id) {
+        Query query;
+        query = em.createNamedQuery("IpdGes.findByIdIpd").
+                setParameter("idIpd", id);
+        
+        return query.getResultList();
+    }
 }

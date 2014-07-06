@@ -29,6 +29,8 @@ public interface IpdGesFacadeLocal {
 
     List<IpdGes> findRange(int[] range);
 
+    List<IpdGes> searchById(int id);
+    
     int count();
     
 }
