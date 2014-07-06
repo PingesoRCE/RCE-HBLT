@@ -7,9 +7,12 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Antmedidos;
+import cl.rcehblt.entities.Episodios;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +32,13 @@ public class AntmedidosFacade extends AbstractFacade<Antmedidos> implements Antm
         super(Antmedidos.class);
     }
     
+    @Override
+    public List<Antmedidos> searchByEpisodioGrupo(Episodios episodio, int grupo) {
+        Query query;
+        query = em.createNamedQuery("Antmedidos.findByEpisodioGrupo").
+                setParameter("episodioid", episodio).
+                setParameter("grupo", grupo);
+        
+        return query.getResultList();
+    }
 }

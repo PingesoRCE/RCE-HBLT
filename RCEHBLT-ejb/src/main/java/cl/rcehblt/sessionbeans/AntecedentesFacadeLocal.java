@@ -31,4 +31,5 @@ public interface AntecedentesFacadeLocal {
 
     int count();
     
+    List<Antecedentes> searchByName(String nombre);
 }

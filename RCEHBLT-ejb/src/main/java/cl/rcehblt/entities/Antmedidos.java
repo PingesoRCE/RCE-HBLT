@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cl.rcehblt.entities;
 
 import java.io.Serializable;
@@ -37,8 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Antmedidos.findByIdAntmedidos", query = "SELECT a FROM Antmedidos a WHERE a.idAntmedidos = :idAntmedidos"),
     @NamedQuery(name = "Antmedidos.findByFecha", query = "SELECT a FROM Antmedidos a WHERE a.fecha = :fecha"),
     @NamedQuery(name = "Antmedidos.findByValor", query = "SELECT a FROM Antmedidos a WHERE a.valor = :valor"),
-    @NamedQuery(name = "Antmedidos.findByGrupo", query = "SELECT a FROM Antmedidos a WHERE a.grupo = :grupo")})
+    @NamedQuery(name = "Antmedidos.findByGrupo", query = "SELECT a FROM Antmedidos a WHERE a.grupo = :grupo"),
+
+    @NamedQuery(name = "Antmedidos.findByEpisodioGrupo", query = "SELECT a FROM Antmedidos a WHERE a.episodioid = :episodioid and a.grupo = :grupo")})
 public class Antmedidos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,5 +151,5 @@ public class Antmedidos implements Serializable {
     public String toString() {
         return "cl.rcehblt.Antmedidos[ idAntmedidos=" + idAntmedidos + " ]";
     }
-    
+
 }

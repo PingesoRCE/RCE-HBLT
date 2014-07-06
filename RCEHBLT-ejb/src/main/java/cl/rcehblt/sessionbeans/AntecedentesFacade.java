@@ -7,9 +7,11 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Antecedentes;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,12 @@ public class AntecedentesFacade extends AbstractFacade<Antecedentes> implements 
         super(Antecedentes.class);
     }
     
+    @Override
+    public List<Antecedentes> searchByName(String nombre) {
+        Query query;
+        query = em.createNamedQuery("Antecedentes.findByNombreAntecedente").
+                setParameter("nombreAntecedente", nombre);
+        
+        return query.getResultList();
+    }
 }
