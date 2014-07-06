@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cl.rcehblt.entities;
 
 import java.io.Serializable;
@@ -37,8 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Diagnostico.findByDiagnosticoid", query = "SELECT d FROM Diagnostico d WHERE d.diagnosticoid = :diagnosticoid"),
     @NamedQuery(name = "Diagnostico.findByDiagnosticofecha", query = "SELECT d FROM Diagnostico d WHERE d.diagnosticofecha = :diagnosticofecha"),
     @NamedQuery(name = "Diagnostico.findByDiagnosticoges", query = "SELECT d FROM Diagnostico d WHERE d.diagnosticoges = :diagnosticoges"),
-    @NamedQuery(name = "Diagnostico.findByDiagnosticoestado", query = "SELECT d FROM Diagnostico d WHERE d.diagnosticoestado = :diagnosticoestado")})
+    @NamedQuery(name = "Diagnostico.findByDiagnosticoestado", query = "SELECT d FROM Diagnostico d WHERE d.diagnosticoestado = :diagnosticoestado"),
+
+    @NamedQuery(name = "Diagnostico.findByConsulta", query = "SELECT d FROM Diagnostico d WHERE d.consultaid = :consultaid")})
 public class Diagnostico implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -152,5 +154,5 @@ public class Diagnostico implements Serializable {
     public String toString() {
         return "cl.rcehblt.Diagnostico[ diagnosticoid=" + diagnosticoid + " ]";
     }
-    
+
 }

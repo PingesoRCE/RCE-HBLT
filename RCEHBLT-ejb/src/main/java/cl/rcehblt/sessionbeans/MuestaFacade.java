@@ -7,9 +7,13 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Muesta;
+import cl.rcehblt.entities.Paciente;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +33,32 @@ public class MuestaFacade extends AbstractFacade<Muesta> implements MuestaFacade
         super(Muesta.class);
     }
     
+    @Override
+    public List<Muesta> searchByPatientAndDate(Paciente patient, Date fecha) {
+        Query query;
+        query = em.createNamedQuery("Muesta.findByPacienteFecha").
+                setParameter("idPersona", patient).
+                setParameter("fecha", fecha);
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Muesta> searchByPatient(Paciente patient) {
+        Query query;
+        query = em.createNamedQuery("Muesta.findByPaciente").
+                setParameter("idPersona", patient);
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Muesta> searchByPatientGroup(Paciente patient, int group) {
+        Query query;
+        query = em.createNamedQuery("Muesta.findByPacienteGrupo").
+                setParameter("idPersona", patient).
+                setParameter("grupo", group);
+        
+        return query.getResultList();
+    }
 }

@@ -7,9 +7,12 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Consulta;
+import cl.rcehblt.entities.Episodios;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +32,12 @@ public class ConsultaFacade extends AbstractFacade<Consulta> implements Consulta
         super(Consulta.class);
     }
     
+    @Override
+    public List<Consulta> searchByEpisodio(Episodios episodio) {
+        Query query;
+        query = em.createNamedQuery("Consulta.findByEpisodio").
+                setParameter("episodioid", episodio);
+        
+        return query.getResultList();
+    }
 }

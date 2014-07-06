@@ -6,6 +6,7 @@
 
 package cl.rcehblt.sessionbeans;
 
+import cl.rcehblt.entities.Consulta;
 import cl.rcehblt.entities.Diagnostico;
 import java.util.List;
 import javax.ejb.Local;
@@ -31,4 +32,5 @@ public interface DiagnosticoFacadeLocal {
 
     int count();
     
+    List<Diagnostico> searchByConsultation(Consulta consulta);
 }

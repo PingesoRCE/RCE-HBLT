@@ -7,6 +7,7 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Episodios;
+import cl.rcehblt.entities.RegistroClinico;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,4 +32,5 @@ public interface EpisodiosFacadeLocal {
 
     int count();
     
+    List<Episodios> searchByClinicalRegister(RegistroClinico registroClinico);
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cl.rcehblt.entities;
 
 import java.io.Serializable;
@@ -48,8 +47,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Consulta.findByNotas", query = "SELECT c FROM Consulta c WHERE c.notas = :notas"),
     @NamedQuery(name = "Consulta.findByExploracionFisica", query = "SELECT c FROM Consulta c WHERE c.exploracionFisica = :exploracionFisica"),
     @NamedQuery(name = "Consulta.findByEstado", query = "SELECT c FROM Consulta c WHERE c.estado = :estado"),
-    @NamedQuery(name = "Consulta.findByPertinencia", query = "SELECT c FROM Consulta c WHERE c.pertinencia = :pertinencia")})
+    @NamedQuery(name = "Consulta.findByPertinencia", query = "SELECT c FROM Consulta c WHERE c.pertinencia = :pertinencia"),
+
+    @NamedQuery(name = "Consulta.findByEpisodio", query = "SELECT c FROM Consulta c WHERE c.episodioid = :episodioid")})
 public class Consulta implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -316,5 +318,5 @@ public class Consulta implements Serializable {
     public String toString() {
         return "cl.rcehblt.Consulta[ consultaid=" + consultaid + " ]";
     }
-    
+
 }

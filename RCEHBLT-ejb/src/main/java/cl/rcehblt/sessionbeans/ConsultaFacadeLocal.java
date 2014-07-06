@@ -7,6 +7,7 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Consulta;
+import cl.rcehblt.entities.Episodios;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,4 +32,5 @@ public interface ConsultaFacadeLocal {
 
     int count();
     
+    List<Consulta> searchByEpisodio(Episodios episodio);
 }

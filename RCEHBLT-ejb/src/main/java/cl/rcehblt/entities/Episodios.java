@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cl.rcehblt.entities;
 
 import java.io.Serializable;
@@ -42,8 +41,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Episodios.findByFecha", query = "SELECT e FROM Episodios e WHERE e.fecha = :fecha"),
     @NamedQuery(name = "Episodios.findByNombre", query = "SELECT e FROM Episodios e WHERE e.nombre = :nombre"),
     @NamedQuery(name = "Episodios.findByIdPersona", query = "SELECT e FROM Episodios e WHERE e.registroclinicoid.idPersona.idPersona = :idPersona"),
-    @NamedQuery(name = "Episodios.findByAbierto", query = "SELECT e FROM Episodios e WHERE e.abierto = :abierto")})
+    @NamedQuery(name = "Episodios.findByAbierto", query = "SELECT e FROM Episodios e WHERE e.abierto = :abierto"),
+
+    @NamedQuery(name = "Episodios.findByRegistroClinico", query = "SELECT e FROM Episodios e WHERE e.registroclinicoid = :registroclinicoid")})
 public class Episodios implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -168,5 +170,5 @@ public class Episodios implements Serializable {
     public String toString() {
         return "cl.rcehblt.Episodios[ episodioid=" + episodioid + " ]";
     }
-    
+
 }

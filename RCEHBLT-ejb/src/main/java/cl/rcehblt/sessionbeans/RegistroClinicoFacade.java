@@ -6,10 +6,13 @@
 
 package cl.rcehblt.sessionbeans;
 
+import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.RegistroClinico;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +32,12 @@ public class RegistroClinicoFacade extends AbstractFacade<RegistroClinico> imple
         super(RegistroClinico.class);
     }
     
+    @Override
+    public List<RegistroClinico> searchByPaciente(Paciente paciente) {
+        Query query;
+        query = em.createNamedQuery("RegistroClinico.findByPaciente").
+                setParameter("idPersona", paciente);
+
+        return query.getResultList();
+    }
 }

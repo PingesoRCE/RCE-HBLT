@@ -6,10 +6,13 @@
 
 package cl.rcehblt.sessionbeans;
 
+import cl.rcehblt.entities.Consulta;
 import cl.rcehblt.entities.Diagnostico;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +32,12 @@ public class DiagnosticoFacade extends AbstractFacade<Diagnostico> implements Di
         super(Diagnostico.class);
     }
     
+    @Override
+    public List<Diagnostico> searchByConsultation(Consulta consulta) {
+        Query query;
+        query = em.createNamedQuery("Diagnostico.findByConsulta").
+                setParameter("consultaid", consulta);
+        
+        return query.getResultList();
+    }
 }

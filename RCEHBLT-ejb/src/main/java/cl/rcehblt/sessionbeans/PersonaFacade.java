@@ -7,9 +7,11 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Persona;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,27 @@ public class PersonaFacade extends AbstractFacade<Persona> implements PersonaFac
         super(Persona.class);
     }
     
+    @Override
+    public Integer findByRut(Integer rut) {
+        List<Persona> searchPerson;
+        Query query;
+        query = em.createNamedQuery("Persona.findByPersRut").
+                setParameter("persRut", rut);
+        
+        searchPerson = query.getResultList();
+        
+        return searchPerson.get(0).getIdPersona();
+    }
+    
+    @Override
+    public List<Persona> findByRutPerson(Integer rut) {
+        List<Persona> searchPerson;
+        Query query;
+        query = em.createNamedQuery("Persona.findByPersRut").
+                setParameter("persRut", rut);
+        
+        searchPerson = query.getResultList();
+        
+        return searchPerson;
+    }    
 }

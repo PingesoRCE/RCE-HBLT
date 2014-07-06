@@ -7,6 +7,8 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Muesta;
+import cl.rcehblt.entities.Paciente;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -31,4 +33,9 @@ public interface MuestaFacadeLocal {
 
     int count();
     
+    List<Muesta> searchByPatientAndDate(Paciente patient, Date fecha);
+
+    List<Muesta> searchByPatient(Paciente patient);
+
+    List<Muesta> searchByPatientGroup(Paciente patient, int group);
 }

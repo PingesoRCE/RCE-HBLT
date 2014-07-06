@@ -7,9 +7,11 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Paciente;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,12 @@ public class PacienteFacade extends AbstractFacade<Paciente> implements Paciente
         super(Paciente.class);
     }
     
+    @Override
+    public List<Paciente> searchByPerson(int idPersona) {
+        Query query;
+        query = em.createNamedQuery("Paciente.findByIdPersona").
+                setParameter("idPersona", idPersona);
+        
+        return query.getResultList();
+    }
 }

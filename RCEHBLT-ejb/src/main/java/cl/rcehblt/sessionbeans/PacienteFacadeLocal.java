@@ -31,4 +31,5 @@ public interface PacienteFacadeLocal {
 
     int count();
     
+    List<Paciente> searchByPerson(int idPersona);
 }
