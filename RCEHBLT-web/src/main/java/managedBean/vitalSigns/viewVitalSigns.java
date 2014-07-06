@@ -5,7 +5,7 @@
  */
 package managedBean.vitalSigns;
 
-import com.sun.glass.ui.SystemClipboard;
+//import com.sun.glass.ui.SystemClipboard;
 import cl.rcehblt.entities.Muesta;
 import cl.rcehblt.entities.Paciente;
 import java.text.DateFormat;

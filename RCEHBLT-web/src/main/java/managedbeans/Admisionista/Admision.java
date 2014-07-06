@@ -142,6 +142,7 @@ public class Admision {
         consultorioId = 1;
         persona = new Persona();
         paciente = new Paciente();
+        this.resetData();
         listaEstados = estadoConyugalFacade.findAll();
     }
 
@@ -319,6 +320,7 @@ public class Admision {
     public void resetData() {
         persona = new Persona();
         paciente = new Paciente();
+        rutCompleto = "";
         nombres = "";
         apellidoPaterno = "";
         apellidoMaterno = "";

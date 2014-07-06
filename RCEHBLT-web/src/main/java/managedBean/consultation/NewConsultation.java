@@ -522,10 +522,10 @@ public class NewConsultation {
         pathology = pathologyFacade.findAll();
         List<String> results = new ArrayList<String>();
 
-        for (Patologia pathology : pathology) {
-            if (pathology.getPatologianombre().startsWith(query)) {
-                results.add(pathology.getPatologianombre());
-                pathologyId = pathology.getPatologiaid();
+        for (Patologia pathology1 : pathology) {
+            if (pathology1.getPatologianombre().startsWith(query)) {
+                results.add(pathology1.getPatologianombre());
+                pathologyId = pathology1.getPatologiaid();
             }
         }
         return results;

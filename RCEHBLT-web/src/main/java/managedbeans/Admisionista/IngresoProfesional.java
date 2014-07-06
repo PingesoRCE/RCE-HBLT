@@ -94,9 +94,11 @@ public class IngresoProfesional {
     public void init() {
         persona = new Persona();
         profesional = new Profesional();
+        rutCompleto = "";
         nombres = "";
         apellidoMaterno = "";
         apellidoPaterno = "";
+        descripcion = "";
         listaProfesionales = profesionalFacade.findAll();
     }
 

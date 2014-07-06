@@ -56,7 +56,7 @@
                         #{persona.idGenero.generoNombre}
                     </p:column>
                     <p:column>
-                        <p:commandButton value="Ver Episodios #{persona.idPersona}" oncomplete="PF('EpiPac').show()" action="#{episodioMB.buscarEpisodios()}" update=":buscaPaciente:Episodios, :buscaPaciente:AgregarEpisodio">
+                        <p:commandButton value="Ver Episodios" oncomplete="PF('EpiPac').show()" action="#{episodioMB.buscarEpisodios()}" update=":buscaPaciente:Episodios, :buscaPaciente:AgregarEpisodio">
                             <f:setPropertyActionListener target="#{episodioMB.persona}" value="#{persona}"/>
                         </p:commandButton>
                     </p:column>
