@@ -7,9 +7,11 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.SignosVitales;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,4 +31,21 @@ public class SignosVitalesFacade extends AbstractFacade<SignosVitales> implement
         super(SignosVitales.class);
     }
     
+    @Override
+    public List<SignosVitales> searchById(int id) {
+        Query query;
+        query = em.createNamedQuery("SignosVitales.findByIdSvitales").
+                setParameter("idSvitales", id);
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public List<SignosVitales> searchByName(String nombre) {
+        Query query;
+        query = em.createNamedQuery("SignosVitales.findByNombreSvital").
+                setParameter("nombreSvital", nombre);
+        
+        return query.getResultList();
+    }
 }
