@@ -77,9 +77,6 @@ public class EpisodioMB implements Serializable {
     /**
      * Buscar episodios. Busca una lista de episodios clínicos asociados a un
      * paciente determinado.
-     *
-     * @param persona Identificador del paciente al cual se le quieren buscar
-     * los episodios.
      */
     public void buscarEpisodios() {
         listaEpisodios = episodioNegocio.busquedaEpisodioIdPersona(persona.getIdPersona());

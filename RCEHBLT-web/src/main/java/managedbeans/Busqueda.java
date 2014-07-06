@@ -18,6 +18,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 /**
@@ -25,7 +26,7 @@ import javax.faces.context.FacesContext;
  * @author Xarly1602
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class Busqueda {
 
     @EJB
@@ -81,6 +82,15 @@ public class Busqueda {
         }
     }
 
+    public void setPacientes(){
+        listaPersonas = personaFacade.findAll();
+        for (int i = listaPersonas.size() - 1; i >= 0; i--) {
+            if (listaPersonas.get(i).getPersTipopersona() == 2) {
+                listaPersonas.remove(i);
+            }
+        }
+    }
+    
     /**
      * Autocompletar ruts para la búsqueda de pacientes Función para realizar la
      * lista que se muestra mientras se va escribiendo un rut en el campo de
@@ -91,6 +101,7 @@ public class Busqueda {
      */
     public List<String> completarRut(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
+        this.setPacientes();
         for (Persona persona : listaPersonas) {
             if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString())) {
                 listaFiltrada.add(persona.getPersRut().toString());
@@ -109,6 +120,7 @@ public class Busqueda {
      */
     public List<String> completarRutMujer(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
+        this.setPacientes();
         for (Persona persona : listaPersonas) {
             if (persona.getPersRut().toString().startsWith(query) && !listaFiltrada.contains(persona.getPersRut().toString()) && persona.getIdGenero().getIdGenero() == 2) {
                 listaFiltrada.add(persona.getPersRut().toString());
@@ -145,6 +157,7 @@ public class Busqueda {
      */
     public List<String> completarNombre(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
+        this.setPacientes();
         for (Persona persona : listaPersonas) {
             if (persona.getPersNombres().startsWith(query) && !listaFiltrada.contains(persona.getPersNombres())) {
                 listaFiltrada.add(persona.getPersNombres());
@@ -163,6 +176,7 @@ public class Busqueda {
      */
     public List<String> completarApePaterno(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
+        this.setPacientes();
         for (Persona persona : listaPersonas) {
             if (persona.getPersApepaterno().startsWith(query) && !listaFiltrada.contains(persona.getPersApepaterno())) {
                 listaFiltrada.add(persona.getPersApepaterno());
@@ -181,6 +195,7 @@ public class Busqueda {
      */
     public List<String> completarApeMaterno(String query) {
         List<String> listaFiltrada = new ArrayList<String>();
+        this.setPacientes();
         for (Persona persona : listaPersonas) {
             if (persona.getPersApematerno().startsWith(query) && !listaFiltrada.contains(persona.getPersApematerno())) {
                 listaFiltrada.add(persona.getPersApematerno());
