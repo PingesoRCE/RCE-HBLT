@@ -16,6 +16,7 @@ import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.Persona;
 import cl.rcehblt.entities.Prevision;
 import cl.rcehblt.entities.PuebloOriginario;
+import cl.rcehblt.entities.RegistroClinico;
 import cl.rcehblt.entities.Religion;
 import cl.rcehblt.entities.Sector;
 import cl.rcehblt.entities.ServicioSalud;
@@ -24,6 +25,7 @@ import cl.rcehblt.persona.PersonaNegocioLocal;
 import cl.rcehblt.sessionbeans.EstadoConyugalFacadeLocal;
 import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
 import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
+import cl.rcehblt.sessionbeans.RegistroClinicoFacadeLocal;
 import cl.rcehblt.tipoprevision.TipoPrevisionNegocioLocal;
 import java.awt.event.ActionEvent;
 import java.util.Calendar;
@@ -47,6 +49,8 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean
 @SessionScoped
 public class Admision {
+    @EJB
+    private RegistroClinicoFacadeLocal registroClinicoFacade;
 
     @EJB
     private TipoPrevisionNegocioLocal tipoPrevisionNegocio;
@@ -113,7 +117,8 @@ public class Admision {
     private Sector sector;
     private Establecimiento establecimiento;
     private ServicioSalud servicio;
-
+    private RegistroClinico registro;
+    
     private List<EstadoConyugal> listaEstados;
     private List<TipoPrevision> listaTipos;
 
@@ -224,6 +229,11 @@ public class Admision {
                 paciente.setPaciOtraprevision(otraPrevision);
             }
             pacienteFacade.create(paciente);
+            
+            registro = new RegistroClinico();
+            registro.setIdPersona(paciente);
+            registro.setRegistrofecha(Calendar.getInstance().getTime());
+            registroClinicoFacade.create(registro);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Admisión realizada.", "Paciente: " + nombres + " " + apellidoPaterno + " " + apellidoMaterno));
             this.resetData();
         }

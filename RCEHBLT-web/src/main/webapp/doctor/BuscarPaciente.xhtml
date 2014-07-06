@@ -34,8 +34,9 @@
             </p:panelGrid>
             <p:commandButton value="Buscar" icon="ui-icon-search" actionListener="#{busqueda.buscar}" oncomplete="PF('Resultados').show()" update="buscaPaciente, ResultadosBusqueda"/>
 
-            <p:dialog id="ResultadosBusqueda" widgetVar="Resultados" header="Resultados de BÃºsqueda" showEffect="fade" hideEffect="fade">
-                <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la bÃºsqueda" value="#{busqueda.listaPersonas}" var="persona">
+            <p:dialog id="ResultadosBusqueda" widgetVar="Resultados" header="Resultados de Búsqueda" showEffect="fade" hideEffect="fade">
+                <h:form>
+                <p:dataTable emptyMessage="No se encontraron elementos que coincidan con la búsqueda" value="#{busqueda.listaPersonas}" var="persona">
                     <p:column headerText="Rut">
                         #{persona.persRut}-#{persona.persDv}
                     </p:column>
@@ -55,11 +56,12 @@
                         #{persona.idGenero.generoNombre}
                     </p:column>
                     <p:column>
-                        <p:commandButton value="Ver Episodios" oncomplete="PF('EpiPac').show()" action="#{episodioMB.buscarEpisodios(persona.idPersona)}" update=":buscaPaciente:Episodios, :buscaPaciente:AgregarEpisodio">
+                        <p:commandButton value="Ver Episodios #{persona.idPersona}" oncomplete="PF('EpiPac').show()" action="#{episodioMB.buscarEpisodios()}" update=":buscaPaciente:Episodios, :buscaPaciente:AgregarEpisodio">
                             <f:setPropertyActionListener target="#{episodioMB.persona}" value="#{persona}"/>
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>
+                </h:form>
             </p:dialog>
 
             <p:dialog id="Episodios" widgetVar="EpiPac" showEffect="fade" hideEffect="fade" header="Episodios de #{episodioMB.persona.persNombres}">
