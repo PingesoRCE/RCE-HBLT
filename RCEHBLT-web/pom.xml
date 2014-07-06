@@ -25,6 +25,11 @@
             <artifactId>primefaces</artifactId>
             <version>4.0</version>
         </dependency>
+         <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.0</version>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>RCEHBLT-ejb</artifactId>
