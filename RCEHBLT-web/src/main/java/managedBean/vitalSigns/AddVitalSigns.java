@@ -120,6 +120,32 @@ public class AddVitalSigns {
         RequestContext.getCurrentInstance().execute("newVitalSignsDialog.show()");
     }
 
+    public void startTecnico(String rut) {
+        if (!rut.isEmpty()) {
+            this.rut = Integer.parseInt(rut);
+            String[] vitalSignsO = {"Peso", "Altura", "Temperatura", "Saturación O2",
+                "Presión Sistólica", "Presión Diastólica"};
+            searchVitalSigns = vitalSignsFacade.findAll();
+            returnUnit();
+            for (int i = 0; i < searchVitalSigns.size(); i++) {
+                for (int j = 0; j < vitalSignsO.length; j++) {
+                    if (searchVitalSigns.get(i).getNombreSvital().equals(vitalSignsO[j])) {
+                        searchVitalSigns.remove(i);
+                        i--;
+                        break;
+                    }
+                }
+            }
+            RequestContext.getCurrentInstance().execute("patientSelected.hide()");
+            RequestContext.getCurrentInstance().execute("newVitalSignsDialog.show()");
+        } else {
+            FacesContext context = FacesContext.getCurrentInstance();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "Debe ingresar un rut válido"));
+            System.out.println("rut inválido");
+        }
+
+    }
+
     public void returnUnit() {
         for (int i = 0; i < searchVitalSigns.size(); i++) {
 
