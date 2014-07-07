@@ -144,7 +144,7 @@
                             <p:menuitem value="Ingresar signos vitales" icon="ui-icon-plusthick" actionListener="#{addVitalSigns.start(viewEpisodes.rut)}" update=":newVitalSignsForm"/>
                             <p:submenu label="Antecedentes">
                                 <p:menuitem value="Generales" actionListener="#{generalHistory.start(viewEpisodes.rut)}" onclick="dialogGeneralHistory.show()" icon="ui-icon-document" url="#"/>
-                                <p:menuitem value="Perinatales" actionListener="#{perinatalHistory.start(viewEpisodes.rut)}" onclick="dialogPerinatalHistory.show()" icon="ui-icon-document" url="#"/>
+                                <p:menuitem value="Perinatales" actionListener="#{perinatalHistory.start(viewEpisodes.rut)}" icon="ui-icon-document" update=":perinatalHistoryForm"/>
                             </p:submenu>
                             <p:submenu label="Formulario GES" rendered="#{newConsultation.isGes}">
                                 <p:menuitem value="Informe de proceso de diagnóstico" onclick="newIPDDialog.show()" url="#" />

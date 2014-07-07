@@ -52,7 +52,7 @@ public class PerinatalHistory {
     private int grupo = 0;
 
     private int personId;
-    private Integer Rut = 6972769;
+    private Integer Rut;
     private String name;
     private List<Paciente> searchPatient;
     private List<RegistroClinico> searchClinicalRecord;
@@ -125,9 +125,9 @@ public class PerinatalHistory {
     Antecedentes foundAntecedentes;
     private int maxGroup = 0;
     private String foundName = "";
-
-    @PostConstruct
-    public void init(){
+    
+    public void start(Integer rut){
+        this.Rut = rut;
         personId = personFacade.findByRut(Rut);
         searchPatient = patientFacade.searchByPerson(personId);
         patient = searchPatient.get(0);
@@ -280,7 +280,7 @@ public class PerinatalHistory {
             }
             estimated = aux4.split(",");
         }
-
+        RequestContext.getCurrentInstance().execute("dialogPerinatalHistory.show()");
     }
 
     public void addDeeds() {
@@ -933,7 +933,7 @@ public class PerinatalHistory {
         FacesContext.getCurrentInstance().addMessage("", fm);
         RequestContext.getCurrentInstance().execute("dialogPerinatalHistory.hide()");
     }
-
+    
     public String[] getHCTOCheck() {
         return HCTOCheck;
     }
