@@ -20,20 +20,23 @@
     </h:head>
 
     <h:body>
-        <p:menubar>
-            <p:menuitem value="Episodio Clínico" url="#" onclick="PF('searchPac').show()"/>
-        </p:menubar>
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Episodio Clínico" url="#" onclick="PF('searchPac').show()"/>
+            </p:menubar>
+        </h:form>
 
         <p:dialog id="buscarPaciente" maximizable="true" header="Buscar Pacientes" widgetVar="searchPac" showEffect="fade" hideEffect="fade" closeOnEscape="true" 
                   minimizable="true" onShow="#{busqueda.init()}">
             <p:ajax event="close" listener="#{busqueda.init()}" update="buscaPaciente"/>
             <ui:include src="BuscarPaciente.xhtml"/>
         </p:dialog>
-
-        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
-            <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
-            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
-        </p:confirmDialog>
+        <h:form>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>     
+            </p:confirmDialog>
+        </h:form>
     </h:body>
 </html>
 

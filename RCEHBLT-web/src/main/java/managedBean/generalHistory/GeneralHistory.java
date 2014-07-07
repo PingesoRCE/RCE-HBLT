@@ -66,8 +66,12 @@ public class GeneralHistory {
     
     @PostConstruct
     public void init(){
+    }
+    
+    public void start(Integer rut){
+        this.rut = rut;
         idGeneral = antecedentesFacade.searchByName("Generales").get(0).getIdAntecedente();
-        searchAmedidos = antmedidosFacade.findAll();
+        //searchAmedidos = antmedidosFacade.searchByJoel();
         if(!searchAmedidos.isEmpty()){
             for(Antmedidos antmed: searchAmedidos){
                 if(antmed.getIdAntecedente().getIdAntecedente().equals(idGeneral)){
@@ -75,10 +79,6 @@ public class GeneralHistory {
                 }
             }
         }
-    }
-    
-    public void start(Integer rut){
-        this.rut = rut;
     }
     
     public void save(){

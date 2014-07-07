@@ -57,11 +57,13 @@ public class ViewEpisodes {
         consultations.add(aux2);*/
     }
 
-     public void startEpisodes(Persona persona){
+     public void startEpisodes(Persona persona, Episodios episodio){
         rut = persona.getPersRut();
+        idEpisode = episodio.getEpisodioid();
         searchPatient = patientFacade.searchByPerson(personFacade.findByRut(rut));
         name = searchPatient.get(0).getPersona().getPersNombres() + " " + searchPatient.get(0).getPersona().getPersApepaterno()
                 + " " + searchPatient.get(0).getPersona().getPersApematerno();
+        consultations = consultationFacade.searchByEpisodio(episodio);
         RequestContext.getCurrentInstance().execute("viewEpisodesDialog.show()");
     }
     
@@ -71,19 +73,9 @@ public class ViewEpisodes {
         consultations.clear();
     }
     
-    public void loadConsultations(int id){
-        System.out.println("Cargando... 2");
-        idEpisode = id;
+    public void loadConsultations(){        
         Episodios episodeSelected = episodesFacade.find(idEpisode);
-        consultations = consultationFacade.searchByEpisodio(episodeSelected);
-        RequestContext.getCurrentInstance().execute("viewEpisodesDialog.show()");
-    }
-    
-    public void loadConsultations(){
-        System.out.println("Cargando... 1");
-        Episodios episodeSelected = episodesFacade.find(idEpisode);
-        consultations = consultationFacade.searchByEpisodio(episodeSelected);
-        System.out.println(consultations.size());
+        consultations = consultationFacade.searchByEpisodio(episodeSelected);        
         RequestContext.getCurrentInstance().execute("viewEpisodesDialog.show()");
     }
     

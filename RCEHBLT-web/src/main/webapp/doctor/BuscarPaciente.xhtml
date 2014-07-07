@@ -4,10 +4,9 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-
+    
+    <p:growl id="growl" showDetail="true"/>
     <h:form id="buscaPaciente">
-        <p:growl id="growl" showDetail="true"/>
-
         <p:panelGrid columns="2" id="datosPaciente" styleClass="companyHeaderGrid">
             <p:outputLabel for="Rut" value="Rut: "/>
             <p:autoComplete id="Rut" value="#{busqueda.rut}" completeMethod="#{busqueda.completarRut}" 
@@ -75,7 +74,7 @@
                     #{episodio.nombre}
                 </p:column>
                 <p:column>
-                    <p:commandButton value="Ver" actionListener="#{viewEpisodes.startEpisodes(episodioMB.persona)}" update=":viewEpisodesForm">
+                    <p:commandButton value="Ver" actionListener="#{viewEpisodes.startEpisodes(episodioMB.persona, episodio)}" update=":viewEpisodesForm">
                         <f:setPropertyActionListener target="#{episodioMB.episodio}" value="#{episodio}"/>
                     </p:commandButton>
                 </p:column>
@@ -85,15 +84,16 @@
     </p:dialog>
 
     <p:dialog id="AgregarEpisodio" widgetVar="addEpi" showEffect="fade" hideEffect="fade">
-        <p:panelGrid columns="2">
-            <p:outputLabel value="Paciente"/>
-            <p:outputLabel value="#{episodioMB.persona.persNombres} #{episodioMB.persona.persApepaterno}"/>
-            <p:outputLabel value="Motivo episodio"/>
-            <p:inputText value="#{episodioMB.nombre}"/>
-            <p:commandButton value="Guardar" actionListener="#{episodioMB.nuevoEpisodio()}" update=":formEpisodio, :buscaPaciente"/>
-            <p:commandButton value="Cancelar" onclick="PF('addEpi').hide()"/>
-        </p:panelGrid>
-
+        <h:form id="agregarEpisodioForm">
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Paciente"/>
+                <p:outputLabel value="#{episodioMB.persona.persNombres} #{episodioMB.persona.persApepaterno}"/>
+                <p:outputLabel value="Motivo episodio"/>
+                <p:inputText value="#{episodioMB.nombre}"/>
+                <p:commandButton value="Guardar" actionListener="#{episodioMB.nuevoEpisodio()}" update=":formEpisodio, :buscaPaciente"/>
+                <p:commandButton value="Cancelar" onclick="PF('addEpi').hide()"/>
+            </p:panelGrid>
+        </h:form>
     </p:dialog>
 
     <p:dialog header="Ver Episodio" widgetVar="viewEpisodesDialog" minimizable="true">
@@ -156,7 +156,7 @@
             </p:row>
             <p:row>
                 <p:column>
-                    <p:panelGrid columns="4" style="font-weight: bold">
+                    <p:panelGrid columns="4" style="font-weight: bold">                        
                         <p:outputLabel value="Rut paciente:"/>
                         <p:outputLabel id="rutConsulta" value="#{newConsultation.rut}"/>
                         <p:outputLabel value="Nombre paciente:"/>
@@ -516,14 +516,6 @@
                         <p:commandButton value="Cancelar" actionListener="#{viewConsultation.completeDataConsultation}" onclick="viewConsultationWV.hide()" icon="ui-icon-cancel" />
                     </p:column>
                 </p:row>
-            </p:panelGrid>
-        </h:form>
-    </p:dialog>
-
-    <p:dialog header="Registros vitales" id="vitalSignsRecordDialog" widgetVar="vitalSignsRecordWV" >
-        <h:form id="vitalSignsRecord">
-            <p:panelGrid styleClass="panelGridForm">
-                Hola profe hermoso
             </p:panelGrid>
         </h:form>
     </p:dialog>
