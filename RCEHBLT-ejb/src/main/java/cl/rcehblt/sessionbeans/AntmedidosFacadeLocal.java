@@ -33,4 +33,6 @@ public interface AntmedidosFacadeLocal {
     int count();
     
     List<Antmedidos> searchByEpisodioGrupo(Episodios episodio, int grupo);
+
+    List<Antmedidos> searchOldestGeneral(int idAnt, Episodios idEpisodio);
 }
