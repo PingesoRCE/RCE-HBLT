@@ -28,7 +28,7 @@
         </h:form>
         <p:growl id="newVitalSignsValidation" life="5000"/>
         <p:dialog header="Selección de paciente" id="patientSelected" widgetVar="patientSelectedDialog" minimizable="true">
-            <p:ajax event="close" resetValues="true"  update=":selectedPatientForm"/>
+            <p:ajax event="close" listener="#{busqueda.resetRut()}"  update=":patientSelected"/>
             <h:form id="selectedPatientForm">
                 <p:panelGrid styleClass="panelGridForm" columns="3">
                     <p:outputLabel value="Rut Paciente: "/>

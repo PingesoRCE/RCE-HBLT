@@ -321,6 +321,11 @@ public class Busqueda {
                 break;
         }
     }
+    
+    //resetea rut
+    public void resetRut(){
+        this.rut = "";
+    }
 
     //Getters y Setters
     public String getNombres() {
