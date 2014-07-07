@@ -9,6 +9,11 @@ import cl.rcehblt.entities.Muesta;
 import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.RegistroClinico;
 import cl.rcehblt.entities.SignosVitales;
+import cl.rcehblt.sessionbeans.MuestaFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
+import cl.rcehblt.sessionbeans.RegistroClinicoFacadeLocal;
+import cl.rcehblt.sessionbeans.SignosVitalesFacadeLocal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,11 +23,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import cl.rcehblt.sessionbeans.MuestaFacadeLocal;
-import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
-import cl.rcehblt.sessionbeans.RegistroClinicoFacadeLocal;
-import cl.rcehblt.sessionbeans.SignosVitalesFacadeLocal;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -50,13 +51,13 @@ public class AddVitalSigns {
 
     private List<SignosVitales> selectedVitalSign;
     private int vitalSignsId;
-    private Double vitalSignsValue= new Double(0);
+    private Double vitalSignsValue = new Double(0);
 
     private List<Paciente> searchPatient;
     private List<RegistroClinico> searchClinicalRecord;
 
     private Integer PersonId;
-    private Integer rut = 6972769;
+    private Integer rut;
 
     private List<Muesta> createSamples = new ArrayList<Muesta>();
     private List<Muesta> createSamplesAlways = new ArrayList<Muesta>();
@@ -65,31 +66,31 @@ public class AddVitalSigns {
     private Double imc;
 
     private Double peso = new Double(0);
-    private String unitPeso ;
+    private String unitPeso;
     private Double maxPeso;
     private Double minPeso;
 
-    private Double altura= new Double(0);
+    private Double altura = new Double(0);
     private String unitAltura;
     private Double maxAltura;
     private Double minAltura;
 
-    private Double temperatura= new Double(0);
+    private Double temperatura = new Double(0);
     private String unitTemperatura;
     private Double maxTemperatura;
     private Double minTemperatura;
 
-    private Double saturacion= new Double(0);
+    private Double saturacion = new Double(0);
     private String unitSaturacion;
     private Double maxSaturacion;
     private Double minSaturacion;
 
-    private Double presionSistolica= new Double(0);
+    private Double presionSistolica = new Double(0);
     private String unitPresionSistolica;
     private Double maxPresionSistolica;
     private Double minPresionSistolica;
 
-    private Double presionDiastolica= new Double(0);
+    private Double presionDiastolica = new Double(0);
     private String unitPresionDiastolica;
     private Double maxPresionDiastolica;
     private Double minPresionDiastolica;
@@ -100,10 +101,25 @@ public class AddVitalSigns {
 
     private List<SignosVitales> controllerVitalSigns = new ArrayList<SignosVitales>();
 
-    public void start(Integer rut){
+    public void start(Integer rut) {
+        System.out.println(rut);
         this.rut = rut;
+        String[] vitalSignsO = {"Peso", "Altura", "Temperatura", "Saturación O2",
+            "Presión Sistólica", "Presión Diastólica"};
+        searchVitalSigns = vitalSignsFacade.findAll();
+        returnUnit();
+        for (int i = 0; i < searchVitalSigns.size(); i++) {
+            for (int j = 0; j < vitalSignsO.length; j++) {
+                if (searchVitalSigns.get(i).getNombreSvital().equals(vitalSignsO[j])) {
+                    searchVitalSigns.remove(i);
+                    i--;
+                    break;
+                }
+            }
+        }
+        RequestContext.getCurrentInstance().execute("newVitalSignsDialog.show()");
     }
-    
+
     public void returnUnit() {
         for (int i = 0; i < searchVitalSigns.size(); i++) {
 
@@ -142,8 +158,8 @@ public class AddVitalSigns {
     }
 
     public void resultIMC() {
-        if(altura!=0 && peso !=0){
-            imc = Math.rint((peso/((altura/100)*(altura/100)))*100)/100;
+        if (altura != 0 && peso != 0) {
+            imc = Math.rint((peso / ((altura / 100) * (altura / 100))) * 100) / 100;
         }
     }
 
@@ -171,19 +187,6 @@ public class AddVitalSigns {
 
     @PostConstruct
     public void init() {
-        String[] vitalSignsO = {"Peso", "Altura", "Temperatura", "Saturación O2",
-            "Presión Sistólica", "Presión Diastólica"};
-        searchVitalSigns = vitalSignsFacade.findAll();
-        returnUnit();
-        for (int i = 0; i < searchVitalSigns.size(); i++) {
-            for (int j = 0; j < vitalSignsO.length; j++) {
-                if (searchVitalSigns.get(i).getNombreSvital().equals(vitalSignsO[j])) {
-                    searchVitalSigns.remove(i);
-                    i--;
-                    break;
-                }
-            }
-        }
     }
 
     public void addNewVitalSigns() {

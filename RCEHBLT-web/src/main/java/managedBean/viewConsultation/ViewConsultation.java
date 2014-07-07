@@ -7,8 +7,14 @@ package managedBean.viewConsultation;
 
 import cl.rcehblt.entities.Consulta;
 import cl.rcehblt.entities.Diagnostico;
+import cl.rcehblt.entities.Episodios;
 import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.Patologia;
+import cl.rcehblt.entities.Persona;
+import cl.rcehblt.sessionbeans.DiagnosticoFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PatologiaFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -21,10 +27,6 @@ import javax.faces.context.FacesContext;
 import managedBean.consultation.DiagnosesPathology;
 import managedBean.consultation.NewConsultation;
 import org.primefaces.context.RequestContext;
-import cl.rcehblt.sessionbeans.DiagnosticoFacadeLocal;
-import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.PatologiaFacadeLocal;
-import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 
 /**
  *
@@ -43,8 +45,7 @@ public class ViewConsultation {
     @ManagedProperty("#{newConsultation}")
     private NewConsultation newConsultation;
     
-    private String rut;
-    private Integer Rut = 6972769;
+    private Integer rut;
     private String nombre;
     private Diagnostico selectedDiagnosis;
     private Consulta selectedConsultation;
@@ -63,19 +64,26 @@ public class ViewConsultation {
     private Diagnostico diagnoses;
     private Consulta consultation;
 
-    @PostConstruct
+    /*@PostConstruct
     public void init() {
-        rut = "69727697";
-        searchPatient = patientFacade.searchByPerson(personFacade.findByRut(Rut));
+    }*/
+    
+    public void startConsultations(Integer rutPaciente){
+        rut = rutPaciente;
+        System.out.println("2: "+rut);
+        searchPatient = patientFacade.searchByPerson(personFacade.findByRut(rut));
+        System.out.println("3: "+searchPatient);
         nombre = searchPatient.get(0).getPersona().getPersNombres() + " " + searchPatient.get(0).getPersona().getPersApepaterno()
                 + " " + searchPatient.get(0).getPersona().getPersApematerno();
+        System.out.println("4");
+        //RequestContext.getCurrentInstance().execute("newConsultationDialog.show()");
     }
 
-    public String getRut() {
+    public Integer getRut() {
         return rut;
     }
 
-    public void setRut(String rut) {
+    public void setRut(Integer rut) {
         this.rut = rut;
     }
 

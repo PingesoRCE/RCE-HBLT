@@ -28,8 +28,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import managedBean.vitalSigns.viewVitalSigns;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -39,7 +41,6 @@ import org.primefaces.context.RequestContext;
 @ManagedBean
 @ViewScoped
 public class NewConsultation {
-
     @EJB
     private PatologiaFacadeLocal pathologyFacade;
     @EJB
@@ -54,10 +55,12 @@ public class NewConsultation {
     private EpisodiosFacadeLocal episodeFacade;
     @EJB
     private RegistroClinicoFacadeLocal clinicalRecordFacade;
-
-    //<--aqui-->
     @EJB
     private MuestaFacadeLocal sampleFacade;
+    
+    @ManagedProperty(value="#{viewVitalSigns}")
+    private viewVitalSigns signosVitales;
+    
     private List<Diagnostico> allDiagnosesConsultation = new ArrayList<Diagnostico>();
     private List<Diagnostico> allDiagnoses;
     private List<Consulta> searchConsultation;
@@ -104,7 +107,7 @@ public class NewConsultation {
 
     @PostConstruct
     public void init() {
-        Rut = 6972769;
+        /*Rut = 6972769;
         personId = personFacade.findByRut(Rut);
         searchPatient = patientFacade.searchByPerson(personId);
         patient = searchPatient.get(0);
@@ -129,7 +132,7 @@ public class NewConsultation {
             exist = false;
             maxGroup = searchSamples.get(i).getGrupo();
         }
-        searchSamples = sampleFacade.searchByPatientGroup(searchPatient.get(0), maxGroup);
+        searchSamples = sampleFacade.searchByPatientGroup(searchPatient.get(0), maxGroup);*/
         //<!--aqui-->
     }
     
@@ -160,7 +163,8 @@ public class NewConsultation {
             maxGroup = searchSamples.get(i).getGrupo();
         }
         searchSamples = sampleFacade.searchByPatientGroup(searchPatient.get(0), maxGroup);
-        //<!--aqui-->
+        signosVitales.start(Rut);
+        RequestContext.getCurrentInstance().execute("newConsultationDialog.show()");
     }
 
     public void loadConsultation(Consulta selectedConsultation) {
@@ -746,6 +750,14 @@ public class NewConsultation {
 
     public void setDisableEnd(boolean disableEnd) {
         this.disableEnd = disableEnd;
+    }
+
+    public viewVitalSigns getSignosVitales() {
+        return signosVitales;
+    }
+
+    public void setSignosVitales(viewVitalSigns signosVitales) {
+        this.signosVitales = signosVitales;
     }
 
 }

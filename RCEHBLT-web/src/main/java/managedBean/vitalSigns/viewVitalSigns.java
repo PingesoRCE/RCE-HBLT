@@ -39,7 +39,7 @@ public class viewVitalSigns {
     private List<Paciente> searchPaciente;
     private List<Muesta> searchSamples;
     private Integer PersonId;
-    private Integer Rut = 6972769;
+    private Integer Rut;
     private Integer personID;
     private int samplesId;
     private List<Integer> groups = new ArrayList<Integer>();
@@ -47,7 +47,7 @@ public class viewVitalSigns {
 
     @PostConstruct
     public void init() {
-        PersonId = personFacade.findByRut(Rut);
+        /*PersonId = personFacade.findByRut(Rut);
         searchPaciente = patientFacade.searchByPerson(PersonId);
         boolean exist = false;
         int maxGroup = 0;
@@ -75,16 +75,18 @@ public class viewVitalSigns {
             if (diferenceDay >= 1) {
                 searchSamples = null;
             }
-        }
+        }*/
     }
     
     public void start(Integer rut){
-        this.Rut = rut;
+        System.out.println("SI");
+        Rut = rut;
         PersonId = personFacade.findByRut(Rut);
         searchPaciente = patientFacade.searchByPerson(PersonId);
         boolean exist = false;
         int maxGroup = 0;
         searchSamples = muestaFacade.searchByPatient(searchPaciente.get(0));
+        System.out.println(searchSamples);
         for (Muesta searchSample : searchSamples) {
             for (Integer group : groups) {
                 if (group == searchSample.getGrupo()) {
@@ -109,7 +111,6 @@ public class viewVitalSigns {
                 searchSamples = null;
             }
         }
-
     }
 
     public void update() {
@@ -130,7 +131,6 @@ public class viewVitalSigns {
         }
         searchSamples = muestaFacade.searchByPatientGroup(searchPaciente.get(0), maxGroup);
         RequestContext.getCurrentInstance().execute("newConsultationDialog.show()");
-        System.out.println(searchSamples);
     }
 
     public void showSamples() {

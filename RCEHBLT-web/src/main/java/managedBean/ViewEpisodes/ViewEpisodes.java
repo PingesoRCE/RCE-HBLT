@@ -8,8 +8,12 @@ package managedBean.ViewEpisodes;
 
 import cl.rcehblt.entities.Consulta;
 import cl.rcehblt.entities.Episodios;
+import cl.rcehblt.entities.Paciente;
+import cl.rcehblt.entities.Persona;
 import cl.rcehblt.sessionbeans.ConsultaFacadeLocal;
 import cl.rcehblt.sessionbeans.EpisodiosFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,11 +33,18 @@ public class ViewEpisodes {
     private ConsultaFacadeLocal consultationFacade;
     @EJB
     private EpisodiosFacadeLocal episodesFacade;
+    @EJB
+    private PersonaFacadeLocal personFacade;
+    @EJB
+    private PacienteFacadeLocal patientFacade;
     
+    private List<Paciente> searchPatient;
     private int idEpisode;
     private List<Consulta> consultations;
     private List<Consulta> filterConsultations;
     private Consulta selectedConsultation;
+    private Integer rut;
+    private String name;
     
    @PostConstruct
     public void init(){
@@ -46,6 +57,14 @@ public class ViewEpisodes {
         consultations.add(aux2);*/
     }
 
+     public void startEpisodes(Persona persona){
+        rut = persona.getPersRut();
+        searchPatient = patientFacade.searchByPerson(personFacade.findByRut(rut));
+        name = searchPatient.get(0).getPersona().getPersNombres() + " " + searchPatient.get(0).getPersona().getPersApepaterno()
+                + " " + searchPatient.get(0).getPersona().getPersApematerno();
+        RequestContext.getCurrentInstance().execute("viewEpisodesDialog.show()");
+    }
+    
     public void resetView(){
         idEpisode = 0;
         selectedConsultation = null;
@@ -53,6 +72,7 @@ public class ViewEpisodes {
     }
     
     public void loadConsultations(int id){
+        System.out.println("Cargando... 2");
         idEpisode = id;
         Episodios episodeSelected = episodesFacade.find(idEpisode);
         consultations = consultationFacade.searchByEpisodio(episodeSelected);
@@ -60,7 +80,7 @@ public class ViewEpisodes {
     }
     
     public void loadConsultations(){
-        System.out.println(idEpisode);
+        System.out.println("Cargando... 1");
         Episodios episodeSelected = episodesFacade.find(idEpisode);
         consultations = consultationFacade.searchByEpisodio(episodeSelected);
         System.out.println(consultations.size());
@@ -100,5 +120,20 @@ public class ViewEpisodes {
         this.selectedConsultation = selectedConsultation;
     }
 
- 
+    public Integer getRut() {
+        return rut;
+    }
+
+    public void setRut(Integer rut) {
+        this.rut = rut;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
