@@ -10,7 +10,16 @@ import cl.rcehblt.entities.Antmedidos;
 import cl.rcehblt.entities.Episodios;
 import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.RegistroClinico;
+import cl.rcehblt.sessionbeans.AntecedentesFacadeLocal;
+import cl.rcehblt.sessionbeans.AntmedidosFacadeLocal;
+import cl.rcehblt.sessionbeans.EpisodiosFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
+import cl.rcehblt.sessionbeans.RegistroClinicoFacadeLocal;
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,12 +30,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
-import cl.rcehblt.sessionbeans.AntecedentesFacadeLocal;
-import cl.rcehblt.sessionbeans.AntmedidosFacadeLocal;
-import cl.rcehblt.sessionbeans.EpisodiosFacadeLocal;
-import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
-import cl.rcehblt.sessionbeans.RegistroClinicoFacadeLocal;
 
 /**
  *
@@ -154,6 +157,72 @@ public class PerinatalHistory {
             foundAntecedentes = antecedentesFacade.find(olderAntmedidos.get(x).getIdAntecedente().getIdAntecedente());
             System.out.println("Nombre: " + foundAntecedentes.getNombreAntecedente());
 
+            if (foundAntecedentes.getNombreAntecedente().equals("Término último embarazo")) {
+                SimpleDateFormat formatoDelTextoAux = new SimpleDateFormat("dd/MM/yyyy");
+                String strFechaAux = olderAntmedidos.get(x).getValor();
+                Date fechaAux = null;
+                try {
+                    fechaAux = formatoDelTextoAux.parse(strFechaAux);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                lastPregnancy = fechaAux;
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("F.U.R")) {
+                SimpleDateFormat formatoDelTextoAux = new SimpleDateFormat("dd/MM/yyyy");
+                String strFechaAux = olderAntmedidos.get(x).getValor();
+                Date fechaAux = null;
+                try {
+                    fechaAux = formatoDelTextoAux.parse(strFechaAux);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                FUR = fechaAux;
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("F.U.R Operacional")) {
+                SimpleDateFormat formatoDelTextoAux = new SimpleDateFormat("dd/MM/yyyy");
+                String strFechaAux = olderAntmedidos.get(x).getValor();
+                Date fechaAux = null;
+                try {
+                    fechaAux = formatoDelTextoAux.parse(strFechaAux);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                FURO = fechaAux;
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("F.P. Parto")) {
+                SimpleDateFormat formatoDelTextoAux = new SimpleDateFormat("dd/MM/yyyy");
+                String strFechaAux = olderAntmedidos.get(x).getValor();
+                Date fechaAux = null;
+                try {
+                    fechaAux = formatoDelTextoAux.parse(strFechaAux);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                FPBirth = fechaAux;
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("VLDR fecha")) {
+                SimpleDateFormat formatoDelTextoAux = new SimpleDateFormat("dd/MM/yyyy");
+                String strFechaAux = olderAntmedidos.get(x).getValor();
+                Date fechaAux = null;
+                try {
+                    fechaAux = formatoDelTextoAux.parse(strFechaAux);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                VDRL = fechaAux;
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("HCTO fecha")) {
+                SimpleDateFormat formatoDelTextoAux = new SimpleDateFormat("dd/MM/yyyy");
+                String strFechaAux = olderAntmedidos.get(x).getValor();
+                Date fechaAux = null;
+                try {
+                    fechaAux = formatoDelTextoAux.parse(strFechaAux);
+                } catch (ParseException ex) {
+                    ex.printStackTrace();
+                }
+                HCTODate = fechaAux;
+            }
             if (foundAntecedentes.getNombreAntecedente().equals("Nacidos vivos")) {
                 born = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
@@ -250,9 +319,6 @@ public class PerinatalHistory {
             if (foundAntecedentes.getNombreAntecedente().equals("Fuma")) {
                 smoker = olderAntmedidos.get(x).getValor();
             }
-            
-            
-            
 
             if (foundAntecedentes.getNombreAntecedente().equals("fDiabetes")) {
                 aux += olderAntmedidos.get(x).getValor() + ",";
@@ -329,7 +395,7 @@ public class PerinatalHistory {
                 //familyHistory = aux.split(","); 
             }
             estimated = aux4.split(",");
-            
+
             if (foundAntecedentes.getNombreAntecedente().equals("HCTO")) {
                 aux5 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
