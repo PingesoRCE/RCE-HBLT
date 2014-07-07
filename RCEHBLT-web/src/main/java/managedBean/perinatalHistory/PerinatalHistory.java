@@ -68,6 +68,7 @@ public class PerinatalHistory {
     String aux2 = "";
     String aux3 = "";
     String aux4 = "";
+    String aux5 = "";
     String[] personalHistory;
     String reasonAbortion = "";
     String[] bornCheck;
@@ -125,17 +126,17 @@ public class PerinatalHistory {
     Antecedentes foundAntecedentes;
     private int maxGroup = 0;
     private String foundName = "";
-    
-    public void start(Integer rut){
+
+    public void start(Integer rut) {
         this.Rut = rut;
         personId = personFacade.findByRut(Rut);
         searchPatient = patientFacade.searchByPerson(personId);
         patient = searchPatient.get(0);
         searchClinicalRecord = clinicalRecordFacade.searchByPaciente(searchPatient.get(0));
         searchEpisode = episodeFacade.searchByClinicalRegister(searchClinicalRecord.get(0));
-        
+
         allAntmedidos2 = antmedidosFacade.findAll();
-        
+
         if (allAntmedidos2.isEmpty()) {
             maxGroup = 0;
         } else {
@@ -145,140 +146,195 @@ public class PerinatalHistory {
                 }
             }
         }
-        
+
         olderAntmedidos = antmedidosFacade.searchByEpisodioGrupo(searchEpisode.get(0), maxGroup);
         System.out.println("Elementos mas antiguos: " + olderAntmedidos.size());
-        
-        for(int x = 0; x < olderAntmedidos.size(); x++){
+
+        for (int x = 0; x < olderAntmedidos.size(); x++) {
             foundAntecedentes = antecedentesFacade.find(olderAntmedidos.get(x).getIdAntecedente().getIdAntecedente());
             System.out.println("Nombre: " + foundAntecedentes.getNombreAntecedente());
-            
-            if(foundAntecedentes.getNombreAntecedente().equals("Nacidos vivos")){
+
+            if (foundAntecedentes.getNombreAntecedente().equals("Nacidos vivos")) {
                 born = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Nacidos Muertos")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Nacidos Muertos")) {
                 stillbirths = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Vivos")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Vivos")) {
                 living = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Muertos 1° semana")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Muertos 1° semana")) {
                 deadFirstWeek = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Muertos 2° a 4° semana")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Muertos 2° a 4° semana")) {
                 deadSecondWeek = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Partos")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Partos")) {
                 births = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Gestas")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Gestas")) {
                 deeds = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Abortos")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Abortos")) {
                 abortions = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("RN con mayor peso")){
+            if (foundAntecedentes.getNombreAntecedente().equals("RN con mayor peso")) {
                 RNHeavier = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Peso habitual")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Peso habitual")) {
                 usualWeight = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Peso Actual")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Peso Actual")) {
                 currentWeight = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Talla")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Talla")) {
                 size = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Edad Gestación ingreso")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Edad Gestación ingreso")) {
                 gestationalAge = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("N° de Dias")){
+            if (foundAntecedentes.getNombreAntecedente().equals("N° de Dias")) {
                 numberDays = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("HCTO valor")){
+            if (foundAntecedentes.getNombreAntecedente().equals("HCTO valor")) {
                 HTCTOFloat = Float.valueOf(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Cigarros por día")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Cigarros por día")) {
                 cantCigars = Integer.parseInt(olderAntmedidos.get(x).getValor());
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Abortos razón")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Abortos razón")) {
                 reasonAbortion = olderAntmedidos.get(x).getValor();
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("fDiabetes")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Dudas")) {
+                doubts = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Hospitalización Embarazo actual")) {
+                doubtsHEA = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Motivo")) {
+                reason = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Sensibilizada")) {
+                sensitized = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Grupo de Sangre")) {
+                blood = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("RH")) {
+                bloodType = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Ex. clínico normal")) {
+                examinationCN = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Ex. mamas normal")) {
+                examinationMN = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Papanic. normal")) {
+                normalPapanic = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Ex. odont. normal")) {
+                examinationON = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Pelvis normal")) {
+                normalPelvis = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Cervix normal")) {
+                normalCervix = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("VIH")) {
+                VIH = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("VLDR valor")) {
+                VDRLOption = olderAntmedidos.get(x).getValor();
+            }
+            if (foundAntecedentes.getNombreAntecedente().equals("Fuma")) {
+                smoker = olderAntmedidos.get(x).getValor();
+            }
+            
+            
+            
+
+            if (foundAntecedentes.getNombreAntecedente().equals("fDiabetes")) {
                 aux += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("fTBC Pulmonar")){
+            if (foundAntecedentes.getNombreAntecedente().equals("fTBC Pulmonar")) {
                 aux += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("fHipertensión")){
+            if (foundAntecedentes.getNombreAntecedente().equals("fHipertensión")) {
                 aux += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("fGemelares")){
+            if (foundAntecedentes.getNombreAntecedente().equals("fGemelares")) {
                 aux += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("fOtros")){
+            if (foundAntecedentes.getNombreAntecedente().equals("fOtros")) {
                 aux += olderAntmedidos.get(x).getValor();
                 //familyHistory = aux.split(","); 
             }
             familyHistory = aux.split(",");
-            
-            if(foundAntecedentes.getNombreAntecedente().equals("pDiabetes")){
+
+            if (foundAntecedentes.getNombreAntecedente().equals("pDiabetes")) {
                 aux2 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("pTBC Pulmonar")){
+            if (foundAntecedentes.getNombreAntecedente().equals("pTBC Pulmonar")) {
                 aux2 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("pHipertensión")){
+            if (foundAntecedentes.getNombreAntecedente().equals("pHipertensión")) {
                 aux2 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("pCIE")){
+            if (foundAntecedentes.getNombreAntecedente().equals("pCIE")) {
                 aux2 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("pOtros")){
+            if (foundAntecedentes.getNombreAntecedente().equals("pOtros")) {
                 aux2 += olderAntmedidos.get(x).getValor();
                 //familyHistory = aux.split(","); 
             }
             personalHistory = aux2.split(",");
-            
-            if(foundAntecedentes.getNombreAntecedente().equals("Ninguno o más de 3 partos")){
+
+            if (foundAntecedentes.getNombreAntecedente().equals("Ninguno o más de 3 partos")) {
                 aux3 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Algún RN menor de 2500 gr")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Algún RN menor de 2500 gr")) {
                 aux3 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Gemelar")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Gemelar")) {
                 aux3 += olderAntmedidos.get(x).getValor();
                 //familyHistory = aux.split(","); 
             }
             bornCheck = aux3.split(",");
-            
-            if(foundAntecedentes.getNombreAntecedente().equals("Eco precoz")){
+
+            if (foundAntecedentes.getNombreAntecedente().equals("Eco precoz")) {
                 aux4 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Paciente")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Paciente")) {
                 aux4 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Hipertensión")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Hipertensión")) {
                 aux4 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
-            if(foundAntecedentes.getNombreAntecedente().equals("Clínica")){
+            if (foundAntecedentes.getNombreAntecedente().equals("Clínica")) {
                 aux4 += olderAntmedidos.get(x).getValor() + ",";
                 //familyHistory = aux.split(","); 
             }
             estimated = aux4.split(",");
+            
+            if (foundAntecedentes.getNombreAntecedente().equals("HCTO")) {
+                aux5 += olderAntmedidos.get(x).getValor() + ",";
+                //familyHistory = aux.split(","); 
+            }
+            HCTOCheck = aux5.split(",");
         }
         RequestContext.getCurrentInstance().execute("dialogPerinatalHistory.show()");
     }
@@ -629,20 +685,20 @@ public class PerinatalHistory {
             listAntMedidos.add(newAntmedido);
         }
 
-        /*if (doubtsHEA.equals("")) {
+        if (doubtsHEA.equals("")) {
 
-         } else {
-         newAntmedido = new Antmedidos();
+        } else {
+            newAntmedido = new Antmedidos();
 
-         searchAntecedente = antecedentesFacade.searchByName("Motivo");
-         newAntmedido.setIdAntmedidos(null);
-         newAntmedido.setEpisodioid(searchEpisode.get(0));
-         newAntmedido.setIdAntecedente(searchAntecedente.get(0));
-         newAntmedido.setValor(doubtsHEA);
-         newAntmedido.setFecha(fecha);
+            searchAntecedente = antecedentesFacade.searchByName("Hospitalización Embarazo actual");
+            newAntmedido.setIdAntmedidos(null);
+            newAntmedido.setEpisodioid(searchEpisode.get(0));
+            newAntmedido.setIdAntecedente(searchAntecedente.get(0));
+            newAntmedido.setValor(doubtsHEA);
+            newAntmedido.setFecha(fecha);
 
-         listAntMedidos.add(newAntmedido);
-         }*/
+            listAntMedidos.add(newAntmedido);
+        }
         if (reason.equals("")) {
 
         } else {
@@ -847,7 +903,7 @@ public class PerinatalHistory {
             newAntmedido.setIdAntmedidos(null);
             newAntmedido.setEpisodioid(searchEpisode.get(0));
             newAntmedido.setIdAntecedente(searchAntecedente.get(0));
-            newAntmedido.setValor("Seleccionado");
+            newAntmedido.setValor(HCTOCheck[i]);
             newAntmedido.setFecha(fecha);
 
             listAntMedidos.add(newAntmedido);
@@ -933,7 +989,7 @@ public class PerinatalHistory {
         FacesContext.getCurrentInstance().addMessage("", fm);
         RequestContext.getCurrentInstance().execute("dialogPerinatalHistory.hide()");
     }
-    
+
     public String[] getHCTOCheck() {
         return HCTOCheck;
     }
