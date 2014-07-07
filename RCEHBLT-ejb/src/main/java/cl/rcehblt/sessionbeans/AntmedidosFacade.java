@@ -41,4 +41,15 @@ public class AntmedidosFacade extends AbstractFacade<Antmedidos> implements Antm
         
         return query.getResultList();
     }
+
+    @Override
+    public List<Antmedidos> searchOldestGeneral(int idAnt, Episodios idEpisodio) {
+        Query query;
+        query = em.createNamedQuery("Antmedidos.findByIdAntmedidosFechaEpisodio").
+                setParameter("idAntmedidos", idAnt).
+                setParameter("episodioid", idEpisodio);
+        return query.setMaxResults(1).getResultList();
+    }
+    
+    
 }
