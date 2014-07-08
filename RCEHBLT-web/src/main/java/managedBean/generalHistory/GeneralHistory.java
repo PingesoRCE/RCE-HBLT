@@ -48,7 +48,7 @@ public class GeneralHistory {
     @EJB
     private PersonaFacadeLocal personFacade;
 
-    private Integer rut = 6972769;
+    private Integer rut;
     private String antecedentes;
     private Antmedidos newAntmedido;
     private List<Antecedentes> searchAntecedente;
@@ -69,6 +69,7 @@ public class GeneralHistory {
     }
 
     public void start(Integer rut) {
+        System.out.println("holo");
         this.rut = rut;
         personId = personFacade.findByRut(rut);
         searchPatient = patientFacade.searchByPerson(personId);
@@ -87,6 +88,7 @@ public class GeneralHistory {
                 }
             }
         }
+        RequestContext.getCurrentInstance().execute("dialogGeneralHistory.show()");
     }
 
     public void save() {
