@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"        
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+
+            <div>
+
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+
+                    <h:form id="formul">
+                        <p:panel style="border: #ffffff">
+                            <div align="center">
+                                <p:panel id="datosInterconsulta">
+                                    <h3 style="font-weight: bold" align="center">SOLICITUD DE INTERCONSULTA O DERIVACIÓN</h3>
+                                    <h:panelGrid columns="2" cellpadding="5">
+                                        <h:outputLabel value="N° de folio: "/>
+                                        <p:outputLabel value="#"/>
+                                        <h:outputLabel value="Fecha solicitud: "/>
+                                        <p:outputLabel value="#{interconsultaMb.fecha}"/>
+                                        <h:outputLabel value="Hora: "/>
+                                        <p:outputLabel value="#{interconsultaMb.hora}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </div>
+
+                            <p:panel>
+                                <br/>
+                                <p:panel id="idAdmision">
+                                    <h5>Debe ser llenado de Admisión</h5>
+                                    <h:panelGrid columns="4" cellpadding="5" style="width: 100%">
+
+                                        <h:outputLabel value="Servicio de Salud: "/>
+                                        <p:inputText value="#{interconsultaMb.servicio}"/>
+                                        <h:outputLabel value="Establecimiento: "/>
+                                        <p:inputText value="#{interconsultaMb.establecimiento}"/>
+                                        <h:outputLabel value="Especialidad: "/>
+                                        <p:inputText value="#{interconsultaMb.especialidad}"/>
+                                        <h:outputLabel value="Unidad: "/>
+                                        <p:inputText value="#{interconsultaMb.unidad}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+
+
+
+                                <p:accordionPanel multiple="true">
+                                    <p:tab title="Datos Paciente">
+
+                                        <h:panelGrid id="idDatos2" columns="3" cellpadding="5" style="width: 100%; text-align: center">
+
+
+                                            <h:outputLabel  for="nombre" value="Nombre: "/>
+                                            <p:inputText id="nombre" value="#{interconsultaMb.nombrePac}">
+                                                <f:validator validatorId="Validator.NameValidator"/>
+                                            </p:inputText>
+                                            <p:message for="nombre" display="icon"/>
+
+                                            <h:outputLabel  value="Historia clínica: "/>
+                                            <p:inputText value="#{interconsultaMb.historiaCl}"/>
+                                            <p:outputLabel/>
+                                            <h:outputLabel for="run" value="R.U.N: "/>
+                                            <p:inputText id="run" value="#{interconsultaMb.runPac}">
+                                                <f:validator validatorId="Validator.RutValidator"/>
+                                            </p:inputText>
+                                            <p:message for="run" display="icon"/>
+
+                                            <h:outputLabel  for="runPapa" value="Si es recién nacido, RUT, de padre o madre beneficiario: "/>
+                                            <p:inputText id="runPapa" value="#{interconsultaMb.runPadre}">
+                                                <f:validator validatorId="Validator.RutValidator"/>
+                                            </p:inputText>
+                                            <p:message for="runPapa" display="icon"/>
+
+
+
+                                            <h:outputLabel value="Domicilio: "/>
+                                            <p:inputText value="#{interconsultaMb.domicilio}"/>
+                                            <p:outputLabel/>
+
+                                            <h:outputLabel value="Comuna de residencia: "/>
+                                            <p:inputText value="#{interconsultaMb.comuna}"/>
+                                            <p:outputLabel/>
+
+                                            <h:outputLabel for="tel1" value="Teléfono 1: "/>
+                                            <p:inputText id="tel1" value="#{interconsultaMb.tel1}">
+                                                <f:validator validatorId="Validator.PhoneValidator"/>
+                                            </p:inputText>
+                                            <p:message for="tel1" display="icon"/>
+
+                                            <h:outputLabel for="tel2" value="Teléfono 2: "/>
+                                            <p:inputText id="tel2" value="#{interconsultaMb.tel2}">
+                                                <f:validator validatorId="Validator.PhoneValidator"/>
+                                            </p:inputText>
+                                            <p:message for="tel2" display="icon"/>
+
+                                            <h:outputLabel  value="Sexo: "/>
+                                            <p:selectOneRadio value="#{interconsultaMb.sexo}">
+                                                <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                            </p:selectOneRadio>
+                                            <p:outputLabel/>
+                                            <h:outputLabel for="correo" value="Correo Electrónico: "/>
+                                            <p:inputText id="correo" value="#{interconsultaMb.correo}">
+                                                <f:validator validatorId="Validator.EmailValidator"/>
+                                            </p:inputText>
+                                            <p:message for="correo" display="icon"/>
+
+
+                                            <p:outputLabel value="Edad:"/>
+                                            <p:inputText value="#{interconsultaMb.edad}"/>
+                                            <p:selectOneMenu value="#{interconsultaMb.tiempoEdad}">
+                                                <f:selectItem itemLabel="Años" itemValue="Años" />
+                                                <f:selectItem itemLabel="Meses" itemValue="Meses" />
+                                                <f:selectItem itemLabel="Días" itemValue="Días" />
+                                                <f:selectItem itemLabel="Horas" itemValue="Horas" />
+
+                                            </p:selectOneMenu>
+
+                                            <p:outputLabel for="datetime" value="Fecha de nacimiento: " />
+                                            <p:calendar id="datetime" value="#{interconsultaMb.date9}" pattern="dd/MM/yyyy HH:mm" timeZone="TimeZone.getChile()"/>
+
+
+                                        </h:panelGrid>
+
+                                    </p:tab>
+
+                                    <p:tab title="Datos Clínicos">
+                                        <h5>Para ser llenado por el profesional que solicita la interconsulta o derivación</h5>
+                                        <h:panelGrid cellpadding="5" columns="4">
+                                            <h:outputLabel  value="Se deriva para atención en: "/>
+                                            <p:inputText value="#{interconsultaMb.atencion}"/>
+
+                                            <h:outputLabel  value="Establecimiento: "/>
+                                            <p:inputText value="#{interconsultaMb.establecimientoDer}"/>
+
+                                            <h:outputLabel  value="Especialidad: "/>
+                                            <p:inputText value="#{interconsultaMb.establecimientoDer}"/>
+                                            <h:outputLabel  value=""/>
+                                            <h:outputLabel  value=""/>
+
+                                            <h:outputLabel  value="Se envía a consulta para: "/>
+                                            <p:selectOneMenu id="idConsulta" value="#{interconsultaMb.consulta}">
+                                                <f:selectItem itemLabel="Confirmación diagnóstica" itemValue="Confirmación diagnóstica" />
+                                                <f:selectItem itemLabel="Realizar tratamiento" itemValue="Realizar tratamiento" />
+                                                <f:selectItem itemLabel="Seguimiento" itemValue="Seguimiento" />
+                                                <f:selectItem itemLabel="Otros" itemValue="Otros" />
+                                            </p:selectOneMenu>
+
+                                            <h:outputLabel  value="Especificar otros: "/>
+                                            <p:inputTextarea id="idOtros" value="#{interconsultaMb.otros}" rows="5" cols="30"/>
+
+
+                                            <h:outputLabel  value="¿Sospecha problema de salud AUGE?: "/>
+                                            <p:selectOneRadio value="#{interconsultaMb.problemaAuge}">
+                                                <f:selectItem itemLabel="Sí" itemValue="Sí" />
+                                                <f:selectItem itemLabel="No" itemValue="No" />                                         
+                                            </p:selectOneRadio>
+                                            <h:outputLabel  value="Especificar problema: "/>
+                                            <p:inputTextarea id="idProblema" value="#{interconsultaMb.descProblemaAuge}" rows="5" cols="30"/>
+
+                                            <h:outputLabel  value="Subgrupo o subproblema de salud AUGE (si corresponde): "/>
+                                            <p:inputTextarea id="idSubProblema" value="#{interconsultaMb.descSubProblema}" rows="5" cols="30"/>
+
+                                            <h:outputLabel  value="Hipótesis diagnóstica o diagnóstico: "/>
+                                            <p:inputTextarea id="idHipotesis" value="#{interconsultaMb.hipotesis}" rows="5" cols="30"/>
+
+                                            <h:outputLabel  value="Fundamentos del diagnóstico: "/>
+                                            <p:inputTextarea id="idFundDiag" value="#{interconsultaMb.fundamento}" rows="5" cols="30"/>
+
+                                            <h:outputLabel  value="Exámenes realizados: "/>
+                                            <p:inputTextarea id="idExRealizados" value="#{interconsultaMb.examenes}" rows="5" cols="30"/>
+
+                                        </h:panelGrid>
+
+                                    </p:tab>
+
+                                </p:accordionPanel>
+                                <p:panel header="Datos del profesional">
+                                    <h5>Para ser llenado en admisión, excepto la firma</h5>
+                                    <h:panelGrid columns="4" style="width: 100%" cellpadding="5">
+
+                                        <h:outputLabel for="nombreDoctor" value="Nombre: "/>
+                                        <p:inputText id="nombreDoctor" value="#{interconsultaMb.nombreDoc}">
+                                            <f:validator validatorId="Validator.NameValidator"/>
+                                        </p:inputText>
+                                        <p:message for="nombreDoctor" display="icon"/>
+                                        <h:outputLabel/>
+                                        <h:outputLabel for="rutDoctor" value="R.U.T: "/>
+                                        <p:inputText id="rutDoctor" value="#{interconsultaMb.runDoc}">
+                                            <f:validator validatorId="Validator.RutValidator"/>
+                                        </p:inputText>
+                                        <p:message for="rutDoctor" display="icon"/>
+                                        <p:outputLabel/>
+                                        <p:outputLabel/>
+                                        <p:outputLabel/>
+                                        <p:outputLabel/>
+                                        <p:outputLabel/>
+                                        <p:outputLabel/>
+                                        <p:outputLabel/>
+                                        <h:outputLabel value="Firma profesional: "/>
+                                        <p:outputLabel value="_________________________"/>                                       
+                                    </h:panelGrid>
+                                    <br/>
+                                    <br/>
+                                </p:panel>
+
+                                <!--holaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-->
+                                <div align="center">
+                                    <p:commandButton action="#{medicamentosMb.guardarInter()}" value="Validar" update="formul" icon="ui-icon-check"/>
+                                    <p:commandButton value="Imprimir" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-print"/>
+                                     </div>
+                                <p:dialog header="Values" modal="true" showEffect="clip" widgetVar="dlg" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                                    <div align="center">
+                                        <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                            <p:printer target="display" />
+                                        </p:commandButton>
+                                    </div>
+                                    <p:outputPanel id="display"  >
+                                        <h:form>
+
+                                            <h3 style="font-weight: bold" align="center">SOLICITUD DE INTERCONSULTA O DERIVACIÓN</h3>
+                                            <h4>Datos Establecimiento</h4>
+                                            <h:panelGrid columns="4" cellpadding="5" style="width: 100%">
+
+                                                <h:outputLabel value="Servicio de Salud: "/>
+                                                <h:outputText value="#{interconsultaMb.servicio}"/>
+                                                <h:outputLabel value="Establecimiento: "/>
+                                                <h:outputText value="#{interconsultaMb.establecimiento}"/>
+                                                <h:outputLabel value="Especialidad: "/>
+                                                <h:outputText value="#{interconsultaMb.especialidad}"/>
+                                                <h:outputLabel value="Unidad: "/>
+                                                <h:outputText value="#{interconsultaMb.unidad}"/>
+                                            </h:panelGrid>
+
+                                            <h4>Datos Paciente</h4>
+                                            <h:panelGrid columns="4" cellpadding="5">
+
+
+                                                <h:outputLabel  value="Nombre: "/>
+                                                <h:outputText value="#{interconsultaMb.nombrePac}"/>
+
+                                                <h:outputLabel  value="Historia clínica: "/>
+                                                <h:outputText value="#{interconsultaMb.historiaCl}"/>
+
+                                                <h:outputLabel  value="R.U.N: "/>
+                                                <h:outputText value="#{interconsultaMb.runPac}"/>
+
+                                                <h:outputLabel  value="Si es recién nacido, RUT, de padre o madre beneficiario: "/>
+                                                <h:outputText value="#{interconsultaMb.runPadre}"/>
+
+                                                <h:outputLabel value="Domicilio: "/>
+                                                <h:outputText value="#{interconsultaMb.domicilio}"/>
+
+                                                <h:outputLabel value="Comuna de residencia: "/>
+                                                <h:outputText value="#{interconsultaMb.comuna}"/>
+
+                                                <h:outputLabel value="Teléfono 1: "/>
+                                                <h:outputText value="#{interconsultaMb.tel1}"/>
+
+                                                <h:outputLabel value="Teléfono 2: "/>
+                                                <h:outputText value="#{interconsultaMb.tel2}"/>
+
+                                                <h:outputLabel  value="Sexo: "/>
+                                                <h:outputLabel value="#{interconsultaMb.sexo}"/>
+
+                                                <h:outputLabel value="Correo Electrónico: "/>
+                                                <h:outputText value="#{interconsultaMb.correo}"/>
+
+
+                                                <h:outputText value="Edad:"/>
+                                                <h:outputText value="#{interconsultaMb.edad}"/>
+                                                <h:outputLabel value="#{interconsultaMb.tiempoEdad}"/>
+                                                <h:outputText/>
+                                                <h:outputText value="Fecha de nacimiento: " />
+                                                <h:outputText value="#{interconsultaMb.date9}" />
+
+                                            </h:panelGrid>
+
+                                            <h4>Datos Interconsulta o Derivación</h4>
+                                            <h:panelGrid cellpadding="5" columns="4">
+                                                <h:outputLabel  value="Se deriva para atención en: "/>
+                                                <h:outputText value="#{interconsultaMb.atencion}"/>
+
+                                                <h:outputLabel  value="Establecimiento: "/>
+                                                <h:outputText value="#{interconsultaMb.establecimientoDer}"/>
+
+                                                <h:outputLabel  value="Especialidad: "/>
+                                                <h:outputText value="#{interconsultaMb.establecimientoDer}"/>
+                                                <h:outputLabel  value=""/>
+                                                <h:outputLabel  value=""/>
+
+                                                <h:outputLabel  value="Se envía a consulta para: "/>
+                                                <h:outputLabel  value="#{interconsultaMb.consulta}"/>
+
+                                                <h:outputLabel  value="Especificar otros: "/>
+                                                <h:outputText  value="#{interconsultaMb.otros}"/>
+
+
+                                                <h:outputLabel  value="¿Sospecha problema de salud AUGE?: "/>
+                                                <h:outputLabel  value="#{interconsultaMb.problemaAuge}"/>
+
+                                                <h:outputLabel  value="Especificar problema: "/>
+                                                <h:outputText value="#{interconsultaMb.descProblemaAuge}"/>
+
+                                                <h:outputLabel  value="Subgrupo o subproblema de salud AUGE (si corresponde): "/>
+                                                <h:outputText value="#{interconsultaMb.descSubProblema}"/>
+
+                                                <h:outputLabel  value="Hipótesis diagnóstica o diagnóstico: "/>
+                                                <h:outputText value="#{interconsultaMb.hipotesis}"/>
+
+                                                <h:outputLabel  value="Fundamentos del diagnóstico: "/>
+                                                <h:outputText value="#{interconsultaMb.fundamento}"/>
+
+                                                <h:outputLabel  value="Exámenes realizados: "/>
+                                                <h:outputText value="#{interconsultaMb.examenes}"/>
+
+                                            </h:panelGrid>
+
+                                            <h4>Datos Profesional</h4>
+                                            <h:panelGrid columns="4" style="width: 100%" cellpadding="5">
+
+                                                <h:outputLabel value="Nombre: "/>
+                                                <h:outputText value="#{interconsultaMb.nombreDoc}"/>
+                                                <h:outputLabel value="R.U.T: "/>
+                                                <h:outputText value="#{interconsultaMb.runDoc}"/>
+                                                <h:outputText/>
+                                                <h:outputText/>
+                                                <h:outputText/>
+                                                <h:outputText/>
+                                                <h:outputText/>
+                                                <h:outputText/>
+                                                <h:outputLabel value="Firma profesional: "/>
+                                                <p:outputLabel value="_________________________"/>                                       
+                                            </h:panelGrid>
+
+                                        </h:form>
+
+                                    </p:outputPanel>
+                                </p:dialog>
+
+
+
+
+
+                            </p:panel>
+                            <h6 align="right">Original: Establecimiento que recibe la referencia</h6>
+                        </p:panel>
+                    </h:form>
+
+                </div>
+            </div>
+        </div>
+    </h:body>
+
+</html>

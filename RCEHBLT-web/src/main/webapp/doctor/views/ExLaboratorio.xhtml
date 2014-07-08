@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+
+            <div>
+
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+
+                    <h:form>
+                        <p:panel style="border: #ffffff">
+
+                            <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE LABORATORIO</h3>
+                            <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                            <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+
+
+                            <p:panel>
+                                <br/>
+                                <p:panelGrid id="panelGeneral" columns="4" style="width: 100%;text-align: center">
+                                    <f:facet name="header">Datos Paciente</f:facet>
+
+                                    <h:outputLabel  value="Nombre: "/>
+                                    <p:outputLabel value="#{newConsultation.name}"/>
+
+                                    <h:outputLabel  value="Sexo: "/>
+                                    <p:outputLabel  id="sexo" value="M"/>
+
+                                    <h:outputLabel  value="R.U.N: "/>
+                                    <p:outputLabel  id="run" value="#{newConsultation.rut}"/>
+
+
+                                    <h:outputLabel  value="Edad: "/>
+                                    <p:outputLabel id="edad" value="20"/>
+
+                                    <h:outputLabel value="Dirección: "/>
+                                    <p:outputLabel id="direccion" value="calle 13"/>
+
+                                    <h:outputLabel  value="Procedencia: "/>
+                                    <p:outputLabel id="procedencia" value="chile"/>
+
+                                    <h:outputLabel  value="Prevision: "/>
+                                    <p:outputLabel id="prevision" value="Fonasa"/>
+
+
+                                    <h:outputLabel  value="Cama: "/>
+                                    <p:outputLabel id="cama" value="2"/>
+
+
+                                    <h:outputLabel  value="Diagnóstico: "/>
+                                    <p:outputLabel id="diag" value="-"/>
+
+                                    <h:outputLabel  value="Sala: "/>
+                                    <p:outputLabel id="sala" value="13"/>
+
+                                    <h:outputLabel  value="Fecha: "/>
+                                    <p:outputLabel id="fecha" value="12-12-2014"/>
+
+
+                                </p:panelGrid>
+                            </p:panel>
+                        </p:panel>
+                    </h:form>
+
+
+                    <p:panel id="cosa">
+                        <h:form>
+                            <p:accordionPanel multiple="true">
+                                <p:tab title="BIOQUIMICA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedBio}" layout="grid" columns="3">
+                                            <f:selectItems value="#{dialogView.exam}" var="exam" itemLabel="#{exam}" itemValue="#{exam}"  />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                    <h:panelGrid>
+                                        <h:panelGrid><h5>(*)Peso:____________kg.</h5></h:panelGrid>
+                                        <h:panelGrid><h5>Talla:____________cm.</h5></h:panelGrid>
+                                        <h:panelGrid><h5>Diuresis:____________ml.</h5></h:panelGrid>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="CITOQUIMICO DE LIQUIDO BIOLOGICO">
+                                    <h5>Tipo de liquido:__________________</h5>
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedCito}" layout="grid" columns="3" >
+                                            <f:selectItems value="#{dialogView.examCito}" var="exam" itemLabel="#{examCito}" itemValue="#{examCito}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="ORINA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedOrina}" layout="grid" columns="3">
+                                            <f:selectItems value="#{dialogView.examOrin}" var="exam" itemLabel="#{exam}" itemValue="#{exam}"/>
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                    <h:panelGrid  >
+                                        <h:panelGrid><h5>(**)Diuresis:_____________ml.</h5></h:panelGrid>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="MARCADORES TUMORALES">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedMarc}" layout="grid" columns="3" >
+                                            <f:selectItems value="#{dialogView.examMarc}" var="exam" itemLabel="#{examMarc}" itemValue="#{examMarc}" />
+                                        </p:selectManyCheckbox>
+
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="HEMATOLOGIA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedHemat}" layout="grid" columns="3">
+                                            <f:selectItems value="#{dialogView.examHemat}" var="exam" itemLabel="#{examHemat}" itemValue="#{examHemat}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="HORMONAS">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedHorm}" layout="grid" columns="3">
+                                            <f:selectItems value="#{dialogView.examHorm}" var="exam" itemLabel="#{examHorm}" itemValue="#{examHorm}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="3" >
+                                        <h:panelGrid><h5>(***)Diuresis:____________ml.</h5></h:panelGrid>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="INMUNOLOGÍA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{dialogView.selectedInmun}" layout="grid" columns="3" >
+                                            <f:selectItems value="#{dialogView.examInmun}" var="exam" itemLabel="#{examInmun}" itemValue="#{examInmun}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="VENEREAS">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox id="grid" value="#{dialogView.selectedVen}" layout="grid" columns="3">
+                                            <f:selectItems value="#{dialogView.examVen}" var="exam" itemLabel="#{examVen}" itemValue="#{examVen}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:accordionPanel>
+
+                            <h3>BACILOSCOPIAS (solicitud especial)</h3>
+                            <h3>NIVELES PLASMÁTICOS DROGAS (solicitud especial)</h3>
+                            <h3>OTROS...</h3>
+                            <p:inputTextarea id="desc" value="#{dialogView.description}" label="Description" rows="4" cols="50"/>
+
+
+                            <div align="center">
+                                <p:commandButton action="#{medicamentosMb.guardarLaboratorio()}" value="Guardar" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-check"/>
+                                 </div>
+                            <p:dialog header="Values" modal="true" showEffect="clip" widgetVar="dlg" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                                <div align="center">
+                                    <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                        <p:printer target="display" />
+                                    </p:commandButton>
+                                </div>
+                                <p:outputPanel id="display"  >
+                                    <h:form>
+
+                                        <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE LABORATORIO</h3>
+                                        <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                                        <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                                        <h:panelGrid columns="4" style="width: 100%">
+                                            <h:outputLabel  value="Nombre: "/>
+                                            <p:outputLabel value="#{newConsultation.name}" />
+                                            <h:outputLabel  value="R.U.N: "/>
+                                            <p:outputLabel  id="run" value="#{newConsultation.rut}"/>
+
+                                            <h:outputLabel  value="Sexo: "/>
+                                            <p:outputLabel  id="sexo" value="M"/>
+
+                                            <h:outputLabel  value="Edad: "/>
+                                            <p:outputLabel id="edad" value="20"/>
+
+                                            <h:outputLabel value="Dirección: "/>
+                                            <p:outputLabel id="direccion" value="calle 13"/>
+
+                                            <h:outputLabel  value="Procedencia: "/>
+                                            <p:outputLabel id="procedencia" value="chile"/>
+
+                                            <h:outputLabel  value="Sala: "/>
+                                            <p:outputLabel id="sala" value="2"/>
+
+                                            <h:outputLabel  value="Cama: "/>
+                                            <p:outputLabel id="cama" value="13"/>
+
+                                            <h:outputLabel  value="Fecha: "/>
+                                            <p:outputLabel id="fecha" value="12-12-2014"/>
+
+                                            <h:outputLabel  value="Diagnóstico: "/>
+                                            <p:outputLabel id="diag" value="-"/>
+
+                                            <h:outputLabel  value="Prevision: "/>
+                                            <p:outputLabel id="prevision" value="Fonasa"/>  
+                                        </h:panelGrid>
+                                        <c:if test="#{dialogView.mostrarBio()}">
+                                            <p:dataList value="#{dialogView.selectedBio}" var="exam" >
+                                                #{exam}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{dialogView.mostrarCito()}">
+                                        <p:dataList value="#{dialogView.selectedCito}" var="examCito" >
+                                            #{examCito}
+                                        </p:dataList>
+                                            </c:if>
+                                        <c:if test="#{dialogView.mostrarOrina()}">
+                                        <p:dataList value="#{dialogView.selectedOrina}" var="examOrina" >
+                                            #{examOrina}
+                                        </p:dataList>
+                                            </c:if>
+                                        <c:if test="#{dialogView.mostrarMarc()}">
+                                        <p:dataList value="#{dialogView.selectedMarc}" var="examMarc" >
+                                            #{examMarc}
+                                        </p:dataList>
+                                            </c:if>
+                                        <c:if test="#{dialogView.mostrarHemat()}">
+                                        <p:dataList value="#{dialogView.selectedHemat}" var="examHemat" >
+                                            #{examHemat}
+                                        </p:dataList>
+                                            </c:if>
+                                        <c:if test="#{dialogView.mostrarHorm()}">
+                                        <p:dataList value="#{dialogView.selectedHorm}" var="examHorm" >
+                                            #{examHorm}
+                                        </p:dataList>
+                                            </c:if>
+                                        <c:if test="#{dialogView.mostrarInmun()}">
+                                        <p:dataList value="#{dialogView.selectedInmun}" var="examInmun"  >
+                                            #{examInmun}
+                                        </p:dataList>
+                                            </c:if>
+                                        <c:if test="#{dialogView.mostrarVen()}">
+                                        <p:dataList value="#{dialogView.selectedVen}" var="examVen" >
+                                            #{examVen} 
+                                        </p:dataList>
+                                        </c:if>
+                                        
+                                        <p:panel>
+                                            <c:if test="#{dialogView.mostrarOtros()}">    
+                                            <h:outputText value="OTROS: #{dialogView.description}" />
+                                            </c:if>
+                                        </p:panel>
+                                        
+
+                                    </h:form>
+
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+
+                    </p:panel>
+                </div>
+            </div>
+        </div>
+    </h:body>
+
+</html>

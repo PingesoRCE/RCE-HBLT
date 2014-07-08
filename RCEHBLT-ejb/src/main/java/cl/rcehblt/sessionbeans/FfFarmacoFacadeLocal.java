@@ -6,6 +6,7 @@
 
 package cl.rcehblt.sessionbeans;
 
+import cl.rcehblt.entities.Farmaco;
 import cl.rcehblt.entities.FfFarmaco;
 import java.util.List;
 import javax.ejb.Local;
@@ -30,5 +31,7 @@ public interface FfFarmacoFacadeLocal {
     List<FfFarmaco> findRange(int[] range);
 
     int count();
+    public List<FfFarmaco> findId(int idfarmaco);
+    public List<FfFarmaco> findFarmacoId(Farmaco remedio);
     
 }

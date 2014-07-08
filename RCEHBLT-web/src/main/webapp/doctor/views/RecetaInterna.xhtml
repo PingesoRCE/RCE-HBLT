@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/print.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/images/background.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+
+
+            <div id="content" class="right_content">
+                <ui:insert name="content"></ui:insert>
+                <script language="JavaScript" type="text/javascript">
+                    function imprimir() {
+                        var bulean = document.getElementById('form1:texto').value;
+                        if (bulean === "Si") {
+                            window.print();
+                        }
+                    }
+                    function gopopup() {
+                        var rpta = document.getElementById('form1:texto1').value;
+                        if (rpta === "si") {
+
+                            popup.show();
+                        }
+                    }
+                </script>
+
+
+                <div class="printBlock" style="width: 100%" align="center">
+                    <h:form id="form1">    
+                        <p:panel id="panelGeneral" styleClass="printBlock" style="border: #ffffff;width: 100%;text-align: center">
+                            <p:growl id="messages" showDetail="true" life="800"/>
+                            <p:panel id="datoshospital">
+                                <h3 style="font-weight: bold" align="center">RECETA CHEQUE PARA ESTUPEFACIENTES Y PRODUCTOS PSICOTRÓPICOS</h3>
+                                <h4 align="center">"Receta válida para uso interno"</h4>
+
+
+
+
+
+                                <h:panelGrid columns="1" cellpadding="5" >
+                                    <h:outputLabel value="MINISTERIO DE SALUD PUBLICA"/>
+                                    <h:outputLabel value="SERVICIO DE SALUD M SUR"/>
+                                    <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+                                </h:panelGrid>
+                                <div align="right">
+                                    <h:panelGrid style="text-align: right" columns="2">
+                                        <p:outputLabel value="N°:"/>
+                                        <p:outputLabel value="1"/>
+                                    </h:panelGrid>
+                                </div>
+                            </p:panel>   
+
+                            
+
+                            <p:panel id="datosTodos">
+
+                                <p:panel id="datospaciente" header="Datos paciente">
+
+
+
+                                    <h:outputLabel  style="font-weight: bold" />
+                                    <br/>
+                                    <p:panelGrid columns="4" style="width: 100%;text-align: left">
+
+
+                                        <h:outputLabel  value="R.U.N paciente: "/>
+                                        <p:outputLabel  id="outRun" value="#{newConsultation.rut}"/>
+
+                                        <h:outputLabel  value="Nombre paciente: "/>
+                                        <p:outputLabel id="outNombre" value="#{newConsultation.name}"/>
+
+                                        <h:outputLabel  for="outEdad" value="Edad: "/>
+                                        <p:outputLabel id="outEdad"  value="23"/>
+
+
+
+                                        <h:outputLabel  value="N° ficha: "/>
+                                        <p:outputLabel id="outFicha" value="2"/>
+
+                                        <h:outputLabel  value="Domicilio: "/>
+                                        <p:outputLabel id="outDomicilio" value="calle 13"/>
+
+                                        <h:outputLabel  value="Tipo de atención: "/>
+                                        <p:outputLabel id="outTipo" value="Fonasa"/>
+
+                                        <h:outputLabel value="R.U.N de quien retira: "/>
+                                        <p:outputLabel/>
+
+                                        <h:outputLabel  value="Nombre de quien retira: "/>
+                                        <p:outputLabel/>
+
+                                        <h:outputLabel  value="Fecha: "/>
+                                        <p:outputLabel id="outFecha" value="23-20-100"/>
+
+                                    </p:panelGrid>
+
+                                </p:panel>
+
+                                <p:panelGrid columns="1" style="width: 100%;text-align: center">
+
+                                    <f:facet name="header">Rp.</f:facet>
+
+                                    <p:editor style="width: 100%"  id="editor" value="#{recetaIntMb.descripcion}"/>
+
+
+                                </p:panelGrid>
+
+
+                                <p:panel id="datosMedicamentos" header="Datos Medicamentos" styleClass="noPrintBlock" style="width: 100%;text-align: center">
+
+
+                                    <br/>
+                                    <h:panelGrid  columns="4" cellpadding="5">
+                                        <h:outputLabel  value="Medicamento: "/>
+                                        <p:autoComplete  dropdown="true" id="med" value="#{medicamentosMb.buscaFarmaco}" 
+                                                         completeMethod="#{medicamentosMb.complete2}" size="22" placeholder="Ingrese Farmaco...">
+                                            <p:ajax event="itemSelect" listener="#{medicamentosMb.mostrarForma()}" update="forma"/>
+
+                                        </p:autoComplete>
+
+
+                                        <h:outputLabel value="Forma farmacéutica: "/>
+                                        <p:selectOneMenu id="forma" value="#{medicamentosMb.ff}" >
+                                            <f:selectItem itemLabel="Seleccione forma" noSelectionOption="true" itemValue="#{n}" />
+                                            <f:selectItems value="#{medicamentosMb.formaFarm}"  var="n" itemLabel="#{n}" itemValue="#{n}"  />
+                                            <p:ajax listener="#{medicamentosMb.mostrarDosis()}" update="dosis"/>
+
+
+                                        </p:selectOneMenu>
+
+
+                                        <h:outputLabel  value="Periodo de tratamiento (días): "/>
+                                        <p:inputText id="per"  size="22" value="#{medicamentosMb.periodo}"/>
+
+                                        <h:outputLabel  for="dosis" value="Dosis de presentación: "/>
+                                        <p:selectOneMenu id="dosis" value="#{medicamentosMb.dosis2}" >
+
+                                            <f:selectItem itemLabel="Seleccione dosis" itemValue="#{null}" />
+                                            <f:selectItems value="#{medicamentosMb.dosis}"/>
+                                        </p:selectOneMenu>
+
+                                        <h:outputLabel value="Unidades a despachar: "/>
+                                        <p:inputText id="uni"  size="22" value="#{medicamentosMb.unidades}"/>
+
+                                        <p:commandButton action="#{medicamentosMb.validarBotonMas()}" update="tabla,med,forma,dosis,per,uni,message" id="iconPlus"  icon="ui-icon-plusthick" title="Icon Plus" />
+
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="datosDoctor" header="Datos Doctor">
+
+
+
+                                    <h:panelGrid  columns="2" cellpadding="5">
+                                        <h:outputLabel  value="Nombre doctor: "/>
+                                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+
+                                        <h:outputLabel value="R.U.N doctor: "/>
+                                        <p:outputLabel value="#{loginSessionMB.rut}"/>
+
+                                    </h:panelGrid>
+                                </p:panel>
+
+                                <p:panel id="listaMed">
+                                    <p:dataTable  id="tabla" value="#{medicamentosMb.recetaa}" var="med">
+                                                <f:facet name="header">
+                                                        Medicamentos
+                                                    </f:facet>
+                                                <p:column headerText="Nombre">
+                                            <h:outputText value="#{med.nombre}" />
+                                        </p:column>
+                                        <p:column headerText="Forma Farmaceutica">
+                                            <h:outputText value="#{med.forma}" />
+                                        </p:column>
+                                        <p:column headerText="Dosis">
+                                            <h:outputText value="#{med.dosis}" />
+                                        </p:column>
+                                        <p:column headerText="Periodo">
+                                            <h:outputText value="#{med.periodo}" />
+                                        </p:column>
+                                        <p:column headerText="Unidades">
+                                            <h:outputText  value="#{med.unidades}" />
+                                        </p:column>
+                                        <p:column style="width:4%;text-align: center">
+
+                                            <p:commandButton action="#{medicamentosMb.eliminarReceta(med.id)}" update="tabla" id="iconOnly"  icon="ui-icon-closethick" title="Icon Only" />
+
+                                        </p:column>
+
+                                            </p:dataTable>
+                                </p:panel>
+
+                                <p:panel>
+
+                                </p:panel>
+
+                                <p:panel  style="border: #ffffff">
+                                    <div align="right">
+                                        <h:panelGrid cellpadding="5" >
+
+                                            <br> </br>
+                                            <br> </br>
+
+                                            <h4 align="right">________________________</h4>
+                                            <h4 align="right">Firma/Timbre Médico</h4>
+
+
+
+
+                                        </h:panelGrid>
+
+                                    </div>
+                                </p:panel>
+                            </p:panel>
+
+
+
+                        </p:panel>
+
+                        <div class="noPrintBlock" align="center">
+                            <p:growl id="message" showDetail="true" life="3000"/>
+                            <p:commandButton action="#{medicamentosMb.guardarRecetaInterna(newConsultation.idConsultation)}" update="message"  value="Guardar" icon="ui-icon-check"/>
+                            <p:commandButton onclick="popup.show()" value="Imprimir" icon="ui-icon-print"/>
+
+
+
+                            <p:dialog id="pop" widgetVar="popup" header="Autenticacion" showEffect="fade" hideEffect="explode" >
+                                <h:panelGrid columns="2">
+
+                                    <p:outputLabel for="username" value="Usuario:" />
+                                    <p:inputText value="#{medicamentosMb.userPrint}"
+                                                 id="username" label="username" />
+
+                                    <p:outputLabel for="password" value="Contraseña" />
+                                    <p:password value="#{medicamentosMb.passPrint}"
+                                                id="password" label="password" />
+
+                                    <p:commandButton id="loginButton" value="Aceptar" actionListener="#{medicamentosMb.comparar()}" update="texto,message" oncomplete="imprimir()"/>
+
+                                    <p:inputText id="texto" type="hidden" value="#{medicamentosMb.verificar}"/>
+
+                                </h:panelGrid>
+                            </p:dialog>     
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>
+
+        </div>
+
+    </h:body>
+
+</html>

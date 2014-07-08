@@ -7,6 +7,7 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.DosisFf;
+import cl.rcehblt.entities.FormaFarmaceutica;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -30,5 +31,7 @@ public interface DosisFfFacadeLocal {
     List<DosisFf> findRange(int[] range);
 
     int count();
+    
+    public List<DosisFf> findDosisId(FormaFarmaceutica remedio);
     
 }

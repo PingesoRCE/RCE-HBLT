@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+            <div>
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+
+                    <h:form>    
+                        <p:panel id="panelGeneral" style="border: #ffffff">
+                            <p:growl id="messages" showDetail="true"/>
+                            <p:panel id="datoshospital">
+                                <h3 style="font-weight: bold" align="center">INDICACIONES</h3>
+                                
+
+
+
+
+                            
+                                <h:panelGrid columns="1" cellpadding="5" >
+                                    <h:outputLabel value="MINISTERIO DE SALUD PUBLICA"/>
+                                    <h:outputLabel value="SERVICIO DE SALUD M SUR"/>
+                                    <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+                                </h:panelGrid>
+                            </p:panel>   
+                            
+                            
+                            
+                            <p:panel id="datosTodos">
+                            
+                                <p:panel id="datospaciente" >
+
+
+
+                                    <div align="center">
+                                        <h:panelGrid width="100%" columns="6" cellpadding="5">
+                                        
+                                            
+                                        <p:dataList   type="ordered">
+                                            <f:facet name="header">
+                                                Receta
+                                            </f:facet>
+                                           
+                                        </p:dataList>
+                                        
+                                        <p:dataList   type="ordered">
+                                            <f:facet name="header">
+                                                Examenes
+                                            </f:facet>
+   
+                                        </p:dataList>
+                                        
+                                        <p:dataList   type="ordered">
+                                            <f:facet name="header">
+                                                Otros
+                                            </f:facet>
+   
+                                        </p:dataList>
+                                        
+
+                                    </h:panelGrid>
+</div>
+                                </p:panel>
+
+
+                                <p:panel id="botones">
+                                    <div align="center">
+                                    <h:panelGrid columns="6" cellpadding="5">
+                                        <p:splitButton value="Recetas" >
+                                            <p:menuitem value="Interna" url="RecetaInterna.xhtml"/>
+                                            <p:menuitem value="Externa" url="RecetaExterna.xhtml" />
+                                            
+                                        </p:splitButton>
+                                        
+                                        <p:splitButton value="Examenes" >
+                                            <p:menuitem value="Glicemia" url="ExGlicemia.xhtml"/>
+                                            <p:menuitem value="Elisa"  url="ExElisa.xhtml"/>
+                                            <p:menuitem value="Laboratorio" url="ExLaboratorio.xhtml" />
+                                            <p:menuitem value="Microbiologico" url="ExMicrobiologico.xhtml" />
+                                            <p:menuitem value="Radiologico" url="ExRadiologico.xhtml" />
+                                            
+                                        </p:splitButton>
+                                        
+                                        <p:splitButton value="Derivaciones"  >
+                                            <p:menuitem value="Interconsulta" url="Interconsulta.xhtml" />
+                                            <p:menuitem value="Contrareferencia" url="ContraRef.xhtml" />
+                                            
+                                            
+                                        </p:splitButton>
+                                    </h:panelGrid>
+                                    </div>
+                                </p:panel> 
+                                
+                                
+
+                                <p:panel  style="border: #ffffff">
+                                    <div align="right">
+                                        <h:panelGrid cellpadding="5" >
+
+                                                <br> </br>
+                                                <br> </br>
+
+                                                <h4 align="right">________________________</h4>
+                                                <h4 align="right">Firma/Timbre Médico</h4>
+
+
+
+
+                                        </h:panelGrid>
+
+                                    </div>
+                                </p:panel>
+                            </p:panel>
+
+
+
+                        </p:panel >
+                        
+                        <div id="bottom">
+                           
+                            <div align="center">
+                               
+                                <p:commandButton  value="Save" type="button" action="#{funcionQl.guardarReceta()}"/>                 
+                                    
+                            </div>
+                        </div>
+
+                    </h:form> 
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+
+</html>

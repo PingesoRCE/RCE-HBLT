@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top" class="noPrintBlock">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/print.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+
+
+            <div id="content" class="right_content">
+                <ui:insert name="content"></ui:insert>
+                <script language="JavaScript" type="text/javascript">
+                    function imprimir() {
+                        var bulean = document.getElementById('form1:texto').value;
+                        if (bulean === "Si") {
+                            window.print();
+                        }
+                    }
+                </script>
+
+
+                <div class="printBlock" style="width: 100%" align="center">
+                    <h:form id="form1">    
+                        <p:panel id="panelGeneral" style="border: #ffffff" styleClass="printBlock">
+                            <p:growl id="messages" showDetail="true" life="800"/>
+
+                            <p:panel id="datoshospital" style="width: 100%;text-align: center">
+                                <div align="center">
+
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h3 style="font-weight: bold" align="center">SOLICITUD EXAMENES MICROBIOLÓGICOS</h3>
+                                        <h4 style="font-weight: bold" align="center">MÉTODO PRESUNTIVO NO CONFIRMATORIO (ELISA)</h4>
+
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="2">
+                                        <h:outputText value="Tipo:" />
+                                        <h:outputText id="display" value="#{selectOneView.option}" style="font-weight: bold" />
+                                    </h:panelGrid>
+                                    
+                                </div>
+                            </p:panel>   
+
+
+                            <p:panel styleClass="noPrintBlock" id="radioo" style="width: 100%;text-align: center">
+                                <div align="center">
+                                    <h:panelGrid columns="5" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="Tipo Examen:" />
+                                        <p:selectOneRadio value="#{selectOneView.option}">
+                                            <f:selectItem itemLabel="VIH" itemValue="VIH" />
+                                            <f:selectItem itemLabel="HBs ag" itemValue="HBs ag" />
+                                            <f:selectItem itemLabel="HVC" itemValue="HVC" />
+                                            <p:ajax update="display" />
+                                        </p:selectOneRadio>
+
+                                        <p:spacer />
+
+                                    </h:panelGrid>                                                                              
+                                </div>
+                            </p:panel>
+
+
+
+                            
+
+                            <p:panel id="datosTodos" style="width: 100%;text-align: center">
+
+                                <p:panel id="datospaciente" header="Datos paciente">
+                                    <h:outputLabel  style="font-weight: bold" />
+                                    <br/>
+                                    <p:panelGrid columns="4" style="width: 100%;text-align: left">
+
+                                        <h:outputLabel  style="font-weight: bold" value="R.U.N paciente: "/>
+                                        <p:outputLabel  id="outRun" value="#{newConsultation.rut}"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Nombre paciente: "/>
+                                        <p:outputLabel id="outNombre" value="#{newConsultation.name}"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Fecha de nacimiento: "/>
+                                        <p:outputLabel id="outEdad" value="20"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Sexo: "/>
+                                        <p:outputLabel id="outSexo" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Domicilio: "/>
+                                        <p:outputLabel id="outDomicilio" value="calle 13"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Establecimiento: "/>
+                                        <p:outputLabel id="outEstablecimiento" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Servicio: "/>
+                                        <p:outputLabel id="outServicio" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Sala: "/>
+                                        <p:outputLabel id="outSala" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="N° ficha: "/>
+                                        <p:outputLabel id="outFicha" value="12"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Fecha: "/>
+                                        <p:outputLabel id="outFecha" value="12-12-2014"/>
+
+                                    </p:panelGrid>
+
+                                </p:panel>
+
+
+
+                                <p:panel id="diagnostic" style="width: 100%; text-align: center">
+                                    <div align="left">
+                                        <br/>
+                                        <h:panelGrid  columns="2" cellpadding="5" style="width: 100%;text-align: center">
+                                            <h:outputLabel  value="Diagnóstico clínico: "/>
+                                            <h:outputLabel value="__________________________"/>
+
+                                            <h:outputLabel value="Conducta de riesgo:"/>
+                                            <h:outputLabel value="__________________________"/>
+                                            
+                                            <h:outputLabel value="Nombre responsable toma de muestra:"/>
+                                            <h:outputLabel value="__________________________"/>
+
+                                        </h:panelGrid>
+                                        <br/>
+                                        
+                                    </div>
+                                    <div align="right">
+                                        <h:panelGrid cellpadding="5" style="text-align: right">
+                                            <br> </br>
+                                            <br> </br>
+                                            <h5 align="right">________________________</h5>
+                                            <h5 align="right">Firma/Timbre Médico</h5>
+                                        </h:panelGrid>
+                                    </div>
+
+
+                                </p:panel>
+
+                                <p:panel>
+                                    <h4 style="font-weight: bold">NOTA: TÉCNICA ELISA NO HACE DIAGNÓSTICO, REQUIERE TÉCNICAS DE CONFIRMACIÓN</h4>
+                                </p:panel>
+                            </p:panel>
+
+
+
+                        </p:panel>
+
+                        <div class="noPrintBlock">
+                            <p:commandButton action="#{medicamentosMb.guardarElisa()}" type="button" onclick="popup.show()" value="Imprimir" icon="ui-icon-print"  />
+                            <p:growl id="message" showDetail="true" life="2000"/>
+                            <p:dialog widgetVar="popup" header="Autenticacion" showEffect="fade" hideEffect="explode" >
+                                <h:panelGrid columns="2">
+
+                                    <p:outputLabel for="username" value="Usuario:" />
+                                    <p:inputText value="#{recetaexternaMb.userPrint}"
+                                                 id="username" label="username" />
+
+                                    <p:outputLabel for="password" value="Contraseña" />
+                                    <p:password value="#{recetaexternaMb.passPrint}"
+                                                id="password" label="password" />
+                                    <p:commandButton id="loginButton" value="Aceptar" actionListener="#{recetaexternaMb.comparar()}" update="texto,message" oncomplete="imprimir()"/>
+
+                                    <p:inputText id="texto" type="hidden" value="#{recetaexternaMb.verificar}"/>
+
+                                </h:panelGrid>
+                            </p:dialog>
+                        </div>
+
+                    </h:form>
+                </div>
+            </div>
+
+        </div>
+
+    </h:body>
+
+</html>

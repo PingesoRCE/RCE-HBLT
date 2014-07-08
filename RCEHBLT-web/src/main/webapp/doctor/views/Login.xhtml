@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/print.css"/>
+            <title>Login</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="conteiner">
+            
+            <h:form id="formLogin">                
+                <p:panel id="panel" header="Ingresar Usuario y Contraseña">
+                    <p:growl id="messages" showDetail="true"/>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <f:facet name="header">
+                            <p:messages id="msgs" />
+                        </f:facet>
+                        <h:outputLabel for="username" value="Usuario:" />
+                        <p:inputText value="#{loginMB.user}"
+                                     id="username" required="true" label="username" />
+
+                        <h:outputLabel for="password" value="Contraseña" />
+                        <p:password value="#{loginMB.password}"
+                                       id="password" required="true" label="password" />
+                        <f:facet name="footer">
+                            <p:commandButton id="loginButton" value="Login" icon="../images/login.png" update="panel"
+                                             
+                                              action="#{loginMB.login()}"/>
+                        </f:facet>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+        <script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed || !args.loggedIn) {
+            jQuery('#formLogin').effect("shake", { times:5 }, 100);
+        } 
+        else {
+            location.href=args.ruta;
+        }
+    }
+</script>
+    </h:body>
+</html>
+

@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+
+
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+
+            </style>
+            <h:form class="noPrintBlock">  
+
+                <p:menubar>
+
+                    <p:menuitem value="Inicio" icon="ui-icon-home" url="../views/inicio.xhtml" />
+
+                    <p:submenu label="Documentos" icon="ui-icon-document">
+                        <p:menuitem value="Receta Externa" url="../views/RecetaExterna.xhtml" icon="" />
+                        <p:menuitem value="Receta Interna" url="../views/RecetaInterna.xhtml" icon="" />
+
+                    </p:submenu>
+                    <p:submenu label="Exámenes" icon="ui-icon-document-b">
+                        <p:menuitem value="Laboratorio" url="../views/ExLaboratorio.xhtml" icon="" />
+                        <p:menuitem value="Alta" url="#" icon="" />
+
+                    </p:submenu>
+                    <f:facet name="options">
+                        <p:outputLabel value="Bienvenido " style="margin-right:10px"/>
+                        <p:outputLabel value="Dr. : " style="margin-right:10px"/>
+                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" style="margin-right:10px"/>
+                        <p:commandButton type="button" value="Cerrar Sesión" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+        </div>
+        <div>
+
+            <div>
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+                    <script language="JavaScript" type="text/javascript">
+                        function imprimir() {
+                            var bulean = document.getElementById('form1:texto').value;
+                            if (bulean === "Si") {
+                                window.print();
+                            }
+                        }
+                    </script>
+                    <div class="printBlock" style="width: 100%" align="center">
+                        <h:form id="form1">
+
+                            <p:panel id="panelGeneral" style="border: #ffffff" styleClass="printBlock">
+                                <p:growl id="messages" showDetail="true"/>
+                                <p:panel id="datoshospital">
+                                    <h3 style="font-weight: bold" align="center">RECETA RETENIDA</h3>
+                                    <h:panelGrid columns="1" cellpadding="5">
+                                        <h:outputLabel value="MINISTERIO DE SALUD PÚBLICA"/>
+                                        <h:outputLabel value="SERVICIO DE SALUD M. SALUD"/>
+                                        <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+                                    </h:panelGrid>
+
+                                </p:panel>
+
+
+                                <br/>
+
+
+
+                                <div>
+
+
+                                </div>
+                                <br/>
+                                <div>
+                                    <p:panelGrid columns="6" id="datosTodos" style="width: 100%;text-align: center">
+
+                                        <p:panelGrid columns="2" style="width: 100%;text-align: center">
+
+                                            <f:facet name="header">Datos Ficha</f:facet>
+
+                                            <h:outputLabel  value="N° ficha: "/>
+                                            <p:outputLabel id="outFicha" value="#{recetaexternaMb.ficha}"/>
+                                            <h:outputLabel  value="Fecha: "/>
+                                            <p:outputLabel id="outFecha" value="#{recetaexternaMb.fecha}"/>
+                                        </p:panelGrid>
+
+                                        <p:panelGrid columns="2" style="width: 100%;text-align: center;position: inherit">
+
+                                            <f:facet name="header">Datos Paciente</f:facet>
+
+                                            <h:outputLabel  value="R.U.N paciente: "/>
+                                            <p:outputLabel  id="outRun" value="#{recetaexternaMb.txt}"/>
+
+                                            <h:outputLabel  value="Nombre paciente: "/>
+                                            <p:outputLabel id="outNombre" value="#{recetaexternaMb.nombre}"/>
+
+                                            <h:outputLabel  for="outEdad" value="Edad: "/>
+                                            <p:outputLabel id="outEdad" value="#{recetaexternaMb.edad}"/>
+
+                                        </p:panelGrid >
+                                        <p:panelGrid columns="2" style="width: 100%;text-align: center">
+                                            <f:facet name="header">Datos Doctor</f:facet>
+                                            <h:outputLabel value="R.U.N doctor: "/>
+                                            <p:outputLabel id="runDoc" value="#{loginSessionMB.rut}"/>
+                                            <h:outputLabel  value="Nombre doctor: "/>
+                                            <p:outputLabel id="nombreDoc" value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+                                        </p:panelGrid>
+                                    </p:panelGrid>
+                                    <br/>
+                                    <p:panelGrid columns="1" style="width: 100%;text-align: center">
+
+                                        <f:facet name="header">Rp.</f:facet>
+
+                                        <p:editor style="width: 100%"  id="editor" value="#{recetaexternaMb.text}"/>
+
+
+                                    </p:panelGrid>
+
+                                </div>
+
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div>
+                                    <h4 align="right">________________________</h4>
+                                    <h4 align="right">Firma/Timbre Médico</h4>
+                                </div>
+                                <br/> 
+                                <br/> 
+                                <h4 align="left">Talón para adjuntar a la ficha clínica</h4>
+
+                            </p:panel>
+
+                            <div class="noPrintBlock">
+                                <p:commandButton type="button" onclick="popup.show()" value="Imprimir" icon="ui-icon-print"/>
+                                <p:growl id="message" showDetail="true" life="3000"/>
+                                <p:dialog widgetVar="popup" header="Autenticacion" showEffect="fade" hideEffect="explode" >
+                                    <h:panelGrid columns="2">
+
+                                        <p:outputLabel for="username" value="Usuario:" />
+                                        <p:inputText value="#{recetaexternaMb.userPrint}"
+                                                     id="username" label="username" />
+
+                                        <p:outputLabel for="password" value="Contraseña" />
+                                        <p:password value="#{recetaexternaMb.passPrint}"
+                                                    id="password" label="password" />
+                                        <p:commandButton value="Aceptar" actionListener="#{recetaexternaMb.comparar()}" update="texto,message" oncomplete="imprimir()"/>
+
+                                        <p:inputText id="texto" type="hidden" value="#{recetaexternaMb.verificar}"/>
+
+                                    </h:panelGrid>
+                                </p:dialog>
+                            </div>
+
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+
+</html>
+

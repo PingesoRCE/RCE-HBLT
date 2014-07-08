@@ -30,5 +30,7 @@ public interface FarmacoFacadeLocal {
     List<Farmaco> findRange(int[] range);
 
     int count();
+
+    public List<Farmaco> findNombre(String buscaFarmaco);
     
 }

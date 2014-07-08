@@ -7,9 +7,11 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.Farmaco;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -19,6 +21,7 @@ import javax.persistence.PersistenceContext;
 public class FarmacoFacade extends AbstractFacade<Farmaco> implements FarmacoFacadeLocal {
     @PersistenceContext(unitName = "cl_RCEHBLT-ejb_ejb_0.1PU")
     private EntityManager em;
+    private Object entrada;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -28,5 +31,10 @@ public class FarmacoFacade extends AbstractFacade<Farmaco> implements FarmacoFac
     public FarmacoFacade() {
         super(Farmaco.class);
     }
+    @Override
+     public List<Farmaco> findNombre(String buscaFarmaco){
+         Query q=em.createNamedQuery("Farmaco.findByNombrefarmaco").setParameter("nombrefarmaco", entrada);
+        return q.getResultList();
+     }
     
 }

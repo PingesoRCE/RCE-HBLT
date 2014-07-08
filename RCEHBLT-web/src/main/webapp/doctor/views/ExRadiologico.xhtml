@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+    <h:body>
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+
+            <div>
+
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+
+                    <h:form>
+                        <p:panel style="border: #ffffff">
+
+                            <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN RADIOLOGICO</h3>
+                            <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                            <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                            <p:panel>
+                                <br/>
+                                <p:panelGrid id="panelGeneral" columns="4" style="width: 100%;text-align: center">
+                                    <f:facet name="header">Datos Paciente</f:facet>
+
+                                    <h:outputLabel  value="Nombre: "/>
+                                    <p:outputLabel value="#{newConsultation.name}"/>
+
+                                    <h:outputLabel  value="R.U.N: "/>
+                                    <p:outputLabel  id="run" value="#{newConsultation.rut}"/>
+
+                                    <h:outputLabel  value="Edad: "/>
+                                    <p:outputLabel id="edad" value="20"/>
+
+                                    <h:outputLabel  value="Cama: "/>
+                                    <p:outputLabel id="cama" value="2"/>
+
+                                    <h:outputLabel  value="Sala: "/>
+                                    <p:outputLabel id="sala" value="13"/>
+
+                                    <h:outputLabel  value="Fecha: "/>
+                                    <p:outputLabel id="fecha" value="12-12-2014"/>
+
+                                    <h:outputLabel  value="Diagnóstico y sintomas principales: "/>
+                                    <p:outputLabel id="diag" value="-"/>
+
+                                    <h:outputLabel  value="Nombre Médico: "/>
+                                    <p:outputLabel  value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" />
+
+                                </p:panelGrid>
+                            </p:panel>
+                            <h:outputLabel  value="Examen Solicitado: "/>
+                            <p:selectManyCheckbox  value="#{check.selectedExam}" layout="grid" columns="3">
+                                <f:selectItems value="#{check.exam}" var="exam" itemLabel="#{exam}" itemValue="#{exam}" />
+                            </p:selectManyCheckbox>
+                            <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                <p:outputLabel value="Exámenes radiológicos anteriores practicados en el servicio:" />
+                                <p:selectOneRadio id="yesno" value="#{check.select}">
+                                    <f:selectItem itemLabel="SI" itemValue="SI" value="#{check.select}" />
+                                    <f:selectItem itemLabel="NO" itemValue="NO" value="#{check.select}" />
+                                </p:selectOneRadio>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <p:outputLabel value="N°: "/>
+                                <p:inputText value="#{check.numero}" />
+                                <p:outputLabel for="datetime" value="Fecha y Hora: " />
+                                <p:calendar id="datetime" value="#{check.date9}" pattern="dd/MM/yyyy HH:mm" timeZone="TimeZone.getChile()"/>
+
+                            </h:panelGrid>
+
+                            <h:panelGrid columns="1">
+                                <br/>
+                                <p:outputLabel value="Exámen efectuado por:____________________________________________"/>
+                                <br/>
+                                <p:outputLabel value="Exámen ensobrado por:___________________________________________"/>
+                                <br/>
+                                <p:outputLabel value="Exámen pendiente por:____________________________________________"/>
+
+                            </h:panelGrid>
+                            <p:panel>
+                                <p:dataTable var="table" value="tabla" >
+                                    <p:column headerText="13x18"  >
+                                        <h:inputTextarea style="visibility: collapse;width: 20px"/>
+                                    </p:column>
+
+                                    <p:column headerText="18x24">
+                                        <h:outputText value="&nbsp; " />
+                                    </p:column>
+
+                                    <p:column headerText="20x30">
+                                        <h:outputText value="&nbsp; " />
+                                    </p:column>
+
+                                    <p:column headerText="30x40">
+                                        <h:outputText value="&nbsp; " />
+                                    </p:column>
+
+                                    <p:column headerText="35x35">
+                                        <h:outputText value="&nbsp; " />
+                                    </p:column>
+
+                                    <p:column headerText="ABREU">
+                                        <h:outputText value="&nbsp; " />
+                                    </p:column>
+                                </p:dataTable>
+                            </p:panel>
+                            <p style="font-weight: bold">NOTA: Adjunte esta papeleta las radiografías que están en el Servicio</p>
+
+                            <div align="center">
+                                <p:commandButton action="#{medicamentosMb.guardarRadiologico()}" value="Guardar" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-check"/>
+                                 </div>
+                            <p:dialog header="Values" modal="true" showEffect="clip" widgetVar="dlg" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                                <div align="center">
+                                    <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                        <p:printer target="display" />
+                                    </p:commandButton>
+                                </div>
+                                <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN RADIOLOGICO</h3>
+                                <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                                <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                                <p:panel id="display">
+                                    <p:panelGrid columns="4" style="width: 100%;text-align: center">
+                                        <f:facet name="header">Datos Paciente</f:facet>
+
+                                        <h:outputLabel  value="Nombre: "/>
+                                        <p:outputLabel value="#{newConsultation.name}"/>
+
+                                        <h:outputLabel  value="R.U.N: "/>
+                                        <p:outputLabel  id="run2" value="#{newConsultation.rut}"/>
+
+                                        <h:outputLabel  value="Edad: "/>
+                                        <p:outputLabel id="edad2" value="20"/>
+
+                                        <h:outputLabel  value="Cama: "/>
+                                        <p:outputLabel id="cama2" value="2"/>
+
+                                        <h:outputLabel  value="Sala: "/>
+                                        <p:outputLabel id="sala2" value="13"/>
+
+                                        <h:outputLabel  value="Fecha: "/>
+                                        <p:outputLabel id="fecha2" value="12-12-2014"/>
+
+                                        <h:outputLabel  value="Diagnóstico y sintomas principales: "/>
+                                        <p:outputLabel id="diag2" value="-"/>
+
+                                        <h:outputLabel  value="Nombre Médico: "/>
+                                        <p:outputLabel  value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" />
+
+                                    </p:panelGrid>
+                                    <p:panelGrid columns="2" columnClasses="label,value">
+                                        <h:outputText value="Exámenes radiológicos anteriores practicados en el servicio:" />
+                                        <h:outputText value="#{check.select}" />
+                                        <h:outputText value="N°:" />
+                                        <h:outputText value="#{check.numero}"/>
+                                        <h:outputText value="Examen solicitado:" />
+                                        <p:dataList value="#{check.selectedExam}" var="exam">
+                                            #{exam}
+                                        </p:dataList>
+                                        <h:outputText value="Fecha y hora:" />
+                                        <h:outputText value="#{check.date9}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                        </h:outputText>
+
+                                    </p:panelGrid>
+
+                                </p:panel>
+
+                            </p:dialog>
+                        </p:panel>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </h:body>
+</html>
+

@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <p:growl id="growl" showDetail="true"/>
     <h:form id="buscaPaciente">
@@ -292,20 +293,20 @@
                                         <p:menuitem value="Interna" url="javascript:new_window('views/RecetaInterna.xhtml')"/>
                                         <p:menuitem value="Externa" url="javascript:new_window('views/RecetaExterna.xhtml')" />
                                     </p:splitButton>
-                                    <p:splitButton value="Examenes" >
-                                        <p:menuitem value="Glicemia" url="javascript:new_window('views/ExGlicemia.xhtml')"/>
-                                        <p:menuitem value="Elisa"  url="javascript:new_window('views/ExElisa.xhtml')"/>
-                                        <p:menuitem value="Laboratorio" url="javascript:new_window('views/ExLaboratorio.xhtml')" />
-                                        <p:menuitem value="Microbiologico" url="javascript:new_window('views/ExMicrobiologico.xhtml')" />
-                                        <p:menuitem value="Radiologico" url="javascript:new_window('views/ExRadiologico.xhtml')" />
-                                        <p:menuitem value="Electrocardiograma" url="javascript:new_window('views/ExElectroCG.xhtml')" />
-                                        <p:menuitem value="TNS" url="javascript:new_window('views/ExTns.xhtml')" />
-                                    </p:splitButton>
-                                    <p:splitButton value="Derivaciones"  >
-                                        <p:menuitem value="Interconsulta" url="javascript:new_window('views/Interconsulta.xhtml')" />
-                                        <p:menuitem value="Contrareferencia" url="javascript:new_window('views/ContraRef.xhtml')" />
-                                    </p:splitButton>
-                                    <p:commandButton icon="ui-icon-arrowrefresh-1-w" update=":newConsultationForm"/>
+                                        <p:splitButton value="Examenes" >
+                                            <p:menuitem value="Glicemia" onclick="dialogGlicemia.show()" icon="ui-icon-document" url="#"/>
+                                            <p:menuitem value="Elisa" onclick="dialogElisa.show()" icon="ui-icon-document" url="#"/>
+                                            <p:menuitem value="Laboratorio" onclick="dialogLaboratorio.show()" icon="ui-icon-document" url="#" />
+                                            <p:menuitem value="Microbiologico" onclick="dialogMicrobiologico.show()" icon="ui-icon-document" url="#" />
+                                            <p:menuitem value="Radiologico" onclick="dialogRadiologico.show()" icon="ui-icon-document" url="#" />
+                                            <p:menuitem value="Electrocardiograma" onclick="dialogElectro.show()" icon="ui-icon-document" url="#" />
+                                            <p:menuitem value="TNS" onclick="dialogTns.show()" icon="ui-icon-document" url="#" />
+                                        </p:splitButton>
+                                        <p:splitButton value="Derivaciones"  >
+                                            <p:menuitem value="Interconsulta" onclick="dialogInterconsulta.show()" icon="ui-icon-document" url="#"  />
+                                            <p:menuitem value="Contrareferencia" onclick="dialogContraref.show()" icon="ui-icon-document" url="#"  />
+                                        </p:splitButton>
+                                        <p:commandButton icon="ui-icon-arrowrefresh-1-w" update=":newConsultationForm"/>
                                 </h:panelGrid>
                             </p:tab>
                         </p:tabView>
@@ -1176,6 +1177,1352 @@
             </p:panelGrid>
         </h:form>
     </p:dialog>
+    <!-- Receta Interna -->
+        <p:dialog header="Receta Interna" id="interna" widgetVar="dialogInterna" minimizable="true" resizable="false">
+            <p:scrollPanel style="width: 1000px; height: 500px" mode="native">
+                <h:form id="dielogInternaForm">
+                    <p:panelGrid columns="1" style="width: 100%;text-align: center">
+                        <f:facet name="header">Rp.</f:facet>
+                        <p:editor style="width: 100%;height: 70%"  id="editor" value="#{medicamentosMb.descripcion}"/>
+                    </p:panelGrid>
+                    <p:panel id="datosMedicamentos" header="Datos Medicamentos" styleClass="noPrintBlock" style="width: 100%;text-align: center">
+                        <br/>
+                        <h:panelGrid  columns="4" cellpadding="5">
+                            <h:outputLabel  value="Medicamento: "/>
+                            <p:autoComplete  dropdown="true" id="med" value="#{medicamentosMb.buscaFarmaco}" 
+                                             completeMethod="#{medicamentosMb.complete2}" size="22" placeholder="Ingrese Farmaco...">
+                                <p:ajax event="itemSelect" listener="#{medicamentosMb.mostrarForma()}" update="forma"/>
+                            </p:autoComplete>
+                            <h:outputLabel value="Forma farmacéutica: "/>
+                            <p:selectOneMenu id="forma" value="#{medicamentosMb.ff}" >
+                                <f:selectItem itemLabel="Seleccione forma" noSelectionOption="true" itemValue="#{n}" />
+                                <f:selectItems value="#{medicamentosMb.formaFarm}"  var="n" itemLabel="#{n}" itemValue="#{n}"  />
+                                <p:ajax listener="#{medicamentosMb.mostrarDosis()}" update="dosis"/>
+                            </p:selectOneMenu>
+                            <h:outputLabel  value="Periodo de tratamiento (días): "/>
+                            <p:inputText id="per"  size="22" value="#{medicamentosMb.periodo}"/>
+                            <h:outputLabel  for="dosis" value="Dosis de presentación: "/>
+                            <p:selectOneMenu id="dosis" value="#{medicamentosMb.dosis2}" >
+                                <f:selectItem itemLabel="Seleccione dosis" itemValue="#{null}" />
+                                <f:selectItems value="#{medicamentosMb.dosis}"/>
+                            </p:selectOneMenu>
+                            <h:outputLabel value="Unidades a despachar: "/>
+                            <p:inputText id="uni"  size="22" value="#{medicamentosMb.unidades}"/>
+                            <p:commandButton action="#{medicamentosMb.validarBotonMas()}" update="tabla,med,forma,dosis,per,uni,message" id="iconPlus"  icon="ui-icon-plusthick" title="Icon Plus" />
+                        </h:panelGrid>
+                    </p:panel>
+                    <p:panel id="listaMed">
+                        <p:dataTable  id="tabla" value="#{medicamentosMb.recetaa}" var="med">
+                            <f:facet name="header">
+                                Medicamentos
+                            </f:facet>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{med.nombre}" />
+                            </p:column>
+                            <p:column headerText="Forma Farmaceutica">
+                                <h:outputText value="#{med.forma}" />
+                            </p:column>
+                            <p:column headerText="Dosis">
+                                <h:outputText value="#{med.dosis}" />
+                            </p:column>
+                            <p:column headerText="Periodo">
+                                <h:outputText value="#{med.periodo}" />
+                            </p:column>
+                            <p:column headerText="Unidades">
+                                <h:outputText  value="#{med.unidades}" />
+                            </p:column>
+                            <p:column style="width:4%;text-align: center">
+                                <p:commandButton action="#{medicamentosMb.eliminarReceta(med.id)}" update="tabla" id="iconOnly"  icon="ui-icon-closethick" title="Icon Only" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                    <div class="noPrintBlock" align="center">
+                        <p:growl id="message" showDetail="true" life="3000"/>
+                        <p:commandButton onclick="popup.show()" action="#{medicamentosMb.guardarRecetaInterna()}" update="message"  value="Guardar" icon="ui-icon-check"/>
+
+                        <p:dialog id="pop" widgetVar="popup" header="Autenticacion" showEffect="fade" hideEffect="explode" >
+                            <h:panelGrid columns="2">
+                                <p:outputLabel for="username" value="Usuario:" />
+                                <p:inputText value="#{medicamentosMb.userPrint}"
+                                             id="username" label="username" />
+                                <p:outputLabel for="password" value="Contraseña" />
+                                <p:password value="#{medicamentosMb.passPrint}"
+                                            id="password" label="password" />
+                                <p:commandButton id="loginButton" value="Aceptar" actionListener="#{medicamentosMb.comparar()}" update="texto,message" oncomplete="imprimirr()"/>
+                                <p:inputText id="texto" type="hidden" value="#{medicamentosMb.verificar}"/>
+                            </h:panelGrid>
+                        </p:dialog>     
+                    </div>
+                </h:form>
+            </p:scrollPanel>
+        </p:dialog>
+        <!-- Receta Externa -->
+        <p:dialog header="Receta Externa" id="externa" widgetVar="dialogExterna" minimizable="true" resizable="false">
+            <h:form id="dialogExternaForm">
+                <p:panel id="panelGeneral" style="border: #ffffff" styleClass="printBlock">
+                    <p:growl id="messages" showDetail="true" life="800"/>
+                    <p:panelGrid columns="1" style="width: 100%;text-align: center">
+                        <f:facet name="header">Rp.</f:facet>
+                        <p:editor style="width: 100%"  id="editor" value="#{recetaexternaMb.text}"/>
+                    </p:panelGrid>
+                </p:panel>
+
+                <div class="noPrintBlock">
+                    <p:growl id="message" showDetail="true" life="2000"/>
+                    <p:commandButton action="#{recetaexternaMb.guardarRecetaExterna()}" update="message"  value="Guardar" icon="ui-icon-check"/>
+                    <p:commandButton type="button" onclick="popup.show()" value="Imprimir" icon="ui-icon-print"/>
+                    <p:dialog widgetVar="popup" header="Autenticacion" showEffect="fade" hideEffect="explode" >
+                        <h:panelGrid columns="2">
+                            <p:outputLabel for="username" value="Usuario:" />
+                            <p:inputText value="#{recetaexternaMb.userPrint}"
+                                         id="username" label="username" />
+                            <p:outputLabel for="password" value="Contraseña" />
+                            <p:password value="#{recetaexternaMb.passPrint}"
+                                        id="password" label="password" />
+                            <!--<p:commandButton id="loginButton" value="Aceptar" actionListener="recetaexternaMb.comparar()" update="texto,message" oncomplete="imprimir()"/>-->
+                            <p:commandButton id="loginButton" value="Aceptar" onclick="RecetaExternaDlg.show()" update="form1"/>
+                            <p:inputText id="texto" type="hidden" value="#{recetaexternaMb.verificar}"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                    <p:dialog header="Receta Externa" id="recetaext" widgetVar="RecetaExternaDlg" minimizable="true" resizable="false">
+                        <h:form id="form1">
+                            <p:growl id="message" showDetail="true" life="2000"/>
+                            <p:commandButton value="Imprimir" type="button" actionListener="#{recetaexternaMb.comparar()}" update="texto,message"  oncomplete="imprimir()" icon="ui-icon-print" style="display:block;margin-bottom: 20px"/>
+                            <p:inputText id="texto" type="hidden" value="#{recetaexternaMb.verificar}"/>
+                            <p:outputPanel id="rece">
+
+                                <p:panel id="datoshospital">
+
+                                    <h:panelGrid columns="1" cellpadding="5">
+                                        <h3 style="font-weight: bold" align="center">RECETA RETENIDA</h3>
+                                        <h:outputLabel value="MINISTERIO DE SALUD PÚBLICA"/>
+                                        <h:outputLabel value="SERVICIO DE SALUD M. SALUD"/>
+                                        <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+
+                                    </h:panelGrid>
+                                    <div align="right">
+                                        <h:panelGrid style="text-align: right" columns="2">
+                                            <p:outputLabel value="N°:"/>
+                                            <p:outputLabel value="1"/>
+                                        </h:panelGrid>
+                                    </div>
+
+                                </p:panel>
+
+                                <div>
+                                    <p:panelGrid columns="6" id="datosTodos" style="width: 100%;text-align: center">
+
+                                        <p:panelGrid columns="2" style="width: 100%;text-align: center">
+
+                                            <f:facet name="header">Datos Ficha</f:facet>
+
+                                            <h:outputLabel  value="N° ficha: "/>
+                                            <p:outputLabel id="outFicha" value="#{recetaexternaMb.ficha}"/>
+                                            <h:outputLabel  value="Fecha: "/>
+                                            <p:outputLabel id="outFecha" value="#{recetaexternaMb.fecha}"/>
+                                        </p:panelGrid>
+
+                                        <p:panelGrid columns="2" style="width: 100%;text-align: center;position: inherit">
+
+                                            <f:facet name="header">Datos Paciente</f:facet>
+
+                                            <h:outputLabel  value="R.U.N paciente: "/>
+                                            <p:outputLabel  id="outRun" value="#{newConsultation.rut}"/>
+
+                                            <h:outputLabel  value="Nombre paciente: "/>
+                                            <p:outputLabel id="outNombre" value="#{newConsultation.name}"/>
+
+                                            <h:outputLabel  for="outEdad" value="Edad: "/>
+                                            <p:outputLabel id="outEdad" value="#{recetaexternaMb.edad}"/>
+
+                                        </p:panelGrid >
+                                        <p:panelGrid columns="2" style="width: 100%;text-align: center">
+                                            <f:facet name="header">Datos Doctor</f:facet>
+                                            <h:outputLabel value="R.U.N doctor: "/>
+                                            <p:outputLabel id="runDoc" value="#{loginSessionMB.rut}"/>
+                                            <h:outputLabel  value="Nombre doctor: "/>
+                                            <p:outputLabel id="nombreDoc" value="#{loginSessionMB.nombre}"/>
+                                        </p:panelGrid>
+                                    </p:panelGrid>
+                                    <br/>
+                                    <p:panelGrid columns="1" style="width: 100%;text-align: center">
+                                        <p:outputLabel value="Rp"/>
+                                        <p:outputLabel value="#{recetaexternaMb.text}"/>
+                                    </p:panelGrid>
+                                </div>
+                                <br/>
+                                <br/>
+                                <br/>
+                                <div>
+                                    <h4 align="right">________________________</h4>
+                                    <h4 align="right">Firma/Timbre Médico</h4>
+                                </div>
+                                <br/> 
+                                <br/> 
+                                <h4 align="left">Talón para adjuntar a la ficha clínica</h4>
+                            </p:outputPanel>
+                        </h:form>
+                    </p:dialog>
+                </div>
+            </h:form>
+        </p:dialog>
+        <!-- ExLaboratorio -->
+        <p:dialog header="Examen de Laboratorio" id="laboratorio" widgetVar="dialogLaboratorio" minimizable="true" resizable="false">
+            <p:scrollPanel style="width: 1000px; height: 500px" mode="native">
+                <h:form id="dialogLaboratorioForm">
+                    <p:panel id="cosa">
+                        <h:form>
+                            <p:accordionPanel multiple="true">
+                                <p:tab title="BIOQUIMICA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedBio}" layout="grid" columns="3">
+                                            <f:selectItems value="#{medicamentosMb.exam}" var="exam" itemLabel="#{exam}" itemValue="#{exam}"  />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                    <h:panelGrid>
+                                        <h:panelGrid><h5>(*)Peso:____________kg.</h5></h:panelGrid>
+                                        <h:panelGrid><h5>Talla:____________cm.</h5></h:panelGrid>
+                                        <h:panelGrid><h5>Diuresis:____________ml.</h5></h:panelGrid>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="CITOQUIMICO DE LIQUIDO BIOLOGICO">
+                                    <h5>Tipo de liquido:__________________</h5>
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedCito}" layout="grid" columns="3" >
+                                            <f:selectItems value="#{medicamentosMb.examCito}" var="exam" itemLabel="#{examCito}" itemValue="#{examCito}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="ORINA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedOrina}" layout="grid" columns="3">
+                                            <f:selectItems value="#{medicamentosMb.examOrin}" var="exam" itemLabel="#{exam}" itemValue="#{exam}"/>
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                    <h:panelGrid  >
+                                        <h:panelGrid><h5>(**)Diuresis:_____________ml.</h5></h:panelGrid>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="MARCADORES TUMORALES">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedMarc}" layout="grid" columns="3" >
+                                            <f:selectItems value="#{medicamentosMb.examMarc}" var="exam" itemLabel="#{examMarc}" itemValue="#{examMarc}" />
+                                        </p:selectManyCheckbox>
+
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="HEMATOLOGIA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedHemat}" layout="grid" columns="3">
+                                            <f:selectItems value="#{medicamentosMb.examHemat}" var="exam" itemLabel="#{examHemat}" itemValue="#{examHemat}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="HORMONAS">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedHorm}" layout="grid" columns="3">
+                                            <f:selectItems value="#{medicamentosMb.examHorm}" var="exam" itemLabel="#{examHorm}" itemValue="#{examHorm}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                    <h:panelGrid columns="3" >
+                                        <h:panelGrid><h5>(***)Diuresis:____________ml.</h5></h:panelGrid>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="INMUNOLOGÍA">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox  value="#{medicamentosMb.selectedInmun}" layout="grid" columns="3" >
+                                            <f:selectItems value="#{medicamentosMb.examInmun}" var="exam" itemLabel="#{examInmun}" itemValue="#{examInmun}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                                <p:tab title="VENEREAS">
+                                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+
+                                        <h:outputText value="" />
+                                        <p:selectManyCheckbox id="grid" value="#{medicamentosMb.selectedVen}" layout="grid" columns="3">
+                                            <f:selectItems value="#{medicamentosMb.examVen}" var="exam" itemLabel="#{examVen}" itemValue="#{examVen}" />
+                                        </p:selectManyCheckbox>
+                                    </h:panelGrid>
+                                </p:tab>
+                            </p:accordionPanel>
+
+                            <h3>BACILOSCOPIAS (solicitud especial)</h3>
+                            <h3>NIVELES PLASMÁTICOS DROGAS (solicitud especial)</h3>
+                            <h3>OTROS...</h3>
+                            <p:inputTextarea id="desc" value="#{medicamentosMb.description}" label="Description" rows="4" cols="50"/>
+                            <div align="center">
+                                <p:commandButton action="#{medicamentosMb.guardarLaboratorio()}" value="Guardar" update="display" oncomplete="PF('dlg1').show()" icon="ui-icon-check"/>
+                                 </div>
+                            <p:dialog header="Values" showEffect="clip" widgetVar="dlg1" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                                <div align="center">
+                                    <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                        <p:printer target="display" />
+                                    </p:commandButton>
+                                </div>
+                                <p:outputPanel id="display"  >
+                                    <h:form>
+
+                                        <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE LABORATORIO</h3>
+                                        <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                                        <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                                        <h:panelGrid columns="4" style="width: 100%">
+                                            <h:outputLabel  value="Nombre: "/>
+                                            <p:outputLabel value="#{newConsultation.name}" />
+                                            <h:outputLabel  value="R.U.N: "/>
+                                            <p:outputLabel  id="run" value="#{newConsultation.rut}"/>
+
+                                            <h:outputLabel  value="Sexo: "/>
+                                            <p:outputLabel  id="sexo" value="M"/>
+
+                                            <h:outputLabel  value="Edad: "/>
+                                            <p:outputLabel id="edad" value="20"/>
+
+                                            <h:outputLabel value="Dirección: "/>
+                                            <p:outputLabel id="direccion" value="calle 13"/>
+
+                                            <h:outputLabel  value="Procedencia: "/>
+                                            <p:outputLabel id="procedencia" value="chile"/>
+
+                                            <h:outputLabel  value="Sala: "/>
+                                            <p:outputLabel id="sala" value="2"/>
+
+                                            <h:outputLabel  value="Cama: "/>
+                                            <p:outputLabel id="cama" value="13"/>
+
+                                            <h:outputLabel  value="Fecha: "/>
+                                            <p:outputLabel id="fecha" value="12-12-2014"/>
+
+                                            <h:outputLabel  value="Diagnóstico: "/>
+                                            <p:outputLabel id="diag" value="-"/>
+
+                                            <h:outputLabel  value="Prevision: "/>
+                                            <p:outputLabel id="prevision" value="Fonasa"/>  
+                                        </h:panelGrid>
+                                        <c:if test="#{medicamentosMb.mostrarBio()}">
+                                            <p:dataList value="#{medicamentosMb.selectedBio}" var="exam" >
+                                                #{exam}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarCito()}">
+                                            <p:dataList value="#{medicamentosMb.selectedCito}" var="examCito" >
+                                                #{examCito}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarOrina()}">
+                                            <p:dataList value="#{medicamentosMb.selectedOrina}" var="examOrina" >
+                                                #{examOrina}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarMarc()}">
+                                            <p:dataList value="#{medicamentosMb.selectedMarc}" var="examMarc" >
+                                                #{examMarc}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarHemat()}">
+                                            <p:dataList value="#{medicamentosMb.selectedHemat}" var="examHemat" >
+                                                #{examHemat}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarHorm()}">
+                                            <p:dataList value="#{medicamentosMb.selectedHorm}" var="examHorm" >
+                                                #{examHorm}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarInmun()}">
+                                            <p:dataList value="#{medicamentosMb.selectedInmun}" var="examInmun"  >
+                                                #{examInmun}
+                                            </p:dataList>
+                                        </c:if>
+                                        <c:if test="#{medicamentosMb.mostrarVen()}">
+                                            <p:dataList value="#{medicamentosMb.selectedVen}" var="examVen" >
+                                                #{examVen} 
+                                            </p:dataList>
+                                        </c:if>
+
+                                        <p:panel>
+                                            <c:if test="#{medicamentosMb.mostrarOtros()}">    
+                                                <h:outputText value="OTROS: #{medicamentosMb.description}" />
+                                            </c:if>
+                                        </p:panel>
+                                    </h:form>
+                                </p:outputPanel>
+                            </p:dialog>
+                        </h:form>
+                    </p:panel>
+                </h:form> 
+            </p:scrollPanel>
+        </p:dialog>
+        <!-- ExGlicemia -->
+        <p:dialog header="Examen de Glicemia" id="glicemia" widgetVar="dialogGlicemia" minimizable="true" resizable="false">
+            <h:form id="dialogGlicemiaForm">
+                <p:panel styleClass="noPrintBlock" id="radio" style="width: 100%;text-align: center">
+                    <div align="center">
+                        <h:panelGrid columns="5" style="margin-bottom:10px" cellpadding="5">
+
+                            <p:selectOneRadio id="ayuna" value="#{medicamentosMb.ayuna}">
+                                <f:selectItem itemLabel="AYUNA" itemValue="AYUNA"  />
+                                <f:selectItem itemLabel="POST DESAYUNO" itemValue="POST DESAYUNO"  />
+                                <f:selectItem itemLabel="POST PRANDIAL" itemValue="POST PRANDIAL"  />
+
+                            </p:selectOneRadio>
+
+                            <p:spacer />
+
+                        </h:panelGrid>                                                                              
+                    </div>
+                </p:panel>
+                <p:panel id="fechac">
+                    <h:outputLabel  style="font-weight: bold" />
+                    <h:panelGrid columns="6" cellpadding="5">
+                        <p:outputLabel for="date" value="Fecha de citación: " />
+                        <p:inputText id="date" value="#{medicamentosMb.fechaC}"/>
+                    </h:panelGrid>
+                </p:panel>
+                <div align="center">
+                    <p:growl id="messages" showDetail="true" life="800"/>
+                    <p:commandButton action="#{medicamentosMb.guardarGlicemia()}" update="messages,radio,fechac,display" oncomplete="PF('dlg2').show()" value="Guardar" icon="ui-icon-check"/>
+                </div>
+                <p:dialog header="Values" showEffect="clip" widgetVar="dlg2" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                    <div align="center">
+                        <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                            <p:printer target="display" />
+                        </p:commandButton>
+                    </div>
+                    <p:outputPanel id="display"  >
+                        <h:form>
+
+                            <p:panel id="datoshospital">
+                                <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE GLICEMIA</h3>
+                                <h:panelGrid columns="1" cellpadding="5" >
+                                    <h:outputLabel value="MINISTERIO DE SALUD PUBLICA"/>
+                                    <h:outputLabel value="SERVICIO DE SALUD M SUR"/>
+                                    <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+                                </h:panelGrid>
+                            </p:panel>   
+                            <p:panel id="datosTodos">
+                                <p:panel id="datos" >
+                                    <p:outputLabel value="#{medicamentosMb.ayuna}"/>
+                                </p:panel>    
+                                <p:panel id="datospaciente" header="1.- Datos paciente:">
+                                    <h:outputLabel  style="font-weight: bold" />
+                                    <br/>
+                                    <h:panelGrid columns="4" cellpadding="4">
+                                        <h:outputLabel  value="R.U.N: "/>
+                                        <p:outputLabel  id="outRun" value="#{newConsultation.rut}"/>
+
+                                        <h:outputLabel  value="Nombre: "/>
+                                        <p:outputLabel id="outNombre" value="#{newConsultation.name}"/>
+                                        <h:outputLabel  value="N° ficha: "/>
+                                        <p:outputLabel id="outFicha" value="12"/>
+                                        <h:outputLabel  value="Fecha de Citacion: "/>
+                                        <h:outputText value="#{medicamentosMb.fechaC}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:panel id="datosDoctor" header="2.- Datos Doctor:">
+                                    <h:panelGrid  columns="6" cellpadding="5">
+                                        <h:outputLabel  value="Nombre: "/>
+                                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+                                        <h:outputLabel value="R.U.N: "/>
+                                        <p:outputLabel value="#{loginSessionMB.rut}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:panel  style="border: #ffffff">
+                                    <div align="right">
+                                        <h:panelGrid cellpadding="5" >
+                                            <br> </br>
+                                            <br> </br>
+                                            <h4 align="right">________________________</h4>
+                                            <h4 align="right">Firma/Timbre Médico</h4>
+                                        </h:panelGrid>
+                                    </div>
+                                </p:panel>
+                            </p:panel>
+                        </h:form>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+        </p:dialog>
+        <!-- ExRadiologico -->
+        <p:dialog header="Examen Radiologico" id="radiologico" widgetVar="dialogRadiologico" minimizable="true" resizable="false">
+            <h:form id="dialogRadiologicoForm">
+                <p:panel style="border: #ffffff">
+                    <h:outputLabel  value="Examen Solicitado: "/>
+                    <p:selectManyCheckbox  value="#{medicamentosMb.selectedExam}" layout="grid" columns="3">
+                        <f:selectItems value="#{medicamentosMb.examm}" var="exam" itemLabel="#{exam}" itemValue="#{exam}" />
+                    </p:selectManyCheckbox>
+                    <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exámenes radiológicos anteriores practicados en el servicio:" />
+                        <p:selectOneRadio id="yesno" value="#{medicamentosMb.select}">
+                            <f:selectItem itemLabel="SI" itemValue="SI"  />
+                            <f:selectItem itemLabel="NO" itemValue="NO"  />
+                        </p:selectOneRadio>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="N°: "/>
+                        <p:inputText value="#{medicamentosMb.numero}" />
+                        <p:outputLabel for="datetime" value="Fecha y Hora: " />
+                        <p:calendar id="datetime" value="#{medicamentosMb.date9}" pattern="dd/MM/yyyy HH:mm" timeZone="TimeZone.getChile()"/>
+
+                    </h:panelGrid>
+                    <div align="center">
+                        <p:commandButton action="#{medicamentosMb.guardarRadiologico()}" value="Guardar" update="display" oncomplete="PF('dlgrad').show()" icon="ui-icon-check"/>
+                    </div>
+                    <p:dialog header="Values" showEffect="clip" widgetVar="dlgrad" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                        <div align="center">
+                            <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </div>
+                        <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN RADIOLOGICO</h3>
+                        <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                        <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                        <p:panel id="display">
+                            <p:panelGrid columns="4" style="width: 100%;text-align: center">
+                                <f:facet name="header">Datos Paciente</f:facet>
+
+                                <h:outputLabel  value="Nombre: "/>
+                                <p:outputLabel value="#{episodes.name}"/>
+
+                                <h:outputLabel  value="R.U.N: "/>
+                                <p:outputLabel  id="run2" value="#{episodes.rut}"/>
+
+                                <h:outputLabel  value="Edad: "/>
+                                <p:outputLabel id="edad2" value="20"/>
+
+                                <h:outputLabel  value="Cama: "/>
+                                <p:outputLabel id="cama2" value="2"/>
+
+                                <h:outputLabel  value="Sala: "/>
+                                <p:outputLabel id="sala2" value="13"/>
+
+                                <h:outputLabel  value="Fecha: "/>
+                                <p:outputLabel id="fecha2" value="12-12-2014"/>
+
+                                <h:outputLabel  value="Diagnóstico y sintomas principales: "/>
+                                <p:outputLabel id="diag2" value="-"/>
+
+                                <h:outputLabel  value="Nombre Médico: "/>
+                                <p:outputLabel  value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" />
+
+                            </p:panelGrid>
+                            <p:panelGrid columns="2" columnClasses="label,value">
+                                <h:outputText value="Exámenes radiológicos anteriores practicados en el servicio:" />
+                                <h:outputText value="#{medicamentosMb.select}" />
+                                <h:outputText value="N°:" />
+                                <h:outputText value="#{medicamentosMb.numero}"/>
+                                <h:outputText value="Examen solicitado:" />
+                                <p:dataList value="#{medicamentosMb.selectedExam}" var="exam">
+                                    #{exam}
+                                </p:dataList>
+                                <h:outputText value="Fecha y hora:" />
+                                <h:outputText value="#{medicamentosMb.date9}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputText>
+
+                            </p:panelGrid>
+
+                        </p:panel>
+
+                    </p:dialog>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <!-- ExMicro -->
+        <p:dialog header="Examen Microbiologico" id="microbiologico" widgetVar="dialogMicrobiologico" minimizable="true" resizable="false">
+            <h:form id="dialogMicrobiologicoForm">
+                <p:panel id="cosa">
+                    <h:form>
+                        <p:accordionPanel multiple="true">
+                            <p:tab title="GENERAL">
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <h:outputText value="" />
+                                    <p:selectManyCheckbox  value="#{medicamentosMb.selectedBiio}" layout="grid" columns="3">
+                                        <f:selectItems value="#{medicamentosMb.exaam}" var="exam" itemLabel="#{exam}" itemValue="#{exam}" />
+                                    </p:selectManyCheckbox>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="CULTIVOS">
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <h5 style="font-weight: bold">Cultivo Cuantitativio A. Endotraqueal (Marque ambas opciones)</h5>
+                                    <h:outputText value="" />
+                                    <p:selectManyCheckbox  value="#{medicamentosMb.selectedCiito}" layout="grid" columns="3">
+                                        <f:selectItems value="#{medicamentosMb.exaamCito}" var="examCito" itemLabel="#{examCito}" itemValue="#{examCito}" />
+                                    </p:selectManyCheckbox>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <h5 style="font-weight: bold">Cultivo lavado broncoalvear</h5>
+                                    <h:outputText value="" />
+                                    <p:selectManyCheckbox  value="#{medicamentosMb.selectedCiito1}" layout="grid" columns="3">
+                                        <f:selectItems value="#{medicamentosMb.exaamCito1}" var="examCito1" itemLabel="#{examCito1}" itemValue="#{examCito1}" />
+                                    </p:selectManyCheckbox>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <h5 style="font-weight: bold">Liquido peritoneo dialisis (Marque ambas opciones)</h5>
+                                    <h:outputText value="" />
+                                    <p:selectManyCheckbox  value="#{medicamentosMb.selectedCiito2}" layout="grid" columns="3">
+                                        <f:selectItems value="#{medicamentosMb.exaamCito2}" var="examCito2" itemLabel="#{examCito2}" itemValue="#{examCito2}" />
+                                    </p:selectManyCheckbox>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+                                    <h5 style="font-weight: bold">Cultivo cuantitativo de tejido (Marque ambas opciones)</h5>
+                                    <h:outputText value="" />
+                                    <p:selectManyCheckbox  value="#{medicamentosMb.selectedCiito3}" layout="grid" columns="3">
+                                        <f:selectItems value="#{medicamentosMb.exaamCito3}" var="examCito3" itemLabel="#{examCito3}" itemValue="#{examCito3}" />
+                                    </p:selectManyCheckbox>
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
+                        <h3>OTROS...</h3>
+                        <p:inputTextarea id="desc" value="#{medicamentosMb.descriptiion}" label="Description" rows="4" cols="50"/>
+                        <div align="center">
+                            <p:commandButton action="#{medicamentosMb.guardarMicro()}" value="Guardar" update="display" oncomplete="PF('dlgmicro').show()" icon="ui-icon-check"/>
+                             </div>
+                        <p:dialog header="Values" showEffect="clip" widgetVar="dlgmicro" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                            <div align="center">
+                                <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                    <p:printer target="display" />
+                                </p:commandButton>
+                            </div>
+                            <p:outputPanel id="display"  >
+                                <h:form>
+
+                                    <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE LABORATORIO</h3>
+                                    <h4 align="center">Laboratorio Centralizado CDT CABL</h4>
+                                    <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                                    <h:panelGrid columns="4" style="width: 100%">
+                                        <h:outputLabel  value="Nombre: "/>
+                                        <p:outputLabel value="#{episodes.name}" />
+
+                                        <h:outputLabel  value="R.U.N: "/>
+                                        <p:outputLabel  id="run" value="#{episodes.rut}"/>
+
+                                        <h:outputLabel  value="Sexo: "/>
+                                        <p:outputLabel  id="sexo" value="M"/>
+
+                                        <h:outputLabel  value="Edad: "/>
+                                        <p:outputLabel id="edad" value="20"/>
+
+                                        <h:outputLabel value="Dirección: "/>
+                                        <p:outputLabel id="direccion" value="calle 13"/>
+
+                                        <h:outputLabel  value="Procedencia: "/>
+                                        <p:outputLabel id="procedencia" value="chile"/>
+
+                                        <h:outputLabel  value="Sala: "/>
+                                        <p:outputLabel id="sala" value="2"/>
+
+                                        <h:outputLabel  value="Cama: "/>
+                                        <p:outputLabel id="cama" value="13"/>
+
+                                        <h:outputLabel  value="Fecha: "/>
+                                        <p:outputLabel id="fecha" value="12-12-2014"/>
+
+                                        <h:outputLabel  value="Diagnóstico: "/>
+                                        <p:outputLabel id="diag" value="-"/>
+
+                                        <h:outputLabel  value="Prevision: "/>
+                                        <p:outputLabel id="prevision" value="Fonasa"/>  
+                                    </h:panelGrid>
+
+                                    <p:dataList style="te" value="#{medicamentosMb.selectedBiio}" var="exam" emptyMessage=" ">
+                                        #{exam}
+                                    </p:dataList>
+                                    <p:dataList value="#{medicamentosMb.selectedCiito}" var="examCito" emptyMessage=" ">
+                                        #{examCito}
+                                    </p:dataList>
+                                    <p:dataList value="#{medicamentosMb.selectedCiito1}" var="examOrina" emptyMessage=" ">
+                                        #{examOrina}
+                                    </p:dataList>
+                                    <p:dataList value="#{medicamentosMb.selectedCiito2}" var="examMarc" emptyMessage=" ">
+                                        #{examMarc}
+                                    </p:dataList>
+                                    <p:dataList value="#{medicamentosMb.selectedCiito3}" var="examHemat" emptyMessage=" ">
+                                        #{examHemat}
+                                    </p:dataList>
+                                    <p:panel>
+                                        <h:outputText value="OTROS: #{medicamentosMb.descriptiion}" />
+                                    </p:panel>
+
+                                </h:form>
+
+                            </p:outputPanel>
+                        </p:dialog>
+                    </h:form>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <!-- ExTns -->
+        <p:dialog header="Examen TNS" id="tns" widgetVar="dialogTns" minimizable="true" resizable="false">
+            <h:form id="dialogTnsForm">
+                <div align="center">
+                    <p:commandButton action="#{medicamentosMb.guardarTns()}" value="Guardar" update="display" oncomplete="PF('dlgtns').show()" icon="ui-icon-check"/>
+                     </div>
+                <p:dialog header="Values" showEffect="clip" widgetVar="dlgtns" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                    <div align="center">
+                        <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                            <p:printer target="display" />
+                        </p:commandButton>
+                    </div>
+                    <p:outputPanel id="display"  >
+                        <h:form>
+
+                            <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN TNS</h3>
+                            <h4 align="center">Complejo asistencial Barros Luco</h4>
+                            <h4 align="center">Servicio Obstetricia-Ginecologia</h4>
+                            <h4 align="center">Policlinico CAROP</h4>
+                            <br/>
+                            <br/>
+                            <div align="center">
+                                <p:panel header="Datos Examen">
+                                    <h:panelGrid cellpadding="5" columns="2">
+
+                                        <h:outputLabel  value="Nombre Medico:  "/>
+                                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+
+                                        <h:outputLabel  value="Nombre Paciente:  "/>
+                                        <p:outputLabel value="#{episodes.name}"/>
+
+                                        <h:outputLabel  value=" N° Ficha: "/>
+                                        <p:outputLabel value="12"/>
+
+                                        <h:outputLabel  value=" Diagnostico: "/>
+                                        <p:outputLabel value="#{diagnosticoMb.diagnostico}"/>
+
+                                        <h:outputText value="Fecha: "/>
+                                        <p:outputLabel value="#{medicamentosMb.fechaC}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </div>
+                        </h:form>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+        </p:dialog>
+        <!-- ExElisa -->
+        <p:dialog header="Examen Elisa" id="elisa" widgetVar="dialogElisa" minimizable="true" resizable="false">
+            <h:form id="dialogElisaForm">
+                <h:panelGrid columns="2">
+                    <h:outputText value="Tipo:" />
+                    <h:outputText value="#{selectOneView.option}" style="font-weight: bold" />
+                </h:panelGrid>
+                <p:panel id="radioo" style="width: 100%;text-align: center">
+                    <div align="center">
+                        <h:panelGrid columns="5" style="margin-bottom:10px" cellpadding="5">
+                            <h:outputText value="Tipo Examen:" />
+                            <p:selectOneRadio value="#{selectOneView.option}">
+                                <f:selectItem itemLabel="VIH" itemValue="VIH" />
+                                <f:selectItem itemLabel="HBs ag" itemValue="HBs ag" />
+                                <f:selectItem itemLabel="HVC" itemValue="HVC" />
+                                <p:ajax update="display" />
+                            </p:selectOneRadio>
+                        </h:panelGrid>
+                    </div>
+                </p:panel>
+                <div align="center">
+                    <p:commandButton action="#{medicamentosMb.guardarElisa()}" value="Guardar" update="display" oncomplete="PF('dlgelisa').show()" icon="ui-icon-check"/>
+                     </div>
+                <p:dialog header="Values" showEffect="clip" widgetVar="dlgelisa" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                    <div align="center">
+                        <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                            <p:printer target="display" />
+                        </p:commandButton>
+                    </div>
+                    <p:outputPanel id="display"  >
+                        <h:form>
+                            <h3 style="font-weight: bold" align="center">SOLICITUD EXAMENES MICROBIOLÓGICOS</h3>
+                            <h4 style="font-weight: bold" align="center">MÉTODO PRESUNTIVO NO CONFIRMATORIO (ELISA)</h4>
+
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Tipo:" />
+                                <h:outputText value="#{selectOneView.option}" style="font-weight: bold" />
+                            </h:panelGrid>
+                            <p:panel id="datosTodos" style="width: 100%;text-align: center">
+
+                                <p:panel id="datospaciente" header="Datos paciente">
+                                    <h:outputLabel  style="font-weight: bold" />
+                                    <br/>
+                                    <p:panelGrid columns="4" style="width: 100%;text-align: left">
+
+                                        <h:outputLabel  style="font-weight: bold" value="R.U.N paciente: "/>
+                                        <p:outputLabel  id="outRun" value="#{episodes.rut}"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Nombre paciente: "/>
+                                        <p:outputLabel id="outNombre" value="#{episodes.name}"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Fecha de nacimiento: "/>
+                                        <p:outputLabel id="outEdad" value="20"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Sexo: "/>
+                                        <p:outputLabel id="outSexo" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Domicilio: "/>
+                                        <p:outputLabel id="outDomicilio" value="calle 13"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Establecimiento: "/>
+                                        <p:outputLabel id="outEstablecimiento" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Servicio: "/>
+                                        <p:outputLabel id="outServicio" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Sala: "/>
+                                        <p:outputLabel id="outSala" value="-"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="N° ficha: "/>
+                                        <p:outputLabel id="outFicha" value="12"/>
+
+                                        <h:outputLabel  style="font-weight: bold" value="Fecha: "/>
+                                        <p:outputLabel id="outFecha" value="12-12-2014"/>
+                                    </p:panelGrid>
+                                </p:panel>
+                                <p:panel id="diagnostic" style="width: 100%; text-align: center">
+                                    <div align="left">
+                                        <br/>
+                                        <h:panelGrid  columns="2" cellpadding="5" style="width: 100%;text-align: center">
+                                            <h:outputLabel  value="Diagnóstico clínico: "/>
+                                            <h:outputLabel value="__________________________"/>
+
+                                            <h:outputLabel value="Conducta de riesgo:"/>
+                                            <h:outputLabel value="__________________________"/>
+
+                                            <h:outputLabel value="Nombre responsable toma de muestra:"/>
+                                            <h:outputLabel value="__________________________"/>
+                                        </h:panelGrid>
+                                        <br/>
+                                    </div>
+                                    <div align="right">
+                                        <h:panelGrid cellpadding="5" style="text-align: right">
+                                            <br> </br>
+                                            <br> </br>
+                                            <h5 align="right">________________________</h5>
+                                            <h5 align="right">Firma/Timbre Médico</h5>
+                                        </h:panelGrid>
+                                    </div>
+                                </p:panel>
+                                <p:panel>
+                                    <h4 style="font-weight: bold">NOTA: TÉCNICA ELISA NO HACE DIAGNÓSTICO, REQUIERE TÉCNICAS DE CONFIRMACIÓN</h4>
+                                </p:panel>
+                            </p:panel>
+                        </h:form>
+                    </p:outputPanel>
+                </p:dialog>
+            </h:form>
+        </p:dialog>
+        <!-- ExElectro -->
+        <p:dialog header="Examen Electrocardiograma" id="electro" widgetVar="dialogElectro" minimizable="true" resizable="false">
+            <h:form id="dialogElectroCGForm">
+                <p:panel>
+                    <h:panelGrid columns="2">
+                        <h:outputLabel  value="Obs. Clinica N°: "/>
+                        <p:inputText value="#{medicamentosMb.obs}"/>
+                        <h:outputLabel value="Referencia de electrocardiograma anteriores: "/>
+                        <p:inputText value="#{medicamentosMb.referencia}"/>
+                        <h:outputLabel value="Tratamiento previo (Digital Quinidina, etc): "/>
+                        <p:inputText value="#{medicamentosMb.tratamiento}"/>
+                    </h:panelGrid>
+                    <div align="center">
+                        <p:commandButton action="#{medicamentosMb.guardarElectro()}" value="Guardar" update="display" oncomplete="PF('dlgelectro').show()" icon="ui-icon-check"/>
+                         </div>
+                    <p:dialog header="Values" showEffect="clip" widgetVar="dlgelectro" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                        <div align="center">
+                            <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </div>
+                        <h3 style="font-weight: bold" align="center">ORDEN PARA E.C.G.</h3>
+                        <h4 align="center">Hospital Barros Luco</h4>
+                        <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                        <p:panel id="display">
+                            <p:panelGrid columns="4" style="width: 100%;text-align: center">
+                                <f:facet name="header">Datos Paciente</f:facet>
+
+                                <h:outputLabel  value="Nombre: "/>
+                                <p:outputLabel value="#{episodes.name}"/>
+
+                                <h:outputLabel  value="R.U.N: "/>
+                                <p:outputLabel  id="run2" value="#{episodes.rut}"/>
+
+                                <h:outputLabel  value="Edad: "/>
+                                <p:outputLabel id="edad2" value="20"/>
+
+                                <h:outputLabel  value="Cama: "/>
+                                <p:outputLabel id="cama2" value="2"/>
+
+                                <h:outputLabel  value="Sala: "/>
+                                <p:outputLabel id="sala2" value="13"/>
+
+                                <h:outputLabel  value="Fecha: "/>
+                                <p:outputLabel id="fecha2" value="12-12-2014"/>
+
+                                <h:outputLabel  value="Diagnóstico y sintomas principales: "/>
+                                <p:outputLabel id="diag2" value=""/>
+
+                                <h:outputLabel  value="Nombre Médico: "/>
+                                <p:outputLabel  value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" />
+
+                            </p:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="5">
+                                <h:outputLabel  value="Obs. Clinica N°: "/>
+                                <h:outputLabel value="#{medicamentosMb.obs}"/>
+                                <h:outputLabel value="Referencia de electrocardiograma anteriores: "/>
+                                <h:outputLabel value="#{medicamentosMb.referencia}"/>
+                                <h:outputLabel value="Tratamiento previo (Digital Quinidina, etc): "/>
+                                <h:outputLabel value="#{medicamentosMb.tratamiento}"/>
+                            </h:panelGrid>
+                            <br/>
+                            <br/>
+                            <p align="right">Firma Médico: _______________________________</p>
+                        </p:panel>
+
+                    </p:dialog>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <!-- Interconsulta -->
+        <p:dialog header="Interconsulta" id="interconsulta" widgetVar="dialogInterconsulta" minimizable="true" resizable="false">
+            <p:scrollPanel style="width: 1000px; height: 500px" mode="native">
+                <h:form id="dialogInterconsultaForm">
+                    <p:panel>
+                        <br/>
+                        <p:panel id="idAdmision">
+                            <h5>Debe ser llenado de Admisión</h5>
+                            <h:panelGrid columns="4" cellpadding="5" style="width: 100%">
+
+                                <h:outputLabel value="Servicio de Salud: "/>
+                                <p:inputText value="#{interconsultaMb.servicio}"/>
+                                <h:outputLabel value="Establecimiento: "/>
+                                <p:inputText value="#{interconsultaMb.establecimiento}"/>
+                                <h:outputLabel value="Especialidad: "/>
+                                <p:inputText value="#{interconsultaMb.especialidad}"/>
+                                <h:outputLabel value="Unidad: "/>
+                                <p:inputText value="#{interconsultaMb.unidad}"/>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:accordionPanel multiple="true">
+                            <p:tab title="Datos Paciente">
+
+                                <h:panelGrid id="idDatos2" columns="3" cellpadding="5" style="width: 100%; text-align: center">
+                                    <h:outputLabel  for="nombre" value="Nombre: "/>
+                                    <p:inputText id="nombre" value="#{interconsultaMb.nombrePac}">
+                                        <f:validator validatorId="Validator.NameValidator"/>
+                                    </p:inputText>
+                                    <p:message for="nombre" display="icon"/>
+
+                                    <h:outputLabel  value="Historia clínica: "/>
+                                    <p:inputText value="#{interconsultaMb.historiaCl}"/>
+                                    <p:outputLabel/>
+                                    <h:outputLabel for="run" value="R.U.N: "/>
+                                    <p:inputText id="run" value="#{interconsultaMb.runPac}">
+                                        <f:validator validatorId="Validator.RutValidator"/>
+                                    </p:inputText>
+                                    <p:message for="run" display="icon"/>
+
+                                    <h:outputLabel  for="runPapa" value="Si es recién nacido, RUT, de padre o madre beneficiario: "/>
+                                    <p:inputText id="runPapa" value="#{interconsultaMb.runPadre}">
+                                        <f:validator validatorId="Validator.RutValidator"/>
+                                    </p:inputText>
+                                    <p:message for="runPapa" display="icon"/>
+
+                                    <h:outputLabel value="Domicilio: "/>
+                                    <p:inputText value="#{interconsultaMb.domicilio}"/>
+                                    <p:outputLabel/>
+
+                                    <h:outputLabel value="Comuna de residencia: "/>
+                                    <p:inputText value="#{interconsultaMb.comuna}"/>
+                                    <p:outputLabel/>
+
+                                    <h:outputLabel for="tel1" value="Teléfono 1: "/>
+                                    <p:inputText id="tel1" value="#{interconsultaMb.tel1}">
+                                        <f:validator validatorId="Validator.PhoneValidator"/>
+                                    </p:inputText>
+                                    <p:message for="tel1" display="icon"/>
+
+                                    <h:outputLabel for="tel2" value="Teléfono 2: "/>
+                                    <p:inputText id="tel2" value="#{interconsultaMb.tel2}">
+                                        <f:validator validatorId="Validator.PhoneValidator"/>
+                                    </p:inputText>
+                                    <p:message for="tel2" display="icon"/>
+
+                                    <h:outputLabel  value="Sexo: "/>
+                                    <p:selectOneRadio value="#{interconsultaMb.sexo}">
+                                        <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                        <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                    </p:selectOneRadio>
+                                    <p:outputLabel/>
+                                    <h:outputLabel for="correo" value="Correo Electrónico: "/>
+                                    <p:inputText id="correo" value="#{interconsultaMb.correo}">
+                                        <f:validator validatorId="Validator.EmailValidator"/>
+                                    </p:inputText>
+                                    <p:message for="correo" display="icon"/>
+
+
+                                    <p:outputLabel value="Edad:"/>
+                                    <p:inputText value="#{interconsultaMb.edad}"/>
+                                    <p:selectOneMenu value="#{interconsultaMb.tiempoEdad}">
+                                        <f:selectItem itemLabel="Años" itemValue="Años" />
+                                        <f:selectItem itemLabel="Meses" itemValue="Meses" />
+                                        <f:selectItem itemLabel="Días" itemValue="Días" />
+                                        <f:selectItem itemLabel="Horas" itemValue="Horas" />
+
+                                    </p:selectOneMenu>
+
+                                    <p:outputLabel for="datetime" value="Fecha de nacimiento: " />
+                                    <p:calendar id="datetime" value="#{interconsultaMb.date9}" pattern="dd/MM/yyyy HH:mm" timeZone="TimeZone.getChile()"/>
+                                </h:panelGrid>
+                            </p:tab>
+                            <p:tab title="Datos Clínicos">
+                                <h5>Para ser llenado por el profesional que solicita la interconsulta o derivación</h5>
+                                <h:panelGrid cellpadding="5" columns="4">
+                                    <h:outputLabel  value="Se deriva para atención en: "/>
+                                    <p:inputText value="#{interconsultaMb.atencion}"/>
+
+                                    <h:outputLabel  value="Establecimiento: "/>
+                                    <p:inputText value="#{interconsultaMb.establecimientoDer}"/>
+
+                                    <h:outputLabel  value="Especialidad: "/>
+                                    <p:inputText value="#{interconsultaMb.establecimientoDer}"/>
+                                    <h:outputLabel  value=""/>
+                                    <h:outputLabel  value=""/>
+
+                                    <h:outputLabel  value="Se envía a consulta para: "/>
+                                    <p:selectOneMenu id="idConsulta" value="#{interconsultaMb.consulta}">
+                                        <f:selectItem itemLabel="Confirmación diagnóstica" itemValue="Confirmación diagnóstica" />
+                                        <f:selectItem itemLabel="Realizar tratamiento" itemValue="Realizar tratamiento" />
+                                        <f:selectItem itemLabel="Seguimiento" itemValue="Seguimiento" />
+                                        <f:selectItem itemLabel="Otros" itemValue="Otros" />
+                                    </p:selectOneMenu>
+
+                                    <h:outputLabel  value="Especificar otros: "/>
+                                    <p:inputTextarea id="idOtros" value="#{interconsultaMb.otros}" rows="5" cols="30"/>
+
+
+                                    <h:outputLabel  value="¿Sospecha problema de salud AUGE?: "/>
+                                    <p:selectOneRadio value="#{interconsultaMb.problemaAuge}">
+                                        <f:selectItem itemLabel="Sí" itemValue="Sí" />
+                                        <f:selectItem itemLabel="No" itemValue="No" />                                         
+                                    </p:selectOneRadio>
+                                    <h:outputLabel  value="Especificar problema: "/>
+                                    <p:inputTextarea id="idProblema" value="#{interconsultaMb.descProblemaAuge}" rows="5" cols="30"/>
+
+                                    <h:outputLabel  value="Subgrupo o subproblema de salud AUGE (si corresponde): "/>
+                                    <p:inputTextarea id="idSubProblema" value="#{interconsultaMb.descSubProblema}" rows="5" cols="30"/>
+
+                                    <h:outputLabel  value="Hipótesis diagnóstica o diagnóstico: "/>
+                                    <p:inputTextarea id="idHipotesis" value="#{interconsultaMb.hipotesis}" rows="5" cols="30"/>
+
+                                    <h:outputLabel  value="Fundamentos del diagnóstico: "/>
+                                    <p:inputTextarea id="idFundDiag" value="#{interconsultaMb.fundamento}" rows="5" cols="30"/>
+
+                                    <h:outputLabel  value="Exámenes realizados: "/>
+                                    <p:inputTextarea id="idExRealizados" value="#{interconsultaMb.examenes}" rows="5" cols="30"/>
+                                </h:panelGrid>
+                            </p:tab>
+                        </p:accordionPanel>
+                        <p:panel header="Datos del profesional">
+                            <h5>Para ser llenado en admisión, excepto la firma</h5>
+                            <h:panelGrid columns="4" style="width: 100%" cellpadding="5">
+
+                                <h:outputLabel for="nombreDoctor" value="Nombre: "/>
+                                <p:inputText id="nombreDoctor" value="#{interconsultaMb.nombreDoc}">
+                                    <f:validator validatorId="Validator.NameValidator"/>
+                                </p:inputText>
+                                <p:message for="nombreDoctor" display="icon"/>
+                                <h:outputLabel/>
+                                <h:outputLabel for="rutDoctor" value="R.U.T: "/>
+                                <p:inputText id="rutDoctor" value="#{interconsultaMb.runDoc}">
+                                    <f:validator validatorId="Validator.RutValidator"/>
+                                </p:inputText>
+                                <p:message for="rutDoctor" display="icon"/>
+                                <p:outputLabel/>                                     
+                            </h:panelGrid>
+                            <br/>
+                            <br/>
+                        </p:panel>
+                        <div align="center">
+                            <p:commandButton action="#{medicamentosMb.guardarInter()}" oncomplete="PF('dlginter').show()" value="Validar" update="display" icon="ui-icon-check"/>
+                             </div>
+                        <p:dialog header="Values" showEffect="clip" widgetVar="dlginter" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                            <div align="center">
+                                <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                    <p:printer target="display" />
+                                </p:commandButton>
+                            </div>
+                            <p:outputPanel id="display"  >
+                                <h:form>
+
+                                    <h3 style="font-weight: bold" align="center">SOLICITUD DE INTERCONSULTA O DERIVACIÓN</h3>
+                                    <h4>Datos Establecimiento</h4>
+                                    <h:panelGrid columns="4" cellpadding="5" style="width: 100%">
+
+                                        <h:outputLabel value="Servicio de Salud: "/>
+                                        <h:outputText value="#{interconsultaMb.servicio}"/>
+                                        <h:outputLabel value="Establecimiento: "/>
+                                        <h:outputText value="#{interconsultaMb.establecimiento}"/>
+                                        <h:outputLabel value="Especialidad: "/>
+                                        <h:outputText value="#{interconsultaMb.especialidad}"/>
+                                        <h:outputLabel value="Unidad: "/>
+                                        <h:outputText value="#{interconsultaMb.unidad}"/>
+                                    </h:panelGrid>
+
+                                    <h4>Datos Paciente</h4>
+                                    <h:panelGrid columns="4" cellpadding="5">
+
+
+                                        <h:outputLabel  value="Nombre: "/>
+                                        <h:outputText value="#{interconsultaMb.nombrePac}"/>
+
+                                        <h:outputLabel  value="Historia clínica: "/>
+                                        <h:outputText value="#{interconsultaMb.historiaCl}"/>
+
+                                        <h:outputLabel  value="R.U.N: "/>
+                                        <h:outputText value="#{interconsultaMb.runPac}"/>
+
+                                        <h:outputLabel  value="Si es recién nacido, RUT, de padre o madre beneficiario: "/>
+                                        <h:outputText value="#{interconsultaMb.runPadre}"/>
+
+                                        <h:outputLabel value="Domicilio: "/>
+                                        <h:outputText value="#{interconsultaMb.domicilio}"/>
+
+                                        <h:outputLabel value="Comuna de residencia: "/>
+                                        <h:outputText value="#{interconsultaMb.comuna}"/>
+
+                                        <h:outputLabel value="Teléfono 1: "/>
+                                        <h:outputText value="#{interconsultaMb.tel1}"/>
+
+                                        <h:outputLabel value="Teléfono 2: "/>
+                                        <h:outputText value="#{interconsultaMb.tel2}"/>
+
+                                        <h:outputLabel  value="Sexo: "/>
+                                        <h:outputLabel value="#{interconsultaMb.sexo}"/>
+
+                                        <h:outputLabel value="Correo Electrónico: "/>
+                                        <h:outputText value="#{interconsultaMb.correo}"/>
+
+
+                                        <h:outputText value="Edad:"/>
+                                        <h:outputText value="#{interconsultaMb.edad}"/>
+                                        <h:outputLabel value="#{interconsultaMb.tiempoEdad}"/>
+                                        <h:outputText/>
+                                        <h:outputText value="Fecha de nacimiento: " />
+                                        <h:outputText value="#{interconsultaMb.date9}" />
+
+                                    </h:panelGrid>
+
+                                    <h4>Datos Interconsulta o Derivación</h4>
+                                    <h:panelGrid cellpadding="5" columns="4">
+                                        <h:outputLabel  value="Se deriva para atención en: "/>
+                                        <h:outputText value="#{interconsultaMb.atencion}"/>
+
+                                        <h:outputLabel  value="Establecimiento: "/>
+                                        <h:outputText value="#{interconsultaMb.establecimientoDer}"/>
+
+                                        <h:outputLabel  value="Especialidad: "/>
+                                        <h:outputText value="#{interconsultaMb.establecimientoDer}"/>
+                                        <h:outputLabel  value=""/>
+                                        <h:outputLabel  value=""/>
+
+                                        <h:outputLabel  value="Se envía a consulta para: "/>
+                                        <h:outputLabel  value="#{interconsultaMb.consulta}"/>
+
+                                        <h:outputLabel  value="Especificar otros: "/>
+                                        <h:outputText  value="#{interconsultaMb.otros}"/>
+
+
+                                        <h:outputLabel  value="¿Sospecha problema de salud AUGE?: "/>
+                                        <h:outputLabel  value="#{interconsultaMb.problemaAuge}"/>
+
+                                        <h:outputLabel  value="Especificar problema: "/>
+                                        <h:outputText value="#{interconsultaMb.descProblemaAuge}"/>
+
+                                        <h:outputLabel  value="Subgrupo o subproblema de salud AUGE (si corresponde): "/>
+                                        <h:outputText value="#{interconsultaMb.descSubProblema}"/>
+
+                                        <h:outputLabel  value="Hipótesis diagnóstica o diagnóstico: "/>
+                                        <h:outputText value="#{interconsultaMb.hipotesis}"/>
+
+                                        <h:outputLabel  value="Fundamentos del diagnóstico: "/>
+                                        <h:outputText value="#{interconsultaMb.fundamento}"/>
+
+                                        <h:outputLabel  value="Exámenes realizados: "/>
+                                        <h:outputText value="#{interconsultaMb.examenes}"/>
+
+                                    </h:panelGrid>
+
+                                    <h4>Datos Profesional</h4>
+                                    <h:panelGrid columns="4" style="width: 100%" cellpadding="5">
+
+                                        <h:outputLabel value="Nombre: "/>
+                                        <h:outputText value="#{interconsultaMb.nombreDoc}"/>
+                                        <h:outputLabel value="R.U.T: "/>
+                                        <h:outputText value="#{interconsultaMb.runDoc}"/>
+                                        <h:outputText/>
+                                        <h:outputText/>
+                                        <h:outputText/>
+                                        <h:outputText/>
+                                        <h:outputText/>
+                                        <h:outputText/>
+                                        <h:outputLabel value="Firma profesional: "/>
+                                        <p:outputLabel value="_________________________"/>                                       
+                                    </h:panelGrid>
+
+                                </h:form>
+
+                            </p:outputPanel>
+                        </p:dialog>
+                    </p:panel>
+                </h:form>
+            </p:scrollPanel>
+        </p:dialog>
+        <!-- Contrareferencia -->
+        <p:dialog header="Contrareferencia" id="contrareferencia" widgetVar="dialogContraref" minimizable="true" resizable="false">
+            <p:scrollPanel style="width: 1000px; height: 500px" mode="native">
+                <h:form id="dialogContrarefForm">
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel  value="De:"/>
+                        <p:inputText id="de" value="#{contraRefMb.de}" size="81"/>
+                        <h:outputLabel  value=" Fecha: "/>
+                        <p:outputLabel value="#{pacienteMb.fecha}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel  value="A: &nbsp;"/>
+                        <p:inputText id="a" value="#{contraRefMb.a}" size="129"/>
+                    </h:panelGrid>
+                    <br/>
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <h:outputLabel  value="IDENTIFICACIÓN DEL PACIENTE O USUARIO " style="font-weight: bold"/>
+                    </h:panelGrid>
+                    <br/>
+                    <h:panelGrid columns="2" cellpadding="5">
+
+                        <p:outputLabel value="Nombre: &nbsp;" />
+                        <p:outputLabel value="#{newConsultation.name}"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="6" cellpadding="5">
+                        <h:outputLabel  value="R.U.N.:&nbsp;&nbsp;&nbsp;&nbsp; "/>
+                        <p:outputLabel value="#{newConsultation.rut}"/>
+                        <h:outputLabel  value=" Edad:"/>
+                        <p:outputLabel value="20"/>
+                        <p:outputLabel value=" Telefono: "/>
+                        <p:inputText id="telefono" value="#{contraRefMb.telefono}" size="24" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="4" cellpadding="5">
+                        <h:outputLabel  value="Dirección: "/>
+                        <p:outputLabel value="calle 13"/>
+                        <p:outputLabel  value=" Consultorios: "/>
+                        <p:inputText id="consultorio" value="#{contraRefMb.consultorios}" size="58"/>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2" cellpadding="5">
+                        <h:outputLabel  value="DIAGNÓSTICO Y CUADRO CLÍNICO " style="font-weight: bold"    />
+                        <p:inputTextarea  id="diagnostico" value="#{contraRefMb.diagnostico}" autoResize="true" style="width: 400%;height: 100px"  />
+
+
+                        <h:outputLabel  value="TRATAMIENTO ACTUAL: " style="font-weight: bold" />
+                        <p:inputTextarea id="tratamiento" value="#{contraRefMb.tratamiento}" autoResize="true" style="width: 400%;height: 100px"  />                            
+
+                        <h:outputLabel  value="PLAN DE CONTROL Y SEGUIMIENTO: " style="font-weight: bold"/>
+                        <p:inputTextarea id="seguimiento" value="#{contraRefMb.plan}" autoResize="true" style="width: 400%;height: 100px" />
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3" cellpadding="5">
+                        <p:outputLabel  value="Nombre del profesional: "/>
+                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+
+                    </h:panelGrid>
+                    <br/>
+                    <div align="center">
+                        <p:commandButton action="#{medicamentosMb.guardarContraRef()}" value="Guardar" update="display" oncomplete="PF('dlgcontra').show()" icon="ui-icon-check"/>
+                         </div>
+                    <p:dialog header="Values" showEffect="clip" widgetVar="dlgcontra" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                        <div align="center">
+                            <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                <p:printer target="display" />
+                            </p:commandButton>
+                        </div>
+                        <p:outputPanel id="display"  >
+                            <h:form>
+
+                                <h3 style="font-weight: bold" align="center">CONTRARREFERENCIA</h3>
+                                <h4 align="center">Servicio de Salud Metropolitano Sur</h4>
+                                <h4 align="center">Complejo Asistencial Barros Luco</h4>
+                                <h4 align="center">Dirección área asistencial</h4>
+                                <h4 align="center">Unidad de red CABL</h4>
+                                <h:panelGrid columns="4" cellpadding="5">
+                                    <p:outputLabel  value="De:"/>
+                                    <p:outputLabel value="#{contraRefMb.de}"/>
+                                    <p:outputLabel  value=" Fecha: "/>
+                                    <p:outputLabel value="#{pacienteMb.fecha}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <p:outputLabel  value="A: &nbsp;"/>
+                                    <p:outputLabel value="#{contraRefMb.a}" />
+                                </h:panelGrid>
+                                <br/>
+                                <h:panelGrid columns="1" cellpadding="5">
+                                    <h:outputLabel  value="IDENTIFICACIÓN DEL PACIENTE O USUARIO " style="font-weight: bold"/>
+                                </h:panelGrid>
+                                <br/>
+                                <h:panelGrid columns="2" cellpadding="5">
+
+                                    <p:outputLabel value="Nombre: &nbsp;" />
+                                    <p:outputLabel value="#{newConsultation.name}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="6" cellpadding="5">
+                                    <h:outputLabel  value="R.U.N.:&nbsp;&nbsp;&nbsp;&nbsp; "/>
+                                    <p:outputLabel value="#{newConsultation.rut}"/>
+                                    <h:outputLabel  value=" Edad:"/>
+                                    <p:outputLabel value="20"/>
+                                    <p:outputLabel value=" Telefono: "/>
+                                    <p:outputLabel value="123123123" />
+                                </h:panelGrid>
+                                <h:panelGrid columns="4" cellpadding="5">
+                                    <h:outputLabel  value="Dirección: "/>
+                                    <p:outputLabel value="calle 13"/>
+                                    <p:outputLabel  value=" Consultorios: "/>
+                                    <p:outputLabel value="#{contraRefMb.consultorios}"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="2" cellpadding="5">
+                                    <h:outputLabel  value="DIAGNÓSTICO Y CUADRO CLÍNICO " style="font-weight: bold"    />
+                                    <p:outputLabel value="#{contraRefMb.diagnostico}" />
+
+
+                                    <h:outputLabel  value="TRATAMIENTO ACTUAL: " style="font-weight: bold" />
+                                    <p:outputLabel value="#{contraRefMb.tratamiento}" />                            
+
+                                    <h:outputLabel  value="PLAN DE CONTROL Y SEGUIMIENTO: " style="font-weight: bold"/>
+                                    <p:outputLabel value="#{contraRefMb.plan}" />
+                                </h:panelGrid>
+
+                                <h:panelGrid columns="3" cellpadding="5">
+                                    <p:outputLabel  value="Nombre del profesional: "/>
+                                    <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+
+                                </h:panelGrid>
+                                <br/>
+                                <div align="right">
+                                    <p:outputLabel  value="Firma:________________________________________ " />
+                                </div>
+                            </h:form>
+
+                        </p:outputPanel>
+                    </p:dialog>
+                </h:form>
+            </p:scrollPanel>
+        </p:dialog>
+        <script language="JavaScript" type="text/javascript">
+            function new_window(url) {
+                link = window.open(url, "Link", "toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,resizable=0");
+            }
+        </script>
 
 </html>
 

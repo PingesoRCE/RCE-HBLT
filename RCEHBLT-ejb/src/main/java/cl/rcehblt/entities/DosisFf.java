@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DosisFf.findAll", query = "SELECT d FROM DosisFf d"),
+    @NamedQuery(name = "DosisFf.findByFormaFarmaceuticaId", query = "SELECT d FROM DosisFf d WHERE d.formafarmaceuticaid = :ff"),
     @NamedQuery(name = "DosisFf.findByDosisff", query = "SELECT d FROM DosisFf d WHERE d.dosisff = :dosisff")})
+
 public class DosisFf implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

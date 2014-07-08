@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <h:outputStylesheet name="./css/print.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+        </div>
+        <div>
+
+            <div>
+
+                <div id="content" class="right_content">
+                    <ui:insert name="content"></ui:insert>
+
+                    <h:form>    
+                        <p:panel id="panelGeneral" style="border: #ffffff" styleClass="printBlock">
+                            <p:growl id="messages" showDetail="true"/>
+                            <p:panel id="datoshospital" styleClass="printBlock">
+                                <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE GLICEMIA</h3>
+                                <div align="center">
+                                    <h:panelGrid columns="1" cellpadding="5" >
+                                        <h:outputLabel value="MINISTERIO DE SALUD PUBLICA"/>
+                                        <h:outputLabel value="SERVICIO DE SALUD M SUR"/>
+                                        <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+                                    </h:panelGrid>
+                                    <br/>
+                                    <h:panelGrid columns="2">
+
+                                        <h:outputText id="radio" value="#{glicemia.ayuna}" style="font-weight: bold" />
+                                    </h:panelGrid>
+                                </div>
+                            </p:panel>   
+                            <p:panel id="datosTodos" styleClass="printBlock">
+
+                                <p:panel styleClass="noPrintBlock" id="radioo" style="width: 100%;text-align: center">
+                                    <div align="center">
+                                        <h:panelGrid columns="5" style="margin-bottom:10px" cellpadding="5">
+
+                                            <p:selectOneRadio id="ayuna" value="#{glicemia.ayuna}">
+                                                <f:selectItem itemLabel="AYUNA" itemValue="AYUNA" value="#{glicemia.ayuna}" />
+                                                <f:selectItem itemLabel="POST DESAYUNO" itemValue="POST DESAYUNO" value="#{glicemia.ayuna}" />
+                                                <f:selectItem itemLabel="POST PRANDIAL" itemValue="POST PRANDIAL" value="#{glicemia.ayuna}" />
+                                                <p:ajax update="radio" />
+                                            </p:selectOneRadio>
+
+                                            <p:spacer />
+
+                                        </h:panelGrid>                                                                              
+                                    </div>
+                                </p:panel>
+
+                                <p:panel styleClass="printBlock" id="datospaciente" header="1.- Datos paciente:">
+                                    <h:outputLabel  style="font-weight: bold" />
+                                    <br/>
+                                    <h:panelGrid columns="6" cellpadding="5">
+                                        <h:outputLabel  value="R.U.N paciente: "/>
+                                        <p:outputLabel  id="outRun" value="#{newConsultation.rut}"/>
+
+                                        <h:outputLabel  value="Nombre paciente: "/>
+                                        <p:outputLabel id="outNombre" value="#{newConsultation.name}"/>
+                                        <h:outputLabel  value="N° ficha: "/>
+                                        <p:outputLabel id="outFicha" value="12"/>
+                                        <p:outputLabel for="date" value="Fecha de citación: " />
+                                        <p:inputMask id="date" value="#{glicemia.fechaC}" mask="99/99/9999"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:panel styleClass="printBlock" id="datosDoctor" header="2.- Datos Doctor:">
+                                    <h:panelGrid  columns="6" cellpadding="5">
+                                        <h:outputLabel  value="Nombre doctor: "/>
+                                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+                                        <h:outputLabel value="R.U.N doctor: "/>
+                                        <p:outputLabel value="#{loginSessionMB.rut}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                                <p:panel  styleClass="printBlock" style="border: #ffffff">
+                                    <div align="right">
+                                        <h:panelGrid cellpadding="5" >
+                                            <br> </br>
+                                            <br> </br>
+                                            <h4 align="right">________________________</h4>
+                                            <h4 align="right">Firma/Timbre Médico</h4>
+                                        </h:panelGrid>
+                                    </div>
+                                </p:panel>
+                            </p:panel>
+                        </p:panel >
+
+                        <div align="center">
+                            <p:commandButton action="#{medicamentosMb.guardarGlicemia()}" value="Guardar" update="display" oncomplete="PF('dlg').show()" icon="ui-icon-check"/>
+
+                             </div>
+                        <p:dialog header="Values" modal="true" showEffect="clip" widgetVar="dlg" height="500" maximizable="true" resizable="false" closeOnEscape="true" draggable="false"  >
+                            <div align="center">
+                                <p:commandButton update="display" value="Imprimir" type="button" icon="ui-icon-print" style="display:block;margin-bottom: 20px">
+                                    <p:printer target="display" />
+                                </p:commandButton>
+                            </div>
+                            <p:outputPanel id="display"  >
+                                <h:form>
+
+                                    <p:panel id="datoshospital">
+                                        <h3 style="font-weight: bold" align="center">SOLICITUD EXAMEN DE GLICEMIA</h3>
+                                        <h:panelGrid columns="1" cellpadding="5" >
+                                            <h:outputLabel value="MINISTERIO DE SALUD PUBLICA"/>
+                                            <h:outputLabel value="SERVICIO DE SALUD M SUR"/>
+                                            <h:outputLabel value="HOSPITAL BARROS LUCO TRUDEAU"/>
+                                        </h:panelGrid>
+                                    </p:panel>   
+                                    <p:panel id="datosTodos">
+                                        <p:panel id="datos" >
+                                            <p:outputLabel value="#{glicemia.ayuna}"/>
+                                        </p:panel>    
+                                        <p:panel id="datospaciente" header="1.- Datos paciente:">
+                                            <h:outputLabel  style="font-weight: bold" />
+                                            <br/>
+                                            <h:panelGrid columns="4" cellpadding="4">
+                                                <h:outputLabel  value="R.U.N: "/>
+                                                <p:outputLabel  id="outRun" value="#{newConsultation.rut}"/>
+
+                                                <h:outputLabel  value="Nombre: "/>
+                                                <p:outputLabel id="outNombre" value="#{newConsultation.name}"/>
+                                                <h:outputLabel  value="N° ficha: "/>
+                                                <p:outputLabel id="outFicha" value="12"/>
+                                                <h:outputLabel  value="Fecha de Citacion: "/>
+                                                <h:outputText value="#{glicemia.fecha}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                </h:outputText>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        <p:panel id="datosDoctor" header="2.- Datos Doctor:">
+                                            <h:panelGrid  columns="6" cellpadding="5">
+                                                <h:outputLabel  value="Nombre: "/>
+                                                <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}"/>
+                                                <h:outputLabel value="R.U.N: "/>
+                                                <p:outputLabel value="#{loginSessionMB.rut}"/>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        <p:panel  style="border: #ffffff">
+                                            <div align="right">
+                                                <h:panelGrid cellpadding="5" >
+                                                    <br> </br>
+                                                    <br> </br>
+                                                    <h4 align="right">________________________</h4>
+                                                    <h4 align="right">Firma/Timbre Médico</h4>
+                                                </h:panelGrid>
+                                            </div>
+                                        </p:panel>
+                                    </p:panel>
+                                </h:form>
+                            </p:outputPanel>
+                        </p:dialog>
+
+                    </h:form> 
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+
+</html>

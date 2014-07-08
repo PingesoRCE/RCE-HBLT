@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Hosp. Barros Luco</title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top"></ui:insert>
+            <!--<h2 align="center" style="font-style: inherit">hola</h2>-->
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <h:outputStylesheet name="./css/default.css"/>
+            <h:outputStylesheet name="./css/cssLayout.css"/>
+            <h:outputStylesheet name="./css/print.css"/>
+            <title>Hosp. Barros Luco</title>
+            <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/themes/aristo/skin.css" />
+            <link type="text/css" rel="stylesheet" href="#{request.contextPath}/syntaxhighlighter/styles/syntaxhighlighter.css"></link>
+            <style type="text/css">
+
+                body {
+                    background: url(../resources/imagenes/fondo-img.jpg) center fixed no-repeat;
+                    margin: 0;
+                    padding: 0;
+                    font-family: geneva, arial, helvetica, sans-serif;
+                    font-size:80%;
+                }
+
+                .appleIcon {
+                    background: url(../resources/imagenes/apple-icon-16x16.png) no-repeat;
+                    width:16px;
+                    height:16px;
+                }
+
+                .ui-dialog .ui-terminal {
+                    border:0;
+                }
+
+                .ui-dialog.terminalDialog .ui-dialog-content {
+                    padding:0;
+                }
+            </style>
+            <h:form>
+                <p:menubar>
+
+                    <p:menuitem value="Inicio" icon="ui-icon-home" url="../views/inicio.xhtml" />
+
+                    <p:submenu label="Documentos" icon="ui-icon-document">
+                        <p:menuitem value="Receta Externa" url="../views/RecetaExterna.xhtml" icon="" />
+                        <p:menuitem value="Receta Interna" url="../views/RecetaInterna.xhtml" icon="" />
+
+                    </p:submenu>
+                    <p:submenu label="Exámenes" icon="ui-icon-document-b">
+                        <p:menuitem value="Laboratorio" url="../views/ExLaboratorio.xhtml" icon="" />
+                        <p:menuitem value="TNS" url="../views/ExTns.xhtml" icon="" />
+                        <p:menuitem value="Microbiologico" url="../views/ExMicrobiologico.xhtml" icon="" />
+                        <p:menuitem value="ELISA" url="../views/ExElisa.xhtml" icon="" />
+                        <p:menuitem value="Glicemia" url="../views/ExGlicemia.xhtml" icon="" />
+                        <p:menuitem value="Radiológico" url="../views/ExRadiologico.xhtml" icon="" />
+                        <p:menuitem value="Electrocardiograma" url="../views/ExElectroCG.xhtml" icon="" />
+
+                    </p:submenu>
+                    <p:submenu label="Generar alta" icon="ui-icon-document-b">
+                        <p:menuitem value="Contrarreferencia" url="../views/ContraRef.xhtml" icon="" />
+
+
+                    </p:submenu>
+                    <f:facet name="options">
+                        <div  style="margin-right:400px ;width: 25%;height: 20%">
+                            <p:clock/>
+                        </div>
+                        <p:outputLabel value="Bienvenido " style="margin-right:10px;font-weight: bold"/>
+                        <p:outputLabel value="Dr. : " style="margin-right:10px;font-weight: bold"/>
+                        <p:outputLabel value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" style="margin-right:10px"/>
+                        <p:commandButton type="button" value="Cerrar Sesión" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+
+            </h:form>
+        </div>
+
+
+        <p:dialog header="PrimeFaces Mock OS X" draggable="true" visible="true" modal="true" showEffect="fade" hideEffect="fade">
+            <h:form>
+                <p:panel style="border: #ffffff">
+                    <p:panel id="buscador" styleClass="noPrintBlock">
+                        <p:growl id="messages" showDetail="true" life="800"/>
+                        <div  align="center">
+                            <h:panelGrid columns="3" cellpadding="5">
+
+                                <h:outputLabel  value="R.U.N paciente: "/>
+                                <p:autoComplete  id="acSimple" value="#{pacienteMb.busca}"
+                                                 completeMethod="#{pacienteMb.complete}" size="35" >
+
+                                </p:autoComplete>
+                                <p:commandButton action="#{pacienteMb.botonAct()}" update="panelGeneral,messages" id="iconSearch"  icon="ui-icon-search" title="Icon Search" />
+                            </h:panelGrid>
+                        </div>
+                    </p:panel>
+                    <p:panel>
+                        <br/>
+                        <p:panelGrid id="panelGeneral" columns="4" style="width: 100%;text-align: center">
+                            <f:facet name="header">Datos Paciente</f:facet>
+
+                            <h:outputLabel  value="Nombre: "/>
+                            <p:outputLabel value="#{pacienteMb.nombrePac}"/>
+
+                            <h:outputLabel  value="R.U.N: "/>
+                            <p:outputLabel  id="run" value="#{pacienteMb.txt}"/>
+
+                            <h:outputLabel  value="Edad: "/>
+                            <p:outputLabel id="edad" value="#{pacienteMb.edad}"/>
+
+                            <h:outputLabel  value="Cama: "/>
+                            <p:outputLabel id="cama" value=""/>
+
+                            <h:outputLabel  value="Sala: "/>
+                            <p:outputLabel id="sala" value=""/>
+
+                            <h:outputLabel  value="Fecha: "/>
+                            <p:outputLabel id="fecha" value="#{pacienteMb.fecha}"/>
+
+                            <h:outputLabel  value="Diagnóstico y sintomas principales: "/>
+                            <p:outputLabel id="diag" value=""/>
+
+                            <h:outputLabel  value="Nombre Médico: "/>
+                            <p:outputLabel  value="#{loginSessionMB.nombre} #{loginSessionMB.apellido}" />
+
+                        </p:panelGrid>
+                    </p:panel>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+        <div id="content" class="abajo">
+
+        </div>
+    </h:body>
+     <script type="text/javascript">
+    function handleLoginRequest(xhr, status, args) {
+        if(args.validationFailed || !args.loggedIn) {
+            jQuery('#formLogin').effect("shake", { times:5 }, 100);
+        } 
+        else {
+            location.href=args.ruta;
+        }
+    }
+</script>
+    
+    <script language="JavaScript" type="text/javascript">
+        function new_window(url){
+            link = window.open(url,"Link","toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=yes,resizable=0,left=80,top=180");
+        }
+    </script>
+</html>

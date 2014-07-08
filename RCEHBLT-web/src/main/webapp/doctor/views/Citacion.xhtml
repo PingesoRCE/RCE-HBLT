@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title></title>
+    </h:head>
+
+    <h:body>
+
+        <div id="top">
+            <ui:insert name="top">Top</ui:insert>
+        </div>
+        <div>
+            <div id="left">
+                <ui:insert name="left">Left</ui:insert>
+            </div>
+            <div>
+                <div id="right">
+                    <ui:insert name="right">Right</ui:insert>
+                </div>
+                <div id="content" class="right_content">
+                    <h:form>
+                    <ui:insert name="content"></ui:insert>
+                    <p:panel id="cosa" style="border: #ffffff">
+                        
+                            <p:panel header="Citación" id="panel">
+                                <p:commandButton value="Buscar" action="#{recetaInternaMB.BotonAct3()}" update="act" />
+                                <h:panelGrid id="act" columns="6" cellpadding="5">
+
+                                    <h:outputLabel for="outNombre" value="Nombre paciente: "/>
+                                    <p:inputText size="26" id="outNombre" value="#{recetaInternaMB.nombre}"/>
+
+                                    <h:outputLabel value="R.U.N :" for="acSimple" />
+                                    <p:autoComplete id="acSimple" value="#{recetaInternaMB.txt}"
+                                                    completeMethod="#{recetaInternaMB.complete}" size="26" >
+
+                                    </p:autoComplete>
+
+                                    <h:outputLabel value="Teléfono :" for="acDelay" />
+                                    <p:autoComplete id="acDelay" queryDelay="1000"/>
+
+                                    <h:outputLabel value="Tipo de atención: "/>
+                                    <p:inputText size="26" value="#{recetaInternaMB.prevision}"/>
+
+                                    <h:outputLabel value="Especialidad :" for="acForce" />
+                                    <p:autoComplete id="acForce" forceSelection="true"/>
+
+                                    <h:outputLabel value="Area:" for="dd" />
+                                    <p:autoComplete id="dd"/>
+
+                                    <h:outputLabel value="Profesional:" for="cache" />
+                                    <p:autoComplete id="cache" />
+
+                                    <h:outputText value="Seleccione hora: "/>
+                                    <p:inputMask value="#{recetaInternaMB.taxId}" mask="99:99"/>
+
+                                    <h:outputLabel value="Seleccione fecha :" for="cache" />
+                                    <p:calendar value="#{recetaInternaMb.date}" id="cal" showButtonPanel="true"/>
+
+
+                                </h:panelGrid>
+                            </p:panel>
+
+                            <div id="bottom">
+                                <ui:insert name="bottom"></ui:insert>
+                                <div align="center">
+                                    <h:commandButton value="Imprimir" type="button" >
+                                        <p:printer target="cosa" />
+                                    </h:commandButton>
+                                </div>
+                            </div>
+
+                        
+                        </p:panel>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <div id="bottom">
+            <ui:insert name="bottom"></ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

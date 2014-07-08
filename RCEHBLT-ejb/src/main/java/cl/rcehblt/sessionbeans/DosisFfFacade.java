@@ -7,9 +7,12 @@
 package cl.rcehblt.sessionbeans;
 
 import cl.rcehblt.entities.DosisFf;
+import cl.rcehblt.entities.FormaFarmaceutica;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +31,9 @@ public class DosisFfFacade extends AbstractFacade<DosisFf> implements DosisFfFac
     public DosisFfFacade() {
         super(DosisFf.class);
     }
-    
+    @Override
+   public List<DosisFf> findDosisId(FormaFarmaceutica remedio) {
+        Query q=em.createNamedQuery("DosisFf.findByFormaFarmaceuticaId").setParameter("ff", remedio);
+        return q.getResultList();
+    }
 }
