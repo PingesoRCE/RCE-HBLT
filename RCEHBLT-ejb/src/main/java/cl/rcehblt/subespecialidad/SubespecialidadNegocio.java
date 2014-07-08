@@ -47,7 +47,7 @@ public class SubespecialidadNegocio implements SubespecialidadNegocioLocal {
     
     @Override
     public List<Subespecialidad> busquedaSubespecialidadIdEspecialidad (int especialidadId){
-        Query q = em.createNamedQuery("Subespecialidad.findByIdEspecialidad").setParameter("especialidadId", especialidadId);
+        Query q = em.createNamedQuery("Subespecialidad.findByIdEspecialidad").setParameter("idEspecialidad", especialidadId);
         return q.getResultList();
     }
 }

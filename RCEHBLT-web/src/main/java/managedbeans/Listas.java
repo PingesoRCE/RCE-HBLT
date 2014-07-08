@@ -5,25 +5,25 @@
  */
 package managedbeans;
 
-import cl.rcehblt.entities.LeyesSociales;
-import cl.rcehblt.entities.Especialidad;
-import cl.rcehblt.entities.Consultorio;
-import cl.rcehblt.entities.Sector;
-import cl.rcehblt.entities.TipoPrevision;
-import cl.rcehblt.entities.Prevision;
-import cl.rcehblt.entities.Religion;
-import cl.rcehblt.entities.Persona;
-import cl.rcehblt.entities.Genero;
-import cl.rcehblt.entities.Comuna;
-import cl.rcehblt.entities.Local;
 import cl.rcehblt.entities.Cargo;
-import cl.rcehblt.entities.PuebloOriginario;
+import cl.rcehblt.entities.Comuna;
+import cl.rcehblt.entities.Consultorio;
 import cl.rcehblt.entities.Educacion;
+import cl.rcehblt.entities.Especialidad;
 import cl.rcehblt.entities.Establecimiento;
 import cl.rcehblt.entities.EstadoConyugal;
-import cl.rcehblt.entities.Subespecialidad;
+import cl.rcehblt.entities.Genero;
 import cl.rcehblt.entities.GrupoProfesional;
+import cl.rcehblt.entities.LeyesSociales;
+import cl.rcehblt.entities.Local;
+import cl.rcehblt.entities.Persona;
+import cl.rcehblt.entities.Prevision;
+import cl.rcehblt.entities.PuebloOriginario;
+import cl.rcehblt.entities.Religion;
+import cl.rcehblt.entities.Sector;
 import cl.rcehblt.entities.ServicioSalud;
+import cl.rcehblt.entities.Subespecialidad;
+import cl.rcehblt.entities.TipoPrevision;
 import cl.rcehblt.especialidad.EspecialidadNegocioLocal;
 import cl.rcehblt.sessionbeans.CargoFacadeLocal;
 import cl.rcehblt.sessionbeans.ComunaFacadeLocal;
@@ -50,7 +50,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.event.AjaxBehaviorEvent;
 import org.primefaces.event.SelectEvent;
 
@@ -59,7 +59,7 @@ import org.primefaces.event.SelectEvent;
  * @author G-3
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class Listas {
 
     @EJB

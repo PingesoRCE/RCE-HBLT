@@ -39,8 +39,8 @@ public class showSamples {
     
     
     private Integer PersonId;
-    private String PersonRut = "69727697";
-    private Integer Rut = 6972769;
+    private String PersonRut = "181181486";
+    private Integer Rut = 18118148;
 
     private List<Integer> grupos = new ArrayList<Integer>(); 
     /**
@@ -54,7 +54,9 @@ public class showSamples {
         PersonId = personaFacade.findByRut(Rut);
         searchPaciente = pacienteFacade.searchByPerson(PersonId);
         //Date fecha = new Date(1990, 17, 9);
-        searchSamples = muestaFacade.searchByPatient(searchPaciente.get(0));
+        searchSamples = new ArrayList<Muesta>();
+        if(searchPaciente.size() > 0)
+            searchSamples = muestaFacade.searchByPatient(searchPaciente.get(0));
         boolean existe = false;
         int maxGroup = 0;
         
