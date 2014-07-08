@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package managedBean.generalHistory;
 
 import cl.rcehblt.entities.Antecedentes;
@@ -35,6 +34,7 @@ import cl.rcehblt.sessionbeans.RegistroClinicoFacadeLocal;
 @ManagedBean
 @ViewScoped
 public class GeneralHistory {
+
     @EJB
     private AntecedentesFacadeLocal antecedentesFacade;
     @EJB
@@ -47,7 +47,7 @@ public class GeneralHistory {
     private PacienteFacadeLocal patientFacade;
     @EJB
     private PersonaFacadeLocal personFacade;
-    
+
     private Integer rut = 6972769;
     private String antecedentes;
     private Antmedidos newAntmedido;
@@ -59,30 +59,38 @@ public class GeneralHistory {
     private List<RegistroClinico> searchClinicalRecord;
     private List<Episodios> searchEpisode;
     private Integer idGeneral;
-    
+
     public GeneralHistory() {
-        
+
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
     }
-    
-    public void start(Integer rut){
+
+    public void start(Integer rut) {
         this.rut = rut;
+        personId = personFacade.findByRut(rut);
+        searchPatient = patientFacade.searchByPerson(personId);
+        patient = searchPatient.get(0);
+        searchClinicalRecord = clinicalRecordFacade.searchByPaciente(searchPatient.get(0));
+        searchEpisode = episodeFacade.searchByClinicalRegister(searchClinicalRecord.get(0));
         idGeneral = antecedentesFacade.searchByName("Generales").get(0).getIdAntecedente();
-        //searchAmedidos = antmedidosFacade.searchByJoel();
-        if(!searchAmedidos.isEmpty()){
-            for(Antmedidos antmed: searchAmedidos){
-                if(antmed.getIdAntecedente().getIdAntecedente().equals(idGeneral)){
+        searchAmedidos = antmedidosFacade.searchOldestGeneral(idGeneral, searchEpisode.get(0));
+        
+        System.out.println("ACA ESTOY MI PORTES ES: " + searchAmedidos.size());
+        
+        if (!searchAmedidos.isEmpty()) {
+            for (Antmedidos antmed : searchAmedidos) {
+                if (antmed.getIdAntecedente().getIdAntecedente().equals(idGeneral)) {
                     antecedentes = antmed.getValor();
                 }
             }
         }
     }
-    
-    public void save(){
-        if(!antecedentes.isEmpty()){
+
+    public void save() {
+        if (!antecedentes.isEmpty()) {
             Date fecha = new Date();
             personId = personFacade.findByRut(rut);
             searchPatient = patientFacade.searchByPerson(personId);
@@ -99,12 +107,12 @@ public class GeneralHistory {
             newAntmedido.setFecha(fecha);
             newAntmedido.setGrupo(0);
             antmedidosFacade.create(newAntmedido);
-            
+
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Antecedentes guardados.", "");
             FacesContext.getCurrentInstance().addMessage("", fm);
-            
+
             RequestContext.getCurrentInstance().execute("dialogGeneralHistory.hide()");
-        }else{
+        } else {
             FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Debe ingresar un antecedente", "");
             FacesContext.getCurrentInstance().addMessage("", fm);
         }
@@ -117,5 +125,5 @@ public class GeneralHistory {
     public void setAntecedentes(String antecedentes) {
         this.antecedentes = antecedentes;
     }
-    
+
 }

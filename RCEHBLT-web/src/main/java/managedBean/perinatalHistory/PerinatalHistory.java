@@ -1051,9 +1051,12 @@ public class PerinatalHistory {
         }
 
         grupo = 0;
+        
         FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Antecedentes guardados.", "");
         FacesContext.getCurrentInstance().addMessage("", fm);
         RequestContext.getCurrentInstance().execute("dialogPerinatalHistory.hide()");
+        
+        
     }
 
     public String[] getHCTOCheck() {
