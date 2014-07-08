@@ -8,6 +8,9 @@ package managedBeanVitalSigns;
 
 import cl.rcehblt.entities.Muesta;
 import cl.rcehblt.entities.Paciente;
+import cl.rcehblt.sessionbeans.MuestaFacadeLocal;
+import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
+import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,16 +18,15 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import cl.rcehblt.sessionbeans.MuestaFacadeLocal;
-import cl.rcehblt.sessionbeans.PacienteFacadeLocal;
-import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
+import javax.faces.bean.ViewScoped;
+import org.primefaces.context.RequestContext;
 
 /**
  *
  * @author Joel
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class showSamples {
     @EJB
     private PacienteFacadeLocal pacienteFacade;
@@ -39,8 +41,7 @@ public class showSamples {
     
     
     private Integer PersonId;
-    private String PersonRut = "181181486";
-    private Integer Rut = 18118148;
+    private Integer Rut;
 
     private List<Integer> grupos = new ArrayList<Integer>(); 
     /**
@@ -49,8 +50,8 @@ public class showSamples {
     public showSamples() {
     }
     
-    @PostConstruct
-    public void init(){
+    public void start(Integer rut){
+        Rut = rut;
         PersonId = personaFacade.findByRut(Rut);
         searchPaciente = pacienteFacade.searchByPerson(PersonId);
         //Date fecha = new Date(1990, 17, 9);
@@ -73,6 +74,7 @@ public class showSamples {
             maxGroup = searchSamples.get(i).getGrupo();
         }
         searchSamples = muestaFacade.searchByPatientGroup(searchPaciente.get(0), maxGroup);
+        RequestContext.getCurrentInstance().execute("previousVitalSignsDialog.show()");
     }
 
     public void loadSamples(){
@@ -98,6 +100,7 @@ public class showSamples {
     }
     
     public void showSamples(){
+        System.out.println(Rut);
         PersonId = personaFacade.findByRut(Rut);
         searchPaciente = pacienteFacade.searchByPerson(PersonId);
         searchSamples = muestaFacade.searchByPatientGroup(searchPaciente.get(0), samplesId);   
@@ -133,14 +136,6 @@ public class showSamples {
 
     public void setPersonId(Integer PersonId) {
         this.PersonId = PersonId;
-    }
-
-    public String getPersonRut() {
-        return PersonRut;
-    }
-
-    public void setPersonRut(String PersonRut) {
-        this.PersonRut = PersonRut;
     }
 
     public List<Integer> getGrupos() {

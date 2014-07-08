@@ -246,7 +246,7 @@
                                 <h:outputText value="#{samplePatients.valor} #{samplePatients.idSvitales.unidad}" />
                             </p:column>
                             <f:facet name="footer">
-                                <p:commandButton value="Historial Signos Vitales" icon="ui-icon-calendar" onclick="previousVitalSignsDialog.show();" />
+                                <p:commandButton value="Historial Signos Vitales" icon="ui-icon-calendar" actionListener="#{showSamples.start(newConsultation.rut)}" update=":previousVitalSignsForm" />
                             </f:facet>
                         </p:dataTable> 
                     </p:column>
