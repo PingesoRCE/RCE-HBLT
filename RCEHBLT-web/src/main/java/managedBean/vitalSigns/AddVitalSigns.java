@@ -136,12 +136,11 @@ public class AddVitalSigns {
                     }
                 }
             }
-            RequestContext.getCurrentInstance().execute("patientSelected.hide()");
+            RequestContext.getCurrentInstance().execute("patientSelectedDialog.hide()");
             RequestContext.getCurrentInstance().execute("newVitalSignsDialog.show()");
         } else {
-            FacesContext context = FacesContext.getCurrentInstance();
-            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Error", "Debe ingresar un rut válido"));
-            System.out.println("rut inválido");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "El rut ingresado no corresponde.", "");
+            FacesContext.getCurrentInstance().addMessage("", fm);
         }
 
     }
@@ -225,10 +224,10 @@ public class AddVitalSigns {
     }
 
     public void createVitalSignsPatients() {
+        Boolean cond = false;
         PersonId = personFacade.findByRut(rut);
         searchPatient = patientFacade.searchByPerson(PersonId);
         searchClinicalRecord = clinicalRecordFacade.searchByPaciente(searchPatient.get(0));
-
         List<Muesta> allSamples = sampleFacade.searchByPatient(searchPatient.get(0));
         max = 0;
         if (allSamples.isEmpty()) {
@@ -242,9 +241,8 @@ public class AddVitalSigns {
             }
             max++;
         }
-
+        
         Date fecha = new Date();
-
         selectedVitalSign = vitalSignsFacade.searchByName("Peso");
         Muesta newMuesta = new Muesta(null);
         newMuesta.setFecha(fecha);
@@ -302,6 +300,7 @@ public class AddVitalSigns {
         for (int i = 0; i < createSamplesAlways.size(); i++) {
             if (createSamplesAlways.get(i).getValor() != 0) {
                 sampleFacade.create(createSamplesAlways.get(i));
+                cond=true;
             }
         }
 
@@ -310,8 +309,17 @@ public class AddVitalSigns {
         for (Muesta createSample : createSamples) {
             sampleFacade.create(createSample);
         }
+        if(cond){
+            resetVitalSigns();
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Signos vitales ingresados correctamente.", "");
+            FacesContext.getCurrentInstance().addMessage("", fm);
+            RequestContext.getCurrentInstance().execute("newVitalSignsDialog.hide()");
+        }else{
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Debe ingresar al menos un signo vital.", "");
+            FacesContext.getCurrentInstance().addMessage("", fm);
+        }
 
-        resetVitalSigns();
+        
     }
 
     public void deleteVitalSignal(Muesta deleteSample) {
@@ -325,7 +333,7 @@ public class AddVitalSigns {
 
     public void addVitalSignsPatients() {
         if (vitalSignsId == 0) {
-            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, "Seleccione un signo vital", "");
+            FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Seleccione un signo vital", "");
             FacesContext.getCurrentInstance().addMessage("", fm);
         } else {
             boolean exists = false;

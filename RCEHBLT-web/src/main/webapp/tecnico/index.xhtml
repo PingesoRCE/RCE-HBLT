@@ -35,7 +35,7 @@
                     <p:autoComplete id="Rut" value="#{busqueda.rut}" completeMethod="#{busqueda.completarRut}" 
                                     var="rut" itemLabel="#{rut}" itemValue="#{rut}" dropdown="true" forceSelection="true" maxResults="5" >              
                     </p:autoComplete>
-                    <p:commandButton icon="ui-icon-check" value="Seleccionar" actionListener="#{addVitalSignsTec.startTecnico(busqueda.rut)}" update=":newVitalSignsForm"/>
+                    <p:commandButton icon="ui-icon-check" value="Seleccionar" actionListener="#{addVitalSigns.startTecnico(busqueda.rut)}" update=":newVitalSignsForm :newVitalSignsValidation"/>
                 </p:panelGrid>
             </h:form>
         </p:dialog>
@@ -45,42 +45,42 @@
                 <p:panelGrid styleClass="panelGridForm" columns="6">
 
                     <p:outputLabel value="Peso: "/>
-                    <p:spinner value="#{addVitalSignsTec.peso}" size="1" max="#{addVitalSignsTec.maxPeso}" stepFactor="0.1" min="#{addVitalSignsTec.minPeso}" >
-                        <p:ajax listener="#{addVitalSignsTec.resultIMC}" update="otherSignal" />
+                    <p:spinner value="#{addVitalSigns.peso}" size="1" max="#{addVitalSigns.maxPeso}" stepFactor="0.1" min="#{addVitalSigns.minPeso}" >
+                        <p:ajax listener="#{addVitalSigns.resultIMC}" update="otherSignal" />
                     </p:spinner>                        
-                    <p:outputLabel value="#{addVitalSignsTec.unitPeso}" />
+                    <p:outputLabel value="#{addVitalSigns.unitPeso}" />
                     <p:outputLabel value="Altura: "/>
-                    <p:spinner value="#{addVitalSignsTec.altura}" size="1" max="#{addVitalSignsTec.maxAltura}" stepFactor="0.1" min="#{addVitalSignsTec.minAltura}">
-                        <p:ajax listener="#{addVitalSignsTec.resultIMC}" update="otherSignal" />
+                    <p:spinner value="#{addVitalSigns.altura}" size="1" max="#{addVitalSigns.maxAltura}" stepFactor="0.1" min="#{addVitalSigns.minAltura}">
+                        <p:ajax listener="#{addVitalSigns.resultIMC}" update="otherSignal" />
                     </p:spinner>
-                    <p:outputLabel value="#{addVitalSignsTec.unitAltura}" />
+                    <p:outputLabel value="#{addVitalSigns.unitAltura}" />
                     <p:outputLabel value="Temperatura: "/>
-                    <p:spinner  value="#{addVitalSignsTec.temperatura}" size="1" max="#{addVitalSignsTec.maxTemperatura}" stepFactor="0.1" min="#{addVitalSignsTec.minTemperatura}" />
-                    <p:outputLabel value="#{addVitalSignsTec.unitTemperatura}" />
+                    <p:spinner  value="#{addVitalSigns.temperatura}" size="1" max="#{addVitalSigns.maxTemperatura}" stepFactor="0.1" min="#{addVitalSigns.minTemperatura}" />
+                    <p:outputLabel value="#{addVitalSigns.unitTemperatura}" />
                     <p:outputLabel value="Saturación O2: "/>
-                    <p:spinner value="#{addVitalSignsTec.saturacion}" size="1" max="#{addVitalSignsTec.maxSaturacion}" stepFactor="0.1" min="#{addVitalSignsTec.minSaturacion}"/>
-                    <p:outputLabel value="#{addVitalSignsTec.unitSaturacion}" />
+                    <p:spinner value="#{addVitalSigns.saturacion}" size="1" max="#{addVitalSigns.maxSaturacion}" stepFactor="0.1" min="#{addVitalSigns.minSaturacion}"/>
+                    <p:outputLabel value="#{addVitalSigns.unitSaturacion}" />
                     <p:outputLabel value="Presión Sistólica: "/>
-                    <p:spinner value="#{addVitalSignsTec.presionSistolica}" size="1" max="#{addVitalSignsTec.maxPresionSistolica}" stepFactor="0.1" min="#{addVitalSignsTec.minPresionSistolica}" />
-                    <p:outputLabel value="#{addVitalSignsTec.unitPresionSistolica}" />
+                    <p:spinner value="#{addVitalSigns.presionSistolica}" size="1" max="#{addVitalSigns.maxPresionSistolica}" stepFactor="0.1" min="#{addVitalSigns.minPresionSistolica}" />
+                    <p:outputLabel value="#{addVitalSigns.unitPresionSistolica}" />
                     <p:outputLabel value="Presión Diastólica: "/>
-                    <p:spinner value="#{addVitalSignsTec.presionDiastolica}" size="1" max="#{addVitalSignsTec.maxPresionDiastolica}" stepFactor="0.1" min="#{addVitalSignsTec.minPresionDiastolica}"/>
-                    <p:outputLabel value="#{addVitalSignsTec.unitPresionDiastolica}" />
+                    <p:spinner value="#{addVitalSigns.presionDiastolica}" size="1" max="#{addVitalSigns.maxPresionDiastolica}" stepFactor="0.1" min="#{addVitalSigns.minPresionDiastolica}"/>
+                    <p:outputLabel value="#{addVitalSigns.unitPresionDiastolica}" />
                 </p:panelGrid>
                 <p:separator/>
                 <p:panelGrid id="otherSignal" columns="5" styleClass="panelGridForm" >
                     <p:outputLabel value="Nombre signo vital: "/>
-                    <p:selectOneMenu value="#{addVitalSignsTec.vitalSignsId}">
-                        <p:ajax listener="#{addVitalSignsTec.returnGeneralUnit}" update="otherSignal" />
+                    <p:selectOneMenu value="#{addVitalSigns.vitalSignsId}">
+                        <p:ajax listener="#{addVitalSigns.returnGeneralUnit}" update="otherSignal" />
                         <f:selectItem itemLabel="Seleccione" itemValue="0"/>  
-                        <f:selectItems id="resGrp" value="#{addVitalSignsTec.searchVitalSigns}" var="grp" itemLabel="#{grp.nombreSvital}" itemValue="#{grp.idSvitales}"/>  
+                        <f:selectItems id="resGrp" value="#{addVitalSigns.searchVitalSigns}" var="grp" itemLabel="#{grp.nombreSvital}" itemValue="#{grp.idSvitales}"/>  
                     </p:selectOneMenu>
-                    <p:spinner value="#{addVitalSignsTec.vitalSignsValue}" size="1" max="#{addVitalSignsTec.maxGeneralUnit}" stepFactor="0.1" min="#{addVitalSignsTec.minGeneralUnit}" />
-                    <p:outputLabel id="unitLabel" value="#{addVitalSignsTec.generalUnit}"/>
-                    <p:commandButton icon="ui-icon-plus" value="Añadir" actionListener="#{addVitalSignsTec.addVitalSignsPatients()}" update="newVitalSignsForm :newVitalSignsValidation"/>
+                    <p:spinner value="#{addVitalSigns.vitalSignsValue}" size="1" max="#{addVitalSigns.maxGeneralUnit}" stepFactor="0.1" min="#{addVitalSigns.minGeneralUnit}" />
+                    <p:outputLabel id="unitLabel" value="#{addVitalSigns.generalUnit}"/>
+                    <p:commandButton icon="ui-icon-plus" value="Añadir" actionListener="#{addVitalSigns.addVitalSignsPatients()}" update="newVitalSignsForm :newVitalSignsValidation"/>
                 </p:panelGrid>
                 <p:panelGrid styleClass="panelGridForm" columns="1">
-                    <p:dataTable id="tableVitalSigns" var="vSigns" value="#{addVitalSignsTec.createSamples}" 
+                    <p:dataTable id="tableVitalSigns" var="vSigns" value="#{addVitalSigns.createSamples}" 
                                  emptyMessage="No se han ingresado otros signos vitales." scrollable="true" scrollHeight="80"
                                  style="width:600px ">
                         <f:facet name="header">
@@ -93,14 +93,14 @@
                             <h:outputText value="#{vSigns.valor} #{vSigns.idSvitales.unidad}" />
                         </p:column>
                         <p:column style="width:30px;text-align: center">
-                            <p:commandButton actionListener="#{addVitalSignsTec.deleteVitalSignal(vSigns)}" update="tableVitalSigns" icon="ui-icon-trash" title="Eliminar"/>                           
+                            <p:commandButton actionListener="#{addVitalSigns.deleteVitalSignal(vSigns)}" update="tableVitalSigns" icon="ui-icon-trash" title="Eliminar"/>                           
                         </p:column>
                     </p:dataTable>
                 </p:panelGrid>
                 <p:panelGrid styleClass="panelGridForm">
                     <p:row>
                         <p:column>
-                            <p:commandButton icon="ui-icon-disk" value="Terminar" action="#{addVitalSignsTec.createVitalSignsPatients}" oncomplete="newVitalSignsDialog.hide()" update="newVitalSignsForm"/>
+                            <p:commandButton icon="ui-icon-disk" value="Terminar" action="#{addVitalSigns.createVitalSignsPatients}" update="newVitalSignsForm :newVitalSignsValidation"/>
                             <p:commandButton icon="ui-icon-cancel" value="Cancelar" onsuccess="newVitalSignsDialog.hide()"/>
                         </p:column>
                     </p:row>
