@@ -255,7 +255,7 @@ public class NewConsultation {
                     }
                     Date date = new Date();
 
-                    Consulta newConsultation = new Consulta(null);
+                    Consulta newConsultation = new Consulta(idConsultation);
                     consultationCanceled = true;
                     newConsultation.setEpisodioid(searchEpisode.get(0));
                     newConsultation.setHdiagnostica(diagnosticHipothesis);
@@ -359,7 +359,7 @@ public class NewConsultation {
             consultationFacade.create(newConsultation);
             consultationReason = "";
             diagnosticHipothesis = "";
-            consultationState = "";
+            this.consultationState = "";
             idConsultation = newConsultation.getConsultaid();
         } else {
             this.consultationState = consultationState;
@@ -373,7 +373,7 @@ public class NewConsultation {
                     }
                     Date date = new Date();
 
-                    Consulta newConsultation = new Consulta(null);
+                    Consulta newConsultation = new Consulta(idConsultation);
                     consultationCanceled = true;
                     newConsultation.setEpisodioid(searchEpisode.get(0));
                     newConsultation.setHdiagnostica(diagnosticHipothesis);
