@@ -31,11 +31,11 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IPD</servlet-name>
-        <url-pattern>/IPD</url-pattern>
+        <url-pattern>/doctor/IPD</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ConcentForm</servlet-name>
-        <url-pattern>/concentForm</url-pattern>
+        <url-pattern>/doctor/concentForm</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>testMarce</servlet-name>
