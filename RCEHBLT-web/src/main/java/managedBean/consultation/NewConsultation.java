@@ -115,7 +115,6 @@ public class NewConsultation {
         searchClinicalRecord = clinicalRecordFacade.searchByPaciente(searchPatient.get(0));
         searchEpisode = episodeFacade.searchByClinicalRegister(searchClinicalRecord.get(0));
         episodeId = searchEpisode.get(0).getEpisodioid();
-        //<!--aqui-->
         boolean exist = false;
         int maxGroup = 0;
         searchSamples = sampleFacade.searchByPatient(searchPatient.get(0));
@@ -280,7 +279,6 @@ public class NewConsultation {
                     FacesContext.getCurrentInstance().addMessage("", fm);
                 }
             } else {
-                System.out.println("whadafa");
                 if (notEmptyHipothesis() && notEmptyReason() && notEmptyDiagnoses()) {
                     Date date = new Date();
 
@@ -288,6 +286,7 @@ public class NewConsultation {
                     newConsultation.setEpisodioid(searchEpisode.get(0));
                     newConsultation.setHdiagnostica(diagnosticHipothesis);
                     newConsultation.setConsultafecha(date);
+                    consultationCanceled = false;
                     newConsultation.setCancelada(consultationCanceled);
                     newConsultation.setMotivocancel(canceledReason);
                     if (consultationState.equals("pausada")) {
@@ -406,6 +405,7 @@ public class NewConsultation {
                     newConsultation.setEpisodioid(searchEpisode.get(0));
                     newConsultation.setHdiagnostica(diagnosticHipothesis);
                     newConsultation.setConsultafecha(date);
+                    consultationCanceled = false;
                     newConsultation.setCancelada(consultationCanceled);
                     newConsultation.setMotivocancel(canceledReason);
                     if (consultationState.equals("pausada")) {
