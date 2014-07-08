@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Antmedidos.findByGrupo", query = "SELECT a FROM Antmedidos a WHERE a.grupo = :grupo"),
 
     @NamedQuery(name = "Antmedidos.findByEpisodioGrupo", query = "SELECT a FROM Antmedidos a WHERE a.episodioid = :episodioid and a.grupo = :grupo"),
-    @NamedQuery(name = "Antmedidos.findByIdAntmedidosFechaEpisodio", query = "SELECT a FROM Antmedidos a WHERE a.idAntmedidos = :idAntmedidos and a.episodioid = :episodioid ORDER BY a.fecha DESC")})
+    @NamedQuery(name = "Antmedidos.findByIdAntmedidosFechaEpisodio", query = "SELECT a FROM Antmedidos a WHERE a.idAntecedente = :idAntecedente and a.episodioid = :episodioid ORDER BY a.fecha DESC")})
 public class Antmedidos implements Serializable {
 
     private static final long serialVersionUID = 1L;

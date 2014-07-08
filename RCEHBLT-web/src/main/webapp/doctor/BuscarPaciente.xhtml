@@ -143,15 +143,15 @@
                         <p:menubar id="consultationMenu">
                             <p:menuitem value="Datos del Paciente" icon="ui-icon-person" onclick="patientDataDialog.show()" url="#"/>
                             <p:menuitem value="Ingresar signos vitales" icon="ui-icon-plusthick" actionListener="#{addVitalSigns.start(viewEpisodes.rut)}" update=":newVitalSignsForm"/>
+                            <p:menuitem value="Anamnesis" icon="ui-icon-plusthick" onclick="window.open('ImprimirAnamnesis?rut=#{episodes.rut}')"/>
                             <p:submenu label="Antecedentes">
-                                <p:menuitem value="Generales" actionListener="#{generalHistory.start(viewEpisodes.rut)}" onclick="dialogGeneralHistory.show()" icon="ui-icon-document" url="#"/>
+                                <p:menuitem value="Generales" actionListener="#{generalHistory.start(viewEpisodes.rut)}" icon="ui-icon-document" update=":generalHistoryForm"/>
                                 <p:menuitem value="Perinatales" actionListener="#{perinatalHistory.start(viewEpisodes.rut)}" icon="ui-icon-document" update=":perinatalHistoryForm"/>
                             </p:submenu>
                             <p:submenu label="Formulario GES" rendered="#{newConsultation.isGes}">
                                 <p:menuitem value="Informe de proceso de diagnóstico" onclick="newIPDDialog.show()" url="#" />
                                 <p:menuitem value="Formulario de consentimiento de información" onclick="window.open('concentForm?rut=#{episodes.rut}')"  url="#"/>
                             </p:submenu>
-                            <p:menuitem value="Anamnesis" icon="ui-icon-plusthick" onclick="window.open('ImprimirAnamnesis?rut=#{episodes.rut}')"/>
                         </p:menubar>
                     </h:form>
                 </p:column>
