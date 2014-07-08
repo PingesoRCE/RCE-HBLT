@@ -256,6 +256,7 @@ public class Admision {
         }
         rut = Integer.valueOf(rutCompleto.substring(0, rutCompleto.length() - 1));
         if (!personaNegocio.busquedaPersonaRut(rut).isEmpty()) {
+            System.out.println("entre al if");
             persona = personaNegocio.busquedaPersonaRut(rut).get(0);
             this.actividadEconomica = persona.getPersActividad();
             this.apellidoMaterno = persona.getPersApematerno();
@@ -279,6 +280,7 @@ public class Admision {
             this.telefono = persona.getPersTelefono();
             this.telefonoContacto = persona.getPersTelcontacto();
         } else {
+            System.out.println("entra el else");
             this.resetData();
         }
     }
@@ -320,7 +322,7 @@ public class Admision {
     public void resetData() {
         persona = new Persona();
         paciente = new Paciente();
-        rutCompleto = "";
+        //rutCompleto = "";
         nombres = "";
         apellidoPaterno = "";
         apellidoMaterno = "";
