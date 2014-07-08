@@ -6,6 +6,7 @@
 
 package cl.rcehblt.sessionbeans;
 
+import cl.rcehblt.entities.Antecedentes;
 import cl.rcehblt.entities.Antmedidos;
 import cl.rcehblt.entities.Episodios;
 import java.util.List;
@@ -34,5 +35,5 @@ public interface AntmedidosFacadeLocal {
     
     List<Antmedidos> searchByEpisodioGrupo(Episodios episodio, int grupo);
 
-    List<Antmedidos> searchOldestGeneral(int idAnt, Episodios idEpisodio);
+    List<Antmedidos> searchOldestGeneral(Antecedentes idAnt, Episodios idEpisodio);
 }

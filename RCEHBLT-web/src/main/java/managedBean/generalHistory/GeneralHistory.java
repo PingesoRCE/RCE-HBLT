@@ -77,7 +77,11 @@ public class GeneralHistory {
         searchClinicalRecord = clinicalRecordFacade.searchByPaciente(searchPatient.get(0));
         searchEpisode = episodeFacade.searchByClinicalRegister(searchClinicalRecord.get(0));
         idGeneral = antecedentesFacade.searchByName("Generales").get(0).getIdAntecedente();
-        searchAmedidos = antmedidosFacade.searchOldestGeneral(idGeneral, searchEpisode.get(0));
+        System.out.println("Id general: " + idGeneral);
+        System.out.println("Id episodio: " + searchEpisode.get(0).getEpisodioid());
+        
+        searchAntecedente = antecedentesFacade.searchByName("Generales");
+        searchAmedidos = antmedidosFacade.searchOldestGeneral(searchAntecedente.get(0), searchEpisode.get(0));
         
         System.out.println("ACA ESTOY MI PORTES ES: " + searchAmedidos.size());
         

@@ -6,6 +6,7 @@
 
 package cl.rcehblt.sessionbeans;
 
+import cl.rcehblt.entities.Antecedentes;
 import cl.rcehblt.entities.Antmedidos;
 import cl.rcehblt.entities.Episodios;
 import java.util.List;
@@ -43,10 +44,10 @@ public class AntmedidosFacade extends AbstractFacade<Antmedidos> implements Antm
     }
 
     @Override
-    public List<Antmedidos> searchOldestGeneral(int idAnt, Episodios idEpisodio) {
+    public List<Antmedidos> searchOldestGeneral(Antecedentes idAnt, Episodios idEpisodio) {
         Query query;
         query = em.createNamedQuery("Antmedidos.findByIdAntmedidosFechaEpisodio").
-                setParameter("idAntmedidos", idAnt).
+                setParameter("idAntecedente", idAnt).
                 setParameter("episodioid", idEpisodio);
         return query.setMaxResults(1).getResultList();
     }
