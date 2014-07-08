@@ -4,7 +4,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
-    
+
     <p:growl id="growl" showDetail="true"/>
     <h:form id="buscaPaciente">
         <p:panelGrid columns="2" id="datosPaciente" styleClass="companyHeaderGrid">
@@ -624,7 +624,7 @@
             <p:panelGrid styleClass="panelGridForm">
                 <p:row>
                     <p:column>
-                        <p:commandButton icon="ui-icon-disk" value="Terminar" action="#{addVitalSigns.createVitalSignsPatients}" oncomplete="newVitalSignsDialog.hide()" update="newVitalSignsForm"/>
+                        <p:commandButton icon="ui-icon-disk" value="Terminar" action="#{addVitalSigns.createVitalSignsPatients}" update="newVitalSignsForm :newVitalSignsValidation"/>
                         <p:commandButton icon="ui-icon-cancel" value="Cancelar" onsuccess="newVitalSignsDialog.hide()"/>
                     </p:column>
                 </p:row>
