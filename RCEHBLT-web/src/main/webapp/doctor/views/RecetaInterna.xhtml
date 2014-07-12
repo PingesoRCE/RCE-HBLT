@@ -149,7 +149,7 @@
 
                                     <f:facet name="header">Rp.</f:facet>
 
-                                    <p:editor style="width: 100%"  id="editor" value="#{recetaIntMb.descripcion}"/>
+                                    <p:editor style="width: 100%"  id="editor" value="#{medicamentosMb.descripcion}"/>
 
 
                                 </p:panelGrid>
@@ -268,7 +268,7 @@
 
                         <div class="noPrintBlock" align="center">
                             <p:growl id="message" showDetail="true" life="3000"/>
-                            <p:commandButton action="#{medicamentosMb.guardarRecetaInterna(newConsultation.idConsultation)}" update="message"  value="Guardar" icon="ui-icon-check"/>
+                            <p:commandButton action="#{medicamentosMb.guardarRecetaInterna()}" update="message"  value="Guardar" icon="ui-icon-check"/>
                             <p:commandButton onclick="popup.show()" value="Imprimir" icon="ui-icon-print"/>
 
 

@@ -460,7 +460,7 @@ public class MedicamentosMb {
                    System.out.println("guaaaadar examen glicemia");
                   Solicitudexamen solicitud = new Solicitudexamen();
                   Consulta consulte = new Consulta();
-                  consulte=consultaFacade.find(19);
+                  consulte=consultaFacade.find(1);
                     System.out.println("consulte: "+consulte);
                   Examen ex = new Examen();
                   ex=examenFacade.find(2);
@@ -631,8 +631,8 @@ public class MedicamentosMb {
     }
     
     /* EL "BUSCA" NO SE OBTIENE POR EL MOMENTO*/
-    public void guardarRecetaInterna(Integer idConsulta) throws IOException {
-        System.out.println(idConsulta);
+    public void guardarRecetaInterna() throws IOException {
+       
 
         FacesContext context = FacesContext.getCurrentInstance();
        
@@ -647,21 +647,34 @@ public class MedicamentosMb {
              Persona doctor = new Persona(); // guarda en la tabla persona
              RegistroClinico clin = new RegistroClinico();
              Interna recetaInterna = new Interna();
-             List<Farmaco> remedios;
-             
+             List<Farmaco> remedios=new ArrayList<Farmaco>();
+             System.out.println("1111");
              FormaFarmaceutica forma = new FormaFarmaceutica();
              List<FormaFarmaceutica> formas = new ArrayList<FormaFarmaceutica>();
              Dosis laDosis = new Dosis();
+             System.out.println("222222");
              clin = registroClinicoFacade.find(1);
+             System.out.println("33333");
              doctor = personaFacade.find(17409087);
+             System.out.println("444444");
              System.out.println(session.getFicha());
+             System.out.println("55555");
              consulte = consultaFacade.find(1);//HAY QUE CAMBIAR ESTO
+            System.out.println("consulta: "+consulte.getConsultaid());
              receta.setConsultaid(consulte);
+             System.out.println("777777");
              receta.setDescription(descripcion);
+             System.out.println("des: "+descripcion);
+             System.out.println("888888");
              java.util.Date fechaActual = new java.util.Date();//fecha actual
+             System.out.println("9999");
+             System.out.println("fecha: "+fechaActual);
              receta.setPrescriptionDay(fechaActual);
+             System.out.println("100000");
              prescriptionFacade.create(receta);
+             System.out.println("asdasd");
              recetas = prescriptionFacade.findAll();
+             System.out.println("shiiiit");
              System.out.println("-----------> GUARDAR receta");
              //guarda en receta interna
              receta = recetas.get(recetas.size() - 1);//toma el ultimo valor guardado
@@ -675,8 +688,21 @@ public class MedicamentosMb {
              for (int i = 0; i < recetaa.size(); i++) {
                   RexternaFarmaco rexF = new RexternaFarmaco();
                  Farmaco remedio;
-                 System.out.println("nombre: "+recetaa.get(i).getNombre());
-                remedios = farmacoFacade.findNombre(recetaa.get(i).getNombre());
+                 List<Farmaco> todos= new ArrayList<Farmaco>();
+                 todos=farmacoFacade.findAll();
+                 System.out.println(todos.get(0).getNombrefarmaco());
+                 
+                 
+                 
+                 for(Farmaco aux:todos){
+                    System.out.println("todos: "+aux.getNombrefarmaco());
+                     if( aux.getNombrefarmaco().equals(recetaa.get(i).getNombre())){
+                         System.out.println("entreeeeeeeee");
+                         remedios.add(aux);
+                     }
+                 }
+                
+                
                  System.out.println("remedios: "+remedios);
                 remedio = remedios.get(0);
                  System.out.println("remedio: "+remedio);
