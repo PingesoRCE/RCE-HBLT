@@ -6,11 +6,19 @@
 package managedbeans.Doctor;
 
 import cl.rcehblt.entities.Anamnesis2;
+import cl.rcehblt.entities.Consulta;
+import cl.rcehblt.entities.Diagnostico;
+import cl.rcehblt.entities.Episodios;
+import cl.rcehblt.entities.Muesta;
 import cl.rcehblt.entities.Paciente;
 import cl.rcehblt.entities.Persona;
 import cl.rcehblt.paciente.PacienteNegocioLocal;
 import cl.rcehblt.persona.PersonaNegocioLocal;
 import cl.rcehblt.sessionbeans.Anamnesis2FacadeLocal;
+import cl.rcehblt.sessionbeans.ConsultaFacadeLocal;
+import cl.rcehblt.sessionbeans.DiagnosticoFacadeLocal;
+import cl.rcehblt.sessionbeans.EpisodiosFacadeLocal;
+import cl.rcehblt.sessionbeans.MuestaFacadeLocal;
 import cl.rcehblt.sessionbeans.PersonaFacadeLocal;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -22,7 +30,6 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +46,14 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "ImprimirAnamnesis", urlPatterns = {"/doctor/ImprimirAnamnesis"})
 public class ImprimirAnamnesis extends HttpServlet {
+    @EJB
+    private EpisodiosFacadeLocal episodiosFacade;
+    @EJB
+    private MuestaFacadeLocal muestaFacade;
+    @EJB
+    private DiagnosticoFacadeLocal diagnosticoFacade;
+    @EJB
+    private ConsultaFacadeLocal consultaFacade;
 
     @EJB
     private Anamnesis2FacadeLocal anamnesisFacade;
@@ -58,6 +73,10 @@ public class ImprimirAnamnesis extends HttpServlet {
     private Integer rut;
     public Paciente paciente;
     private Anamnesis2 anamnesis;
+    private Consulta consulta;
+    private List<Muesta> signos;
+    private List<Diagnostico> diagnosticos;
+    private Episodios episodio;  
     private String patientName = "";
     private Integer patientRut = 0;
     private String patientFonasa = "";
@@ -72,6 +91,13 @@ public class ImprimirAnamnesis extends HttpServlet {
     DateFormat dfDefault = DateFormat.getInstance();
     private String dateHour = dfDefault.format(aux);
     private String ges = "";
+    private double peso;
+    private double altura;
+    private double presion;
+    private double pulso;
+    private double imc;
+    private double temperatura;
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -87,7 +113,10 @@ public class ImprimirAnamnesis extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/pdf");
         String rut = request.getParameter("rut");
+        String id = request.getParameter("id");
         Integer search = Integer.parseInt(rut);
+        Integer idEp = Integer.parseInt(id);
+        episodio = episodiosFacade.find(idEp);
         List<Persona> person = personaNegocio.busquedaPersonaRut(search);
         Persona personSelected;
 
@@ -96,12 +125,31 @@ public class ImprimirAnamnesis extends HttpServlet {
             personSelected = person.get(0);
             System.out.println("La cantidad es:" + personSelected.getPersNombres());
             paciente = pacienteNegocio.busquedaPacienteIdPersona(personSelected.getIdPersona());
+            signos = muestaFacade.searchByPatient(paciente);
+            if (signos.size() > 0) {
+                for (Muesta signo : signos) {
+                    if(signo.getIdSvitales().getIdSvitales() == 1)
+                        peso = signo.getValor();
+                    if(signo.getIdSvitales().getIdSvitales() == 2)
+                        altura  = signo.getValor();
+                    if(signo.getIdSvitales().getIdSvitales() == 3)
+                        temperatura = signo.getValor();
+                    if(signo.getIdSvitales().getIdSvitales() == 5)
+                        presion = signo.getValor();
+                    if(signo.getIdSvitales().getIdSvitales() == 9)
+                        pulso = signo.getValor();
+                    if(signo.getIdSvitales().getIdSvitales() == 17)
+                        imc = signo.getValor();
+                }
+            }
+            if(consultaFacade.searchByEpisodio(episodio).size() > 0)
+                consulta = consultaFacade.searchByEpisodio(episodio).get(0);
             patientName = personSelected.getPersNombres() + " " + personSelected.getPersApepaterno() + " " + personSelected.getPersApematerno();
             patientRut = search;
             patientFonasa = "";
             patientIsapre = paciente.getPaciOtraprevision();
             home = personSelected.getPersDireccion();
-            commune = "";
+            commune = paciente.getPersona().getIdComuna().getComuNombre();
             region = "";
             phoneNumber = personSelected.getPersTelefono();
             celularNumber = personSelected.getPersCelular();
@@ -212,7 +260,7 @@ public class ImprimirAnamnesis extends HttpServlet {
             cellRow1.setBorderWidthRight(1);
             cellRow1.setBorderWidthBottom(1);
             table.addCell(cellRow1);
-            p1 = new Paragraph(space, "Motivo consulta", type);
+            p1 = new Paragraph(space, consulta.getMotivoConsulta(), type);
             cellRow1 = new PdfPCell(p1);
             cellRow1.setColspan(2);
             formatCellBorder(cellRow1, 20);
@@ -276,8 +324,8 @@ public class ImprimirAnamnesis extends HttpServlet {
             cellRow1.setBorderWidthRight(1);
             cellRow1.setBorderWidthBottom(1);
             table.addCell(cellRow1);
-            p1 = new Paragraph(space, "PRESIÓN ARTERIAL: ", type);
-            p2 = new Paragraph(space, "TEMPERATURA: ", type);
+            p1 = new Paragraph(space, "PRESIÓN ARTERIAL: " +presion, type);
+            p2 = new Paragraph(space, "TEMPERATURA: "+temperatura, type);
             cellRow1 = new PdfPCell(p1);
             cellRow2 = new PdfPCell(p2);
             formatCellBorder(cellRow1, 20);
@@ -286,8 +334,8 @@ public class ImprimirAnamnesis extends HttpServlet {
             cellRow2.setBorderWidthRight(1);
             table.addCell(cellRow1);
             table.addCell(cellRow2);
-            p1 = new Paragraph(space, "PULSO: ", type);
-            p2 = new Paragraph(space, "PESO: ", type);
+            p1 = new Paragraph(space, "PULSO: " + pulso, type);
+            p2 = new Paragraph(space, "PESO: "+peso, type);
             cellRow1 = new PdfPCell(p1);
             cellRow2 = new PdfPCell(p2);
             formatCellBorder(cellRow1, 20);
@@ -296,8 +344,8 @@ public class ImprimirAnamnesis extends HttpServlet {
             cellRow2.setBorderWidthRight(1);
             table.addCell(cellRow1);
             table.addCell(cellRow2);
-            p1 = new Paragraph(space, "TALLA: ", type);
-            p2 = new Paragraph(space, "I.M.C.: ", type);
+            p1 = new Paragraph(space, "TALLA: "+ altura, type);
+            p2 = new Paragraph(space, "I.M.C.: "+imc, type);
             cellRow1 = new PdfPCell(p1);
             cellRow2 = new PdfPCell(p2);
             formatCellBorder(cellRow1, 20);

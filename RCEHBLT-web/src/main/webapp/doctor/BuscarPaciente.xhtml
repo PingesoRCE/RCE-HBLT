@@ -126,7 +126,7 @@
                         <h:outputText value="#{consultation.pausada ? 'Pausada':'Finalizada'}" />
                     </p:column>
                     <f:facet name="footer">
-                        <p:commandButton icon="ui-icon-plusthick" value="Nueva Consulta" actionListener="#{newConsultation.start(viewEpisodes.rut)}" update=":newConsultationForm :rutConsulta :nameConsulta :patientDataForm"/>
+                        <p:commandButton icon="ui-icon-plusthick" value="Nueva Consulta" actionListener="#{newConsultation.start(viewEpisodes.rut)}" update=":newConsultationForm :rutConsulta :nameConsulta :patientDataForm :menuConsultationForm"/>
                         <p:commandButton icon="ui-icon-search" value="Ver Consulta" actionListener="#{viewConsultation.completeData()}" update=":newConsultationForm :viewConsultationForm :viewEpisodeValidation"/>
                     </f:facet> 
                 </p:dataTable>
@@ -143,7 +143,7 @@
                         <p:menubar id="consultationMenu">
                             <p:menuitem value="Datos del Paciente" icon="ui-icon-person" onclick="patientDataDialog.show()" url="#"/>
                             <p:menuitem value="Ingresar signos vitales" icon="ui-icon-plusthick" actionListener="#{addVitalSigns.start(viewEpisodes.rut)}" update=":newVitalSignsForm"/>
-                            <p:menuitem value="Anamnesis" icon="ui-icon-plusthick" onclick="window.open('ImprimirAnamnesis?rut=#{episodes.rut}')"/>
+                            <p:menuitem value="Anamnesis" icon="ui-icon-plusthick" onclick="window.open('ImprimirAnamnesis?rut=#{newConsultation.patient.persona.persRut}&amp;id=#{viewEpisodes.idEpisode}')"/>
                             <p:submenu label="Antecedentes">
                                 <p:menuitem value="Generales" actionListener="#{generalHistory.start(viewEpisodes.rut)}" icon="ui-icon-document" update=":generalHistoryForm"/>
                                 <p:menuitem value="Perinatales" actionListener="#{perinatalHistory.start(viewEpisodes.rut)}" icon="ui-icon-document" update=":perinatalHistoryForm"/>
